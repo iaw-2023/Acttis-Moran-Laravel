@@ -19,14 +19,6 @@ class Ticket extends Model
     ];
 
     /**
-     * Get the Ticket Detail associated with the Ticket.
-     */
-    public function ticketDetail(): HasOne
-    {
-        return $this->hasOne(TicketDetail::class);
-    }
-
-    /**
      * Get the Zone associated with the Ticket.
      */
     public function zone(): HasOne

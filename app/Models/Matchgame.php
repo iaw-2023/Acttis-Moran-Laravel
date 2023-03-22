@@ -15,9 +15,7 @@ class Matchgame extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'played_on',
     ];
 
     /**

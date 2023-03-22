@@ -10,6 +10,16 @@ class TicketDetail extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'total_price',
+        'quantity',
+    ];
+
+    /**
      * Get the Ticket associated with the Ticket Detail.
      */
     public function ticket(): HasOne

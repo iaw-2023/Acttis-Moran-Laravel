@@ -9,6 +9,15 @@ class Order extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'client_username',
+        'purchased_on',
+    ];
 
     /**
      * Get the Teams associated with the Matchgame.

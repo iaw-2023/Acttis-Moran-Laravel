@@ -17,4 +17,12 @@ class Team extends Model
     protected $fillable = [
         'team_name',
     ];
+
+    /**
+     * Get the Stadium associated with the Team.
+     */
+    public function localStadium(): HasOne
+    {
+        return $this->hasOne(Stadium::class);
+    }
 }
