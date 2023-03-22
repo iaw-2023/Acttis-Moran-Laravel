@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('quantity');
             $table->float('total_price');
 
-            //Forgein Key´s
-            $table->forgeinId('ticket_id')->constrained('tickets');
+            //Foreign Key´s
+            $table->foreignId('ticket_id')->constrained('tickets');
         });
     }
 

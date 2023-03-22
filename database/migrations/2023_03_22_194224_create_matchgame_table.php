@@ -16,9 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->date('played_on');
 
-             //Forgein Key´s
-             $table->forgeinId('local_team_id')->constrained('teams');
-             $table->forgeinId('away_team_id')->constrained('teams');
+             //Foreign Key´s
+             $table->foreignId('local_team_id')->constrained('teams');
+             $table->foreignId('away_team_id')->constrained('teams');
         });
     }
 

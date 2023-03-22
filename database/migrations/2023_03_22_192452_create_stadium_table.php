@@ -17,9 +17,6 @@ return new class extends Migration
             $table->string('located_on_city');
             $table->string('name');
             $table->integer('capacity');
-
-            //Forgein Key´s
-            $table->forgeinId('local_team_id')->constrained('teams');
         });
     }
 

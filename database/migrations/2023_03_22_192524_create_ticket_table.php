@@ -16,9 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->float('price');
 
-            //Forgein Key´s
-            $table->forgeinId('ticket_detail_id')->constrained('ticket_details');
-            $table->forgeinId('zone_id')->constrained('zones');
+            //Foreign Key´s
+            $table->foreignId('zone_id')->constrained('zones');
         });
     }
 
