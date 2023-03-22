@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_detail', function (Blueprint $table) {
+        Schema::create('ticket_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->integer('quantity');
+            $table->float('total_price');
+
+            //Forgein Key´s
+            $table->forgeinId('ticket_id')->constrained('tickets');
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_detail');
+        Schema::dropIfExists('ticket_details');
     }
 };

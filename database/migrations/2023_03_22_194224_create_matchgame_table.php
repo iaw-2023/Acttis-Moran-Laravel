@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('matchgame', function (Blueprint $table) {
+        Schema::create('matchgames', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->date('played_on');
+
+             //Forgein Key´s
+             $table->forgeinId('local_team_id')->constrained('teams');
+             $table->forgeinId('away_team_id')->constrained('teams');
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('matchgame');
+        Schema::dropIfExists('matchgames');
     }
 };
