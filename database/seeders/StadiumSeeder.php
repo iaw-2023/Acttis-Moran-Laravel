@@ -12,7 +12,7 @@ class StadiumSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
+    { /*
         $contador = 0;
         $stadium_names = [["nombre" => "Wembley Stadium", "ciudad" => "Londres"],
     ["nombre" => "Camp Nou", "ciudad" => "Barcelona"],
@@ -42,5 +42,7 @@ class StadiumSeeder extends Seeder
                 'located_on_city' => $stadium["ciudad"]
             ];
         })->create();
+        */
     }
+    
 }

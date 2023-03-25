@@ -27,11 +27,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('stadiums');
     }
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'stadiums';
 };
