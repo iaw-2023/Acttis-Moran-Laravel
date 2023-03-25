@@ -34,23 +34,25 @@ class TeamSeeder extends Seeder
         ["nombre" => "Parc des Princes", "ciudad" => "París", "team_name" => "Paris Saint-Germain F.C."],
         ["nombre" => "Juventus Stadium", "ciudad" => "Turín", "team_name" => "Juventus F.C."]
     ]; 
-    /*
-    Stadium::factory(15)->state(function (array $attributes) use (&$index, $teams_stadiums_data) {
 
-        return [
-            'name' => $teams_stadiums_data[$index]["nombre"],
-            'located_on_city' => $teams_stadiums_data[$index]["ciudad"]
-        ];
-    })->has(Team::factory()->state(
-            function (array $attributes) use (&$index, $teams_stadiums_data){
+        $stadiums = Stadium::factory(15)->state((function (array $attributes) use (&$index, $teams_stadiums_data) {
+            $stadium_selection = $teams_stadiums_data[$index];
+            $index++;
+            return [
+                'name' => $stadium_selection["nombre"],
+                'located_on_city' => $stadium_selection["ciudad"]
+            ];
+        }))->create();
+        $index = 0;
+        foreach ($stadiums as $stadium) {
+            $team = Team::factory()->state((function (array $attributes) use (&$index, $teams_stadiums_data) {
+                $team_selection = $teams_stadiums_data[$index];
                 $index++;
                 return [
-                    'team_name' => $teams_stadiums_data[$index]["team_name"],
+                    'team_name' => $team_selection["team_name"],
                 ];
-            }
-        )->count(1))->create();
-    }
-    */
-    Stadium::factory(10)->has(Team::factory()->count(1))->create();
+            }))->make();
+            $stadium->team()->save($team);
+        }
     }
 }

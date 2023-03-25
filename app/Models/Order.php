@@ -20,7 +20,7 @@ class Order extends Model
     ];
 
     /**
-     * Get the Teams associated with the Matchgame.
+     * Get the Ticket Details associated with the Order.
      */
     public function ticketDetails(): HasMany
     {

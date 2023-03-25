@@ -18,12 +18,22 @@ class Ticket extends Model
         'price',
     ];
 
-    /**
-     * Get the Zone associated with the Ticket.
-     */
+    /*
+     Get the Zone associated with the Ticket.
+     
     public function zone(): HasOne
     {
         return $this->hasOne(Zone::class);
+    }
+    */
+
+    
+    /**
+     * Get the Ticket Detail associated with the Ticket.
+     */
+    public function ticketDetail()
+    {
+        return $this->belongsTo(TicketDetail::class);
     }
 
     /**

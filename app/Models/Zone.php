@@ -19,6 +19,14 @@ class Zone extends Model
     ];
 
     /**
+     * Get the Tickets associated with the Zone.
+     */
+    public function tickets(): HasOne
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    /**
      * The table associated with the model.
      *
      * @var string
