@@ -26,6 +26,13 @@ class Order extends Model
     {
         return $this->hasMany(TicketDetail::class);
     }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'orders';
 }
 
 

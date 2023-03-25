@@ -32,10 +32,10 @@ class StadiumSeeder extends Seeder
     ["nombre" => "Stamford Bridge", "ciudad" => "Londres"],
     ["nombre" => "Parc des Princes", "ciudad" => "París"],
     ["nombre" => "Juventus Stadium", "ciudad" => "Turín"], ];
-
+       
         Stadium::factory(15)->create([
             'name' => $stadium_names[$contador]["nombre"],
-            'located_on' => $stadium_names[$contador++]["ciudad"],
+            'located_on_city' => $stadium_names[$contador++]["ciudad"],
         ]);
     }
 }

@@ -17,4 +17,11 @@ class Zone extends Model
     protected $fillable = [
         'type',
     ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'zones';
 }

@@ -25,4 +25,11 @@ class Ticket extends Model
     {
         return $this->hasOne(Zone::class);
     }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'tickets';
 }

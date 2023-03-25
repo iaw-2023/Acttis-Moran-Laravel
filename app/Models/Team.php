@@ -25,4 +25,11 @@ class Team extends Model
     {
         return $this->hasOne(Stadium::class);
     }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'teams';
 }

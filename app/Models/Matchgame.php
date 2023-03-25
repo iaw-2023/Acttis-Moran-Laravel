@@ -25,4 +25,11 @@ class Matchgame extends Model
     {
         return $this->hasMany(Team::class);
     }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'matchgames';
 }

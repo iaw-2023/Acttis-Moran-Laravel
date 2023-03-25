@@ -19,4 +19,11 @@ class Stadium extends Model
         'name',
         'capacity',
     ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'stadiums';
 }

@@ -26,4 +26,11 @@ class TicketDetail extends Model
     {
         return $this->hasOne(Ticket::class);
     }
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'ticketdetails';
 }

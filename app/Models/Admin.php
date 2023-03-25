@@ -19,4 +19,11 @@ class Admin extends Model
         'email',
         'password',
     ];
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'admins';
 }
