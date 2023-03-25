@@ -19,6 +19,7 @@ return new class extends Migration
 
             //Foreign Key´s
             $table->foreignId('ticket_id')->constrained('tickets');
+            $table->foreignId('order_id')->constrained('orders');
         });
     }
 

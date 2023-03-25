@@ -19,6 +19,7 @@ return new class extends Migration
              //Foreign Key´s
              $table->foreignId('local_team_id')->constrained('teams');
              $table->foreignId('away_team_id')->constrained('teams');
+             $table->foreignId('played_in')->constrained('stadiums');
         });
     }
 
