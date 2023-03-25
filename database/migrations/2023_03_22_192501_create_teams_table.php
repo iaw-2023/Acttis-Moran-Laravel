@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('stadiums', function (Blueprint $table) {
+        Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('located_on_city');
-            $table->string('name');
-            $table->integer('capacity');
+            $table->string('team_name');
+
+            //Foreign Key´s
+            $table->foreignId('local_stadium_id')->nullable()->constrained('stadiums');
         });
     }
 
@@ -25,13 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('stadiums');
+        Schema::dropIfExists('teams');
     }
-
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'stadiums';
 };

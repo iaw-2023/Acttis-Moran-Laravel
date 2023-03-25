@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Stadium;
 
 class Team extends Model
 {
@@ -21,9 +22,9 @@ class Team extends Model
     /**
      * Get the Stadium associated with the Team.
      */
-    public function localStadium(): HasOne
+    public function stadium() : BelongsTo
     {
-        return $this->hasOne(Stadium::class);
+        return $this->belongsTo(Stadium::class);
     }
 
     /**

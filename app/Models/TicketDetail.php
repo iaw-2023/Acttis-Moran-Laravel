@@ -32,5 +32,5 @@ class TicketDetail extends Model
      *
      * @var string
      */
-    protected $table = 'ticketdetails';
+    protected $table = 'ticket_details';
 }

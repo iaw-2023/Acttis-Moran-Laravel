@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Stadium extends Model
 {
@@ -19,6 +20,14 @@ class Stadium extends Model
         'name',
         'capacity',
     ];
+
+    /**
+     * Get the Team associated with the Stadium.
+     */
+    public function team() : HasOne
+    {
+        return $this->hasOne(Team::class, 'local_stadium_id');
+    }
 
     /**
      * The table associated with the model.
