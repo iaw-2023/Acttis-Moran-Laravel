@@ -21,7 +21,7 @@ class Zone extends Model
     /**
      * Get the Tickets associated with the Zone.
      */
-    public function tickets(): HasOne
+    public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
     }

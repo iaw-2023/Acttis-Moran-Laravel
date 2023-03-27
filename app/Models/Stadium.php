@@ -30,6 +30,14 @@ class Stadium extends Model
     }
 
     /**
+     * Get the Stadium associated with the Team.
+     */
+    public function matchgames() : HasMany
+    {
+        return $this->hasMany(Matchgame::class, 'played_in');
+    }
+
+    /**
      * The table associated with the model.
      *
      * @var string
