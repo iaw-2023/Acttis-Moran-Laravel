@@ -28,6 +28,14 @@ class TicketDetail extends Model
     }
 
     /**
+     * Get the order that owns the TicketDetail.
+     */
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    /**
      * The table associated with the model.
      *
      * @var string
