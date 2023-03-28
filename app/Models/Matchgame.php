@@ -17,15 +17,15 @@ class Matchgame extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'played_on',
+        'played_on_date',
     ];
 
     /**
-     * Get the Teams associated with the Matchgame.
+     * Get the TeamsPlayingMatch associated with the Matchgame.
      */
-    public function teams(): HasMany
+    public function teamsPlayingMatch(): BelongsTo
     {
-        return $this->hasMany(Team::class);
+        return $this->belongsTo(TeamsPlayingMatch::class);
     }
 
     /**

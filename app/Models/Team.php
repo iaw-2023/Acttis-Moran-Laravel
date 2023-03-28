@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Stadium;
 
 class Team extends Model
@@ -25,6 +27,22 @@ class Team extends Model
     public function stadium() : BelongsTo
     {
         return $this->belongsTo(Stadium::class);
+    }
+
+    /**
+     * Get the TeamsPlayingMatch associated with the Team.
+     */
+    public function teamsPlayingMatchHome() : HasMany
+    {
+        return $this->hasMany(TeamsPlayingMatch::class, 'home_team_id');
+    }
+
+    /**
+     * Get the TeamsPlayingMatch associated with the Team.
+     */
+    public function teamsPlayingMatchAway() : HasMany
+    {
+        return $this->hasMany(TeamsPlayingMatch::class, 'away_team_id');
     }
 
     /**
