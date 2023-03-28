@@ -18,27 +18,21 @@ class MatchgameSeeder extends Seeder
     public function run(): void
     {
         $teams = Team::all();
-        
-        $count = 0;
+
         $local_team = null;
         $away_team = null;
         $played_on_stadium = null;
 
-        foreach($teams as $team) {
-            $count++;
-            if($count == 1){
+        foreach($teams as $key => $team) {
+            if($key % 2 == 0){
                 $local_team = $team;
-                $played_on_stadium = Stadium::where('id', $team->local_stadium_id)->first();
+                $played_on_stadium = Stadium::find($team->local_stadium_id);
             }
             else {
-                $count = 0;
                 $away_team = $team;
 
                 $matchgame = Matchgame::factory()->make();
                 $teams_playing_match = TeamsPlayingMatch::factory()->make();
-                
-                //$teams_playing_match->teams()->attach($local_team);
-                //$teams_playing_match->teams()->attach($away_team);
 
                 $local_team->teamsPlayingMatchHome()->save($teams_playing_match);
                 $away_team->teamsPlayingMatchAway()->save($teams_playing_match);
