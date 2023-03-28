@@ -16,7 +16,7 @@ class MatchgameSeeder extends Seeder
      */
     public function run(): void
     {
-        $teams = DB::table('teams')->get();
+        $teams = Team::all();
         
         $count = 0;
         $local_team = null;
@@ -26,18 +26,18 @@ class MatchgameSeeder extends Seeder
         foreach($teams as $team) {
             $count++;
             if($count == 1){
-                $local_team = Team::hydrate(json_decode(json_encode($team), true));
-                $played_on_stadium = Stadium::hydrate(json_decode(json_encode(DB::table('stadiums')->where('id', $team->local_stadium_id)->first(), true)));
+                $local_team = $team;
+                $played_on_stadium = Stadium::where('id', $team->local_stadium_id)->first();
             }
             else {
                 $count = 0;
-                $away_team = Team::hydrate(json_decode(json_encode($team), true));
+                $away_team = $team;
 
                 $matchgame = Matchgame::factory()->make();
-                $matchgame->stadium()->save($played_on_stadium);
+                //$matchgame->stadium()->save($played_on_stadium);
                 $matchgame->teams()->save($local_team);
                 $matchgame->teams()->save($away_team);
-                //$played_on_stadium->save($matchgame);
+                $played_on_stadium->save($matchgame);
             }
         }
     }
