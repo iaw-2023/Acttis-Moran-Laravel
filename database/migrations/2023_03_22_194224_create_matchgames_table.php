@@ -18,7 +18,7 @@ return new class extends Migration
 
              //Foreign Key´s
              $table->foreignId('teams_playing_match_id')->nullable()->constrained('teams_playing_matches');
-             $table->foreignId('played_in')->nullable()->constrained('stadiums');
+             $table->foreignId('stadium_id')->nullable()->constrained('stadiums');
         });
     }
 

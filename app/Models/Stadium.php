@@ -35,7 +35,7 @@ class Stadium extends Model
      */
     public function matchgames() : HasMany
     {
-        return $this->hasMany(Matchgame::class, 'played_in');
+        return $this->hasMany(Matchgame::class, 'stadium_id');
     }
 
     /**

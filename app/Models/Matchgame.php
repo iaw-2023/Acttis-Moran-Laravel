@@ -37,6 +37,14 @@ class Matchgame extends Model
     }
 
     /**
+     * Get the Tickets associated with the Matchgame.
+     */
+    public function tickets() : HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    /**
      * The table associated with the model.
      *
      * @var string
