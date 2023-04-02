@@ -18,7 +18,7 @@ class StadiumFactory extends Factory
     {
         $city = fake()->city();
         return [
-            'name' => $city." Stadium",
+            'stadium_name' => $city." Stadium",
             'located_on_city' => $city,
             'capacity' => random_int(30000,80000),
         ];

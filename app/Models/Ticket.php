@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ticket extends Model
 {
@@ -31,9 +32,9 @@ class Ticket extends Model
     /**
      * Get the Ticket Detail associated with the Ticket.
      */
-    public function ticketDetail()
+    public function ticketDetails() : HasMany
     {
-        return $this->belongsTo(TicketDetail::class);
+        return $this->hasMany(TicketDetail::class);
     }
 
     /**

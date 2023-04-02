@@ -16,8 +16,8 @@ return new class extends Migration
             $table->timestamps();
             
             //Foreign Key´s
-            $table->foreignId('home_team_id')->nullable()->constrained('teams');
-            $table->foreignId('away_team_id')->nullable()->constrained('teams');
+            $table->foreignId('home_team_id')->default()->constrained('teams');
+            $table->foreignId('away_team_id')->default()->constrained('teams');
         });
     }
 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->float('base_price');
+            $table->float('base_price')->unsigned();
 
             //Foreign Key´s
-            $table->foreignId('zone_id')->nullable()->constrained('zones');
-            $table->foreignId('matchgame_id')->nullable()->constrained('matchgames');
+            $table->foreignId('zone_id')->default()->constrained('zones');
+            $table->foreignId('matchgame_id')->default()->constrained('matchgames');
         });
     }
 

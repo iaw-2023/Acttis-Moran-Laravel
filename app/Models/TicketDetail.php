@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TicketDetail extends Model
 {
@@ -16,15 +17,15 @@ class TicketDetail extends Model
      */
     protected $fillable = [
         'total_price',
-        'quantity',
+        'ticket_quantity',
     ];
 
     /**
      * Get the Ticket associated with the Ticket Detail.
      */
-    public function ticket(): HasOne
+    public function ticket(): BelongsTo
     {
-        return $this->hasOne(Ticket::class);
+        return $this->belongsTo(Ticket::class);
     }
 
     /**

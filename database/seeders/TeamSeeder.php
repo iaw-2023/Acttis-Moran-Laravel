@@ -42,7 +42,7 @@ class TeamSeeder extends Seeder
             $city = $stadium_data['city'] ?? '';
 
             $stadium = Stadium::factory()->state([
-                'name' => $stadium_name,
+                'stadium_name' => $stadium_name,
                 'located_on_city' => $city
             ])->create();
 
