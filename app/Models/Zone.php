@@ -16,7 +16,7 @@ class Zone extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'location',
+        'stadium_location',
         'price_multiplier'
     ];
 

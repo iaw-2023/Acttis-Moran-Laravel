@@ -18,7 +18,7 @@ class Stadium extends Model
      */
     protected $fillable = [
         'located_on_city',
-        'name',
+        'stadium_name',
         'capacity',
     ];
 
