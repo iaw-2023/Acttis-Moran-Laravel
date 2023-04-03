@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->integer('ticket_quantity')->unsigned();
-            $table->float('total_price')->unsigned();
 
             //Foreign Key´s
             $table->foreignId('ticket_id')->default()->constrained('tickets');

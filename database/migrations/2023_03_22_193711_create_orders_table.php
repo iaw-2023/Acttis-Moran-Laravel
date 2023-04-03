@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('client_email')->unique();
+            $table->float('total_price')->unsigned();
             $table->date('purchased_on');
         });
     }
