@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Stadium extends Model
+
+class TeamsPlayingMatch extends Model
 {
     use HasFactory;
 
@@ -17,25 +18,23 @@ class Stadium extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'located_on_city',
-        'stadium_name',
-        'capacity',
+        
     ];
 
     /**
      * Get the Team associated with the Stadium.
      */
-    public function team() : HasOne
+    public function matchgame() : HasOne
     {
-        return $this->hasOne(Team::class, 'local_stadium_id');
+        return $this->hasOne(Matchgame::class, 'teams_playing_match_id');
     }
 
     /**
-     * Get the Stadium associated with the Team.
+     * Get the Teams associated with the TeamsPlayingMatch.
      */
-    public function matchgames() : HasMany
+    public function teams(): BelongsToMany
     {
-        return $this->hasMany(Matchgame::class, 'stadium_id');
+        return $this->belongsToMany(Team::class);
     }
 
     /**
@@ -43,5 +42,5 @@ class Stadium extends Model
      *
      * @var string
      */
-    protected $table = 'stadiums';
+    protected $table = 'teams_playing_matches';
 }

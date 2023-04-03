@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('located_on_city');
-            $table->string('name');
-            $table->integer('capacity');
+            $table->string('stadium_name');
+            $table->integer('capacity')->unsigned();
         });
     }
 

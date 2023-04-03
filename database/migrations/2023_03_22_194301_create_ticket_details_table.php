@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('ticket_details', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('quantity');
-            $table->float('total_price');
+            $table->integer('ticket_quantity')->unsigned();
+            $table->float('total_price')->unsigned();
 
             //Foreign Key´s
-            $table->foreignId('ticket_id')->constrained('tickets');
-            $table->foreignId('order_id')->constrained('orders');
+            $table->foreignId('ticket_id')->default()->constrained('tickets');
+            $table->foreignId('order_id')->default()->constrained('orders');
         });
     }
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('client_username');
+            $table->string('client_email')->unique();
             $table->date('purchased_on');
         });
     }
