@@ -18,6 +18,7 @@ class Matchgame extends Model
      */
     protected $fillable = [
         'played_on_date',
+        'played_on_time',
     ];
 
     /**
