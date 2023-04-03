@@ -18,7 +18,7 @@ class OrderFactory extends Factory
     {
         return [
             'client_email' => fake()->unique()->safeEmail(),
-            'purchased_on' => fake()->date(),
+            'purchased_on' => fake()->dateTimeBetween('-4 week', '-1 week'),
         ];
     }
 }
