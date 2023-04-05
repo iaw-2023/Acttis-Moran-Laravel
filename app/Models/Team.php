@@ -32,17 +32,9 @@ class Team extends Model
     /**
      * Get the TeamsPlayingMatch associated with the Team.
      */
-    public function teamsPlayingMatchHome() : HasMany
+    public function teamPlayingMatchs() : HasMany
     {
-        return $this->hasMany(TeamsPlayingMatch::class, 'home_team_id');
-    }
-
-    /**
-     * Get the TeamsPlayingMatch associated with the Team.
-     */
-    public function teamsPlayingMatchAway() : HasMany
-    {
-        return $this->hasMany(TeamsPlayingMatch::class, 'away_team_id');
+        return $this->hasMany(TeamPlayingMatch::class, 'team_id');
     }
 
     /**

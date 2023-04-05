@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Matchgame;
-use App\Models\TeamsPlayingMatch;
+use App\Models\TeamPlayingMatch;
 use App\Models\Stadium;
 use App\Models\Team;
 
@@ -31,13 +31,15 @@ class MatchgameSeeder extends Seeder
             else {
                 $away_team = $team;
 
-                $matchgame = Matchgame::factory()->make();
-                $teams_playing_match = TeamsPlayingMatch::factory()->make();
+                $matchgame = Matchgame::factory()->create();
+                $team_playing_match_home_team = TeamPlayingMatch::factory()->state(['condition' => 'home'])->make();
+                $team_playing_match_away_team = TeamPlayingMatch::factory()->state(['condition' => 'away'])->make();
 
-                $local_team->teamsPlayingMatchHome()->save($teams_playing_match);
-                $away_team->teamsPlayingMatchAway()->save($teams_playing_match);
+                $local_team->teamPlayingMatchs()->save($team_playing_match_home_team);
+                $away_team->teamPlayingMatchs()->save($team_playing_match_away_team);
 
-                $teams_playing_match->matchgame()->save($matchgame);
+                $matchgame->teamsPlayingMatch()->save($team_playing_match_home_team);
+                $matchgame->teamsPlayingMatch()->save($team_playing_match_away_team);
                 $played_on_stadium->matchgames()->save($matchgame);
             }
         }
