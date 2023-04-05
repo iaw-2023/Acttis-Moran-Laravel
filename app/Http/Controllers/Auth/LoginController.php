@@ -6,17 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
 use AuthenticatesUsers;
 
-/**
-* Where to redirect users after login.
-*
-* @var string
-*/
-protected $redirectTo = '/home';
 
 /**
 * Create a new controller instance.
@@ -37,18 +32,23 @@ $this->middleware('guest')->except('logout');
         return view('login');
     }
 
-    /*public function check(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
-        $password = \Hash::make($request->password);
-        print($credentials['password']);
-        if (Auth::attempt($credentials))
-        {
-            return "<h2>Username or Password valid!</h2>";
+   public function login(){
+        $credentials = request(['email', 'password']);
+
+        if (Auth::attempt($credentials)){
+            return redirect('/home');
         }
-        return "<h2>Username or Password Invalid!</h2>";
-    }*/
+        else{
+            return $this->sendFailedLoginResponse();
+        }
+    }
+
+    protected function sendFailedLoginResponse()
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ]);
+    }
+
+
 }
