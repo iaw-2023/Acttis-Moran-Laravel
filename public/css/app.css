@@ -1,0 +1,51 @@
+/* Estilo para la barra de navegación */
+.navbar {
+    border-radius: 0;
+}
+
+/* Estilo para la marca de navegación */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Estilo para el botón de hamburguesa */
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Estilo para el menú de navegación */
+.navbar-collapse {
+    justify-content: flex-end;
+}
+
+/* Estilo para los enlaces de navegación */
+.navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-nav .nav-link:hover {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: bold;
+}
+
+/* Estilo para el botón de búsqueda */
+.form-control {
+    border-radius: 0;
+}
+
+/* Estilo para el botón de búsqueda */
+.btn-outline-success {
+    color: #fff;
+    border-color: #fff;
+    border-radius: 0;
+}
+
+.btn-outline-success:hover {
+    background-color: #fff;
+    color: #212529;
+}
