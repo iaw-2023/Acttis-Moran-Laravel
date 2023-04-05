@@ -24,9 +24,9 @@ class Matchgame extends Model
     /**
      * Get the TeamsPlayingMatch associated with the Matchgame.
      */
-    public function teamsPlayingMatch(): BelongsTo
+    public function teamsPlayingMatch(): HasMany
     {
-        return $this->belongsTo(TeamsPlayingMatch::class);
+        return $this->hasMany(TeamPlayingMatch::class, 'matchgame_id');
     }
 
     /**

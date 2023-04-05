@@ -18,7 +18,6 @@ class TicketDetailFactory extends Factory
     {
         return [
             'ticket_quantity' => rand(1,10),
-            'total_price' => rand(800,1500),
         ];
     }
 }

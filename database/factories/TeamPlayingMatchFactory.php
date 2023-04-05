@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TeamsPlayingMatch>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TeamPlayingMatch>
  */
-class TeamsPlayingMatchFactory extends Factory
+class TeamPlayingMatchFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -16,8 +16,9 @@ class TeamsPlayingMatchFactory extends Factory
      */
     public function definition(): array
     {
+        $condition_posibilities = ['home','away'];
         return [
-            //
+            'condition' => $condition_posibilities[rand(0,1)],
         ];
     }
 }
