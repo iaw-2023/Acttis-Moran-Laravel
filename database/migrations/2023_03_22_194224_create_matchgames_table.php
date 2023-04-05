@@ -18,7 +18,6 @@ return new class extends Migration
             $table->time('played_on_time');
 
              //Foreign Key´s
-             $table->foreignId('teams_playing_match_id')->default()->constrained('teams_playing_matches');
              $table->foreignId('stadium_id')->default()->constrained('stadiums');
         });
     }
