@@ -25,6 +25,8 @@ Route::group([
     Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
     Route::get('example', [App\Http\Controllers\MatchgameController::class, 'example']);
     Route::get('show/{id}', [App\Http\Controllers\MatchgameController::class, 'show']);
+    Route::get('matchesbyteam/{id}', [App\Http\Controllers\MatchgameController::class, 'matchesByTeam']);
+    Route::get('matchesbystadium/{id}', [App\Http\Controllers\MatchgameController::class, 'matchesByStadium']);
 });
 
 Route::group([

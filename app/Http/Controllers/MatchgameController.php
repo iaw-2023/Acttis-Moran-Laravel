@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Matchgame;
 use App\Models\Team;
 use App\Models\Stadium;
+use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
 
 class MatchgameController extends Controller
@@ -27,6 +28,35 @@ class MatchgameController extends Controller
     {
         $matchgames = Matchgame::take(5)->get();
 
+        return MatchgameResource::collection($matchgames);
+    }
+
+    /**
+     * Display a listing of matches that the team plays.
+     * 
+     * @param int $id
+     */
+    public function matchesByTeam($id)
+    {
+        $teams_playing_matches = TeamPlayingMatch::where('team_id',$id)->get();
+        $matchgames = collect();
+        foreach($teams_playing_matches as $team_match){
+            $match = $team_match->matchgame;
+            $matchgames->push($match);
+        }
+
+        return MatchgameResource::collection($matchgames);
+    }
+
+    /**
+     * Display a listing of matches that are played on the stadium.
+     * 
+     * @param int $id
+     */
+    public function matchesByStadium($id)
+    {
+        $matchgames = MatchGame::where('stadium_id',$id)->get();
+        
         return MatchgameResource::collection($matchgames);
     }
 
