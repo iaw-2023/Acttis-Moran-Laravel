@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Stadium;
+use App\Http\Resources\StadiumResource;
 
 class StadiumController extends Controller
 {
@@ -12,7 +13,9 @@ class StadiumController extends Controller
      */
     public function index()
     {
-        return Stadium::select('id','stadium_name','capacity','located_on_city')->get();
+        $stadiums = Stadium::all();
+
+        return StadiumResource::collection($stadiums);
     }
 
     /**
@@ -28,7 +31,9 @@ class StadiumController extends Controller
      */
     public function show(string $id)
     {
-        return Stadium::select('id','stadium_name','capacity','located_on_city')->findOrFail($id);
+        $stadium = Stadium::findOrFail($id);
+
+        return new StadiumResource($stadium);
     }
 
     /**

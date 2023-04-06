@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Zone;
 use App\Models\Ticket;
+use App\Http\Resources\ZoneResource;
+use App\Http\Resources\TicketResource;
 
 class ZoneController extends Controller
 {
@@ -13,14 +15,18 @@ class ZoneController extends Controller
      */
     public function index()
     {
-        return Zone::select('id','stadium_location','price_multiplier')->get();
+        $zones = Zone::all();
+
+        return ZoneResource::collection($zones);
     }
 
     /**
      * Show all tickets of the zone
      */
     public function zoneTickets($id) {
-        return Ticket::select('id','base_price','matchgame_id','zone_id')->where('zone_id',$id)->get();
+        $tickets = Ticket::where('zone_id',$id)->get();
+
+        return TicketResource::collection($tickets); 
     }
 
     /**
@@ -36,7 +42,9 @@ class ZoneController extends Controller
      */
     public function show(string $id)
     {
-        return Zone::select('id','stadium_location','price_multiplier')->findOrFail($id);
+        $zone = Zone::findOrFail($id);
+
+        return new ZoneResource($zone);
     }
 
     /**

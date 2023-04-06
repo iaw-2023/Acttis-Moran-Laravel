@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Http\Resources\TeamResource;
 
 class TeamController extends Controller
 {
@@ -12,7 +13,9 @@ class TeamController extends Controller
      */
     public function index()
     {
-        return Team::select('id','team_name','local_stadium_id')->get();
+        $teams = Team::all();
+
+        return TeamResource::collection($teams);
     }
 
     /**
@@ -28,7 +31,9 @@ class TeamController extends Controller
      */
     public function show(string $id)
     {
-        return Team::select('id','team_name','local_stadium_id')->findOrFail($id);
+        $team = Team::findOrFail($id);
+
+        return new TeamResource($team);
     }
 
     /**

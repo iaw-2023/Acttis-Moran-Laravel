@@ -23,6 +23,7 @@ Route::group([
     'prefix' => 'matchgame'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
+    Route::get('example', [App\Http\Controllers\MatchgameController::class, 'example']);
     Route::get('show/{id}', [App\Http\Controllers\MatchgameController::class, 'show']);
 });
 

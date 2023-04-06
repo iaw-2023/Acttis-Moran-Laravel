@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Matchgame;
 use App\Models\Team;
 use App\Models\Stadium;
+use App\Http\Resources\MatchgameResource;
 
 class MatchgameController extends Controller
 {
@@ -14,18 +15,19 @@ class MatchgameController extends Controller
      */
     public function index()
     {
-        $matchgames = Matchgame::select('id','played_on_date','played_on_time','stadium_id')->get();
+        $matchgames = Matchgame::all();
 
-        return $matchgames;
+        return MatchgameResource::collection($matchgames);
     }
 
-    protected function obtainTeamsOfMatchGameById($matchgame_id){
-        return $teams_playing_match = TeamPlayingMatch::select('team_id','condition')->where('matchgame_id',$matchgame_id)->get();
+    /**
+     * Display a random reduced list of matchgames.
+     */
+    public function example()
+    {
+        $matchgames = Matchgame::take(5)->get();
 
-    }
-
-    protected function obtainStadiumOfMatchGameById($stadium_id){
-        return $match_stadium = Stadium::select('stadium_name','located_on_city')->where('id', $stadium_id);
+        return MatchgameResource::collection($matchgames);
     }
 
     /**
@@ -43,7 +45,9 @@ class MatchgameController extends Controller
      */
     public function show($id)
     {
-        return Matchgame::select('played_on_date','played_on_time','stadium_id')->findOrFail($id);
+        $matchgame = Matchgame::findOrFail($id);
+
+        return new MatchgameResource($matchgame);
     }
 
     /**

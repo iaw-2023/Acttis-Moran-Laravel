@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Http\Resources\TicketResource;
 
 class TicketController extends Controller
 {
@@ -19,7 +20,10 @@ class TicketController extends Controller
      * Show all tickets from the matchgame
      */
     public function matchTickets($id) {
-        return Ticket::select('id','base_price','zone_id','matchgame_id')->where('matchgame_id',$id)->get();
+
+        $tickets = Ticket::where('matchgame_id',$id)->get();
+
+        return TicketResource::collection($tickets);
     }
 
     /**
@@ -35,7 +39,9 @@ class TicketController extends Controller
      */
     public function show(string $id)
     {
-        return Ticket::select('id','base_price','zone_id','matchgame_id')->findOrFail($id);
+        $ticket = Ticket::findOrFail($id);
+
+        return new TicketResource($ticket);
     }
 
     /**
