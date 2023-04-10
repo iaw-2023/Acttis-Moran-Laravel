@@ -17,7 +17,8 @@ class Zone extends Model
      */
     protected $fillable = [
         'stadium_location',
-        'price_adittion',
+        'zone_code',
+        'price_addition',
     ];
 
     /**
@@ -26,6 +27,15 @@ class Zone extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'zone_id');
+    }
+
+    /**
+     * 
+     */
+
+    public function stadium(): BelongsTo
+    {
+        return $this->belongsTo(Stadium::class);
     }
 
     /**
