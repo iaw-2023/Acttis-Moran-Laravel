@@ -17,7 +17,9 @@ class ZoneResource extends JsonResource
         return [
             'zone_id' => $this->id,
             'stadium_location' => $this->stadium_location,
-            'price_multiplier' => $this->price_multiplier,
+            'zone_code' => $this->zone_code,
+            'price_addition' => $this->price_addition,
+            'stadium'=> new StadiumResource($this->stadium),
         ];
     }
 }

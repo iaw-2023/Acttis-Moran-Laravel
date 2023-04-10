@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            TeamSeeder::class,
+            StadiumTeamSeeder::class,
             MatchgameSeeder::class,
             TicketSeeder::class,
             OrderSeeder::class,

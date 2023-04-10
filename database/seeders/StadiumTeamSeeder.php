@@ -8,7 +8,7 @@ use App\Models\Team;
 use App\Models\Stadium;
 use App\Models\Zone;
 
-class TeamSeeder extends Seeder
+class StadiumTeamSeeder extends Seeder
 {
     /**
      * Run the database seeds.
