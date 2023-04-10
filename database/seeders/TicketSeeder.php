@@ -16,13 +16,11 @@ class TicketSeeder extends Seeder
     public function run(): void
     {
         $matchgames = Matchgame::all();
-        
-        $zones = Zone::factory()->count(4)->create();
+        $zones = Zone::all();
 
         foreach($matchgames as $match){
-            $tickets = Ticket::factory()->count(10)->make();
-            foreach ($tickets as $ticket) {
-                $zone = $zones->random();
+            foreach ($zones as $zone) {
+                $ticket = Ticket::factory()->make();
                 $zone->tickets()->save($ticket);
                 $match->tickets()->save($ticket);
             }

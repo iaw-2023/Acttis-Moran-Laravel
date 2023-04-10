@@ -17,7 +17,7 @@ class Zone extends Model
      */
     protected $fillable = [
         'stadium_location',
-        'price_multiplier'
+        'price_adittion',
     ];
 
     /**

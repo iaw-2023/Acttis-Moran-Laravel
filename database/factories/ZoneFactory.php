@@ -18,7 +18,7 @@ class ZoneFactory extends Factory
     public function definition(): array
     {
         return [
-            'price_multiplier' => rand(1,2),
+            'price_adittion' => rand(300,1000),
             'stadium_location' => Str::random(10),
         ];
     }
