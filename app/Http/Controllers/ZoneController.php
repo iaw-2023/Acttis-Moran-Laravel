@@ -21,12 +21,12 @@ class ZoneController extends Controller
     }
 
     /**
-     * Show all tickets of the zone
+     * Returns a listing of the zones asociated with stadium
      */
-    public function zoneTickets($id) {
-        $tickets = Ticket::where('zone_id',$id)->get();
+    public function stadiumZones($id) {
+        $zones = Zone::where('stadium_id',$id)->get();
 
-        return TicketResource::collection($tickets); 
+        return ZoneResource::collection($zones);
     }
 
     /**

@@ -60,5 +60,5 @@ Route::group([
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\ZoneController::class, 'index']);
     Route::get('show/{id}', [App\Http\Controllers\ZoneController::class, 'show']);
-    Route::get('zonetickets/{id}', [App\Http\Controllers\ZoneController::class, 'zoneTickets']);
+    Route::get('stadiumzones/{id}', [App\Http\Controllers\ZoneController::class, 'stadiumZones']);
 });
