@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('zones', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('stadium_location')->unique();
-            $table->float('price_adittion')->unsigned();
+            $table->string('stadium_location');
+            $table->float('price_addition')->unsigned();
+            $table->string('zone_code',5);
+
+            //Foreign Key's
+            $table->foreignId('stadium_id')->default()->constrained('stadiums');
         });
     }
 

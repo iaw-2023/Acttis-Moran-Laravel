@@ -16,9 +16,9 @@ class TicketSeeder extends Seeder
     public function run(): void
     {
         $matchgames = Matchgame::all();
-        $zones = Zone::all();
 
         foreach($matchgames as $match){
+            $zones = Zone::where('stadium_id', $match->stadium_id)->get();
             foreach ($zones as $zone) {
                 $ticket = Ticket::factory()->make();
                 $zone->tickets()->save($ticket);
