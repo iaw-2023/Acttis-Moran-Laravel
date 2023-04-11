@@ -7,15 +7,14 @@ use App\Models\Ticket;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
-class TicketControllerController extends HomeController
+class TicketViewController extends HomeController
 {
-
-    public function tickets(){
+    public function index(){
         $tickets = Ticket::all();
         return view('tickets',['tickets' => $tickets]);
     }
-
 
 
 }
