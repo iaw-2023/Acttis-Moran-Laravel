@@ -24,10 +24,6 @@ nav li {
     width:10%
 }
 
-nav a {
-    text-decoration: none;
-    color: #333;
-}
 
 .nav__item__button,
 .nav__item-logout__button {
