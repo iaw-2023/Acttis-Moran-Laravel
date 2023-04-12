@@ -62,3 +62,10 @@ Route::group([
     Route::get('show/{id}', [App\Http\Controllers\ZoneController::class, 'show']);
     Route::get('stadiumzones/{id}', [App\Http\Controllers\ZoneController::class, 'stadiumZones']);
 });
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'order'
+], function ($router) {
+    Route::post('checkout', [App\Http\Controllers\OrderController::class, 'checkOutOrder']);
+});
