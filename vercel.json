@@ -1,11 +1,8 @@
 {
     "version": 2,
-    "builds": [
-        {
-            "src": "public/**",
-            "use": "@vercel/static"
-        }
-    ],
+    "functions": {
+        "api/index.php": { "runtime": "vercel-php@0.5.3" }
+    },
     "routes": [
         {
             "src": "/(.*)",
@@ -16,12 +13,14 @@
         "APP_ENV": "production",
         "APP_DEBUG": "false",
         "APP_URL": "https://acttis-moran-laravel-1nc9nmws3-jacttis1.vercel.app",
+
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp",
+
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie"
