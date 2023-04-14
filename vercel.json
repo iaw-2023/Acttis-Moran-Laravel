@@ -8,7 +8,7 @@
             "src": "/(.*)",
             "dest": "/api/index.php"
         },
-        { "src": "/css/(.*)", "dest": "https://acttis-moran-laravel.vercel.app/$1" }
+        { "src": "/public/css/(.*)", "dest": "/css" }
     ],
     "env": {
         "APP_ENV": "production",
