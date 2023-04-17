@@ -32,7 +32,7 @@ class OrderController extends Controller
         
         $totalPrice = $this->getTotalPrice($ticketDetails);
         $dateTime = Carbon::now();
-        $order = Order::create(['total_price' => $totalPrice, 'client_email' => $clientData['client_email'], 'purchased_on'=> $dateTime]);
+        $order = Order::create(['total_price' => $totalPrice, 'client_email' => $clientData['client_email'], 'checkout_date'=> $dateTime]);
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
