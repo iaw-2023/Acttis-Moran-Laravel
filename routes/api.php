@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'middleware' => ['rapi'],
+    'middleware' => ['api'],
     'prefix' => 'matchgame'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
