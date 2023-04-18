@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'middleware' => ['api'],
+    'middleware' => ['rapi'],
     'prefix' => 'matchgame'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
@@ -51,7 +51,7 @@ Route::group([
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\TicketController::class, 'index']);
     Route::get('show/{id}', [App\Http\Controllers\TicketController::class, 'show']);
-    Route::get('matchtickets/{id}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
+    Route::get('matchtickets/{id}', [App\Http\Controllers\TicketController::class, 'matchTickets']);
 });
 
 Route::group([
