@@ -20,7 +20,7 @@
         <button class="btn btn-primary nav__item__button" onclick="event.preventDefault(); document.getElementById('zones-form').submit();">Zones</button>
     </li>
     <li class="nav-item-logout">
-        <form class="ml-auto" id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        <form class="ml-auto" id="logout-form" action="{{ secure_url('logout') }}" method="POST" style="display: none;">
             @csrf
         </form>
         <button class="btn btn-dark nav__item-logout__button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</button>
