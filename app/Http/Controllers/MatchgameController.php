@@ -11,6 +11,10 @@ use App\Http\Resources\MatchgameResource;
 
 class MatchgameController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('api');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -33,7 +37,7 @@ class MatchgameController extends Controller
 
     /**
      * Display a listing of matches that the team plays.
-     * 
+     *
      * @param int $id
      */
     public function matchesByTeam($id)
@@ -50,13 +54,13 @@ class MatchgameController extends Controller
 
     /**
      * Display a listing of matches that are played on the stadium.
-     * 
+     *
      * @param int $id
      */
     public function matchesByStadium($id)
     {
         $matchgames = MatchGame::where('stadium_id',$id)->get();
-        
+
         return MatchgameResource::collection($matchgames);
     }
 
@@ -70,7 +74,7 @@ class MatchgameController extends Controller
 
     /**
      * Display the specified resource.
-     * 
+     *
      * @param int $id
      */
     public function show($id)
