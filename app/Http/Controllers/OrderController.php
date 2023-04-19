@@ -39,6 +39,10 @@ class OrderController extends Controller
         
     }
 
+    /**
+     * Auxiliar function to verify the correct
+     * total price amount.
+     */
     protected function getTotalPrice($ticketDetails){
         $acummulatedCost = 0;
         foreach($ticketDetails as $ticketDetail){

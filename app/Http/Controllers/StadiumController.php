@@ -18,37 +18,16 @@ class StadiumController extends Controller
         return StadiumResource::collection($stadiums);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
+     * @param int $stadiumId
      */
-    public function show(string $id)
+    public function show(string $stadiumId)
     {
-        $stadium = Stadium::findOrFail($id);
+        $stadium = Stadium::findOrFail($stadiumId);
 
         return new StadiumResource($stadium);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

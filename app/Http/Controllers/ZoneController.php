@@ -22,44 +22,23 @@ class ZoneController extends Controller
 
     /**
      * Returns a listing of the zones asociated with stadium
+     * @param int $stadiumId
      */
-    public function stadiumZones($id) {
-        $zones = Zone::where('stadium_id',$id)->get();
+    public function stadiumZones($stadiumId) {
+        $zones = Zone::where('stadium_id',$stadiumId)->get();
 
         return ZoneResource::collection($zones);
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
+     * @param int $zoneId
      */
-    public function show(string $id)
+    public function show(string $zoneId)
     {
-        $zone = Zone::findOrFail($id);
+        $zone = Zone::findOrFail($zoneId);
 
         return new ZoneResource($zone);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
