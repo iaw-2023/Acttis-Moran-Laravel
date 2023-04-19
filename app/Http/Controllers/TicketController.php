@@ -18,45 +18,24 @@ class TicketController extends Controller
 
     /**
      * Show all tickets from the matchgame
+     * @param int $matchgameId
      */
-    public function matchTickets($id) {
+    public function matchTickets($matchgameId) {
 
-        $tickets = Ticket::where('matchgame_id',$id)->get();
+        $tickets = Ticket::where('matchgame_id',$matchgameId)->get();
 
         return TicketResource::collection($tickets);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
+     * @param int $ticketId
      */
-    public function show(string $id)
+    public function show(string $ticketId)
     {
-        $ticket = Ticket::findOrFail($id);
+        $ticket = Ticket::findOrFail($ticketId);
 
         return new TicketResource($ticket);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

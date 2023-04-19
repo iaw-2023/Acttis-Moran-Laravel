@@ -24,9 +24,13 @@ Route::group([
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
     Route::get('example', [App\Http\Controllers\MatchgameController::class, 'example']);
-    Route::get('show/{id}', [App\Http\Controllers\MatchgameController::class, 'show']);
-    Route::get('matchesbyteam/{id}', [App\Http\Controllers\MatchgameController::class, 'matchesByTeam']);
-    Route::get('matchesbystadium/{id}', [App\Http\Controllers\MatchgameController::class, 'matchesByStadium']);
+    Route::get('show/{matchgameId}', [App\Http\Controllers\MatchgameController::class, 'show']);
+    Route::get('matchesbyteam/{teamId}', [App\Http\Controllers\MatchgameController::class, 'matchesByTeam']);
+    Route::get('matchesbystadium/{stadiumId}', [App\Http\Controllers\MatchgameController::class, 'matchesByStadium']);
+    Route::get('matchesbydate/{year}-{month}-{day}',[App\Http\Controllers\MatchgameController::class, 'matchesByDate']);
+    Route::get('matchesbydate&stadium/stadium/{stadiumId}/{year}-{month}-{day}',[App\Http\Controllers\MatchgameController::class, 'matchesByDateAndStadium']);
+    Route::get('matchesbydate&team/team/{teamId}/{year}-{month}-{day}',[App\Http\Controllers\MatchgameController::class, 'matchesByDateAndTeam']);
+    Route::get('matchesbydate&team&stadium/team/{teamId}/stadium/{stadiumId}/{year}-{month}-{day}',[App\Http\Controllers\MatchgameController::class, 'matchesByDateTeamStadium']);
 });
 
 Route::group([
@@ -34,7 +38,7 @@ Route::group([
     'prefix' => 'team'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\TeamController::class, 'index']);
-    Route::get('show/{id}', [App\Http\Controllers\TeamController::class, 'show']);
+    Route::get('show/{teamId}', [App\Http\Controllers\TeamController::class, 'show']);
 });
 
 Route::group([
@@ -42,7 +46,7 @@ Route::group([
     'prefix' => 'stadium'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\StadiumController::class, 'index']);
-    Route::get('show/{id}', [App\Http\Controllers\StadiumController::class, 'show']);
+    Route::get('show/{stadiumId}', [App\Http\Controllers\StadiumController::class, 'show']);
 });
 
 Route::group([
@@ -50,8 +54,8 @@ Route::group([
     'prefix' => 'ticket'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\TicketController::class, 'index']);
-    Route::get('show/{id}', [App\Http\Controllers\TicketController::class, 'show']);
-    Route::get('matchtickets/{id}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
+    Route::get('show/{ticketId}', [App\Http\Controllers\TicketController::class, 'show']);
+    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
 });
 
 Route::group([
@@ -59,8 +63,8 @@ Route::group([
     'prefix' => 'zone'
 ], function ($router) {
     Route::get('index', [App\Http\Controllers\ZoneController::class, 'index']);
-    Route::get('show/{id}', [App\Http\Controllers\ZoneController::class, 'show']);
-    Route::get('stadiumzones/{id}', [App\Http\Controllers\ZoneController::class, 'stadiumZones']);
+    Route::get('show/{zoneId}', [App\Http\Controllers\ZoneController::class, 'show']);
+    Route::get('stadiumzones/{stadiumId}', [App\Http\Controllers\ZoneController::class, 'stadiumZones']);
 });
 
 Route::group([
