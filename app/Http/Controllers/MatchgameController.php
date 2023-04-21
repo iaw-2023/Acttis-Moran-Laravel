@@ -33,106 +33,105 @@ class MatchgameController extends Controller
     }
 
     /**
+     * Display a listing of matches filter by team, stadium & date.
+     */
+    public function matchesBy()
+    {
+        
+        $teamId = request()->query('teamId');
+        $stadiumId = request()->query('stadiumId');
+        $date = request()->query('date');
+
+        $matchgamesToFilter = collect();
+        //If there is no coincidence for one filter, the other filters doesnt apply
+        $noCoincidence = false;
+
+        if($teamId != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByTeam($matchgamesToFilter, $teamId);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        if($stadiumId != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByStadium($matchgamesToFilter, $stadiumId);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        if($date != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByDate($matchgamesToFilter, $date);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        
+        return MatchgameResource::collection($matchgamesToFilter);
+    }
+
+    /**
      * Display a listing of matches that the parametrized team plays.
      * 
+     * @param collection $matchgamesToFilter
      * @param int $teamId
      */
-    public function matchesByTeam($teamId)
+    protected function filterByTeam($matchgamesToFilter, $teamId)
     {
-        $teams_playing_matches = TeamPlayingMatch::where('team_id',$teamId)->get();
-        $matchgames = collect();
-        foreach($teams_playing_matches as $team_match){
-            $match = $team_match->matchgame;
-            $matchgames->push($match);
+        $matchgamesToReturn = collect();
+
+        if($matchgamesToFilter->isEmpty()){
+            $teams_playing_matches = TeamPlayingMatch::where('team_id',$teamId)->get();
+            foreach($teams_playing_matches as $team_match){
+                $match = $team_match->matchgame;
+                $matchgamesToReturn->push($match);
+                
+            }
+        }
+        else {
+            foreach($matchgamesToFilter as $matchgame) {
+                $teamsPlaying = $matchgame->teamsPlayingMatch;
+                if(($teamsPlaying[0]->team_id == $teamId) || ($teamsPlaying[1]->team_id == $teamId))
+                    $matchgamesToReturn->push($matchgame);
+            }
         }
 
-        return MatchgameResource::collection($matchgames);
+        return $matchgamesToReturn;
     }
 
     /**
      * Display a listing of matches that are played on the stadium parametrized.
      * 
+     * @param collection $matchgamesToFilter
      * @param int $stadiumId
      */
-    public function matchesByStadium($stadiumId)
+    protected function filterByStadium($matchgamesToFilter, $stadiumId)
     {
-        $matchgames = MatchGame::where('stadium_id',$stadiumId)->get();
+        $matchgamesToReturn = collect();
         
-        return MatchgameResource::collection($matchgames);
+        if($matchgamesToFilter->isEmpty()){
+            $matchgamesToReturn = Matchgame::where('stadium_id', $stadiumId)->get();
+        }
+        else {
+            $matchgamesToReturn = $matchgamesToFilter->where('stadium_id', $stadiumId);
+        }
+        
+        return $matchgamesToReturn;
     }
 
     /**
      * Display a listing of matches that are played on the date parametrized.
      * 
-     * @param int $year
-     * @param int $month
-     * @param int $day
+     * @param collection $matchgamesToFilter
+     * @param string $date
      */
-    public function matchesByDate($year, $month, $day)
+    protected function filterByDate($matchgamesToFilter, $date)
     {
-        $matchgames = Matchgame::where('played_on_date',"{$year}-{$month}-{$day}")->get();
-        
-        return MatchgameResource::collection($matchgames);
-    }
+        $matchgamesToReturn = collect();
 
-    /**
-     * Display a listing of matches that are played on the date parametrized and played by the team specified.
-     * 
-     * @param int $teamId
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     */
-    public function matchesByDateAndTeam($teamId, $year, $month, $day)
-    {
-        $teams_playing_matches = TeamPlayingMatch::where('team_id',$teamId)->get();
-        $matchgamesByTeam = collect();
-        foreach($teams_playing_matches as $team_match){
-            $match = $team_match->matchgame;
-            $matchgamesByTeam->push($match);
+        if($matchgamesToFilter->isEmpty()){
+            $matchgamesToReturn = Matchgame::where('played_on_date',$date)->get();
         }
-        
-        $matchgamesByTeamAndDate = $matchgamesByTeam->where('played_on_date',"{$year}-{$month}-{$day}");
-
-        return MatchgameResource::collection($matchgamesByTeamAndDate);
-    }
-
-    /**
-     * Display a listing of matches that are played on the date parametrized and played in the stadium specified.
-     * 
-     * @param int $stadiumId
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     */
-    public function matchesByDateAndStadium($stadiumId, $year, $month, $day)
-    {
-        $matchgamesByStadiumAndDate = MatchGame::where('stadium_id',$stadiumId)->where('played_on_date',"{$year}-{$month}-{$day}")->get();
-
-        return MatchgameResource::collection($matchgamesByStadiumAndDate);
-    }
-
-    /**
-     * Display a listing of matches that are played on the date parametrized, played by the team specified, in the stadium specified.
-     * 
-     * @param int $teamId
-     * @param int $stadiumId
-     * @param int $year
-     * @param int $month
-     * @param int $day
-     */
-    public function matchesByDateTeamStadium($teamId, $stadiumId, $year, $month, $day)
-    {
-        $teams_playing_matches = TeamPlayingMatch::where('team_id',$teamId)->get();
-        $matchgamesByTeam = collect();
-        foreach($teams_playing_matches as $team_match){
-            $match = $team_match->matchgame;
-            $matchgamesByTeam->push($match);
+        else {
+            $matchgamesToReturn = $matchgamesToFilter->where('played_on_date',$date);
         }
 
-        $matchgamesByTeamInStadiumAndDate = $matchgamesByTeam->where('stadium_id',$stadiumId)->where('played_on_date',"{$year}-{$month}-{$day}");
-
-        return MatchgameResource::collection($matchgamesByTeamInStadiumAndDate);
+        return $matchgamesToReturn;
     }
 
     /**
