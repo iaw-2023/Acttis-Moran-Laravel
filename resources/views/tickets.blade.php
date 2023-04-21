@@ -1,6 +1,4 @@
 @extends('home')
-
-
 @section('content')
 
     <div id="test">
@@ -15,31 +13,41 @@
                     <th scope="col">PriceBase</th>
                     <th scope="col">MatchGame ID</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTicketModal">Create Ticket</button>
-                        <!-- Modal para crear un nuevo ticket -->
-                        <div class="modal fade" id="createTicketModal" tabindex="-1" role="dialog" aria-labelledby="createTicketModalLabel" aria-hidden="true">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTicketDropdownModal">Create Ticket</button>
+
+                        <!-- Modal para crear un nuevo ticket con dropdowns -->
+                        <div class="modal fade" id="createTicketDropdownModal" tabindex="-1" role="dialog" aria-labelledby="createTicketDropdownModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="createTicketDropdownModalLabel">Create Ticket</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
                                     <form method="POST" action="{{ route('tickets.store') }}">
                                         @csrf
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="createTicketModalLabel">Create Ticket</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
                                         <div class="modal-body">
+                                            <div class="form-matchgame">
+                                                <label for="matchgame_id">MatchGame</label>
+                                                <select class="form-control" id="matchgame_id" name="matchgame_id" onchange="seleccionarMatchGame(this.value)">
+                                                    <option value="-1">Select a Match</option>
+                                                    @php
+                                                        $matchGameData = \App\Http\Controllers\Auth\TicketViewController::getMatchGameData();
+                                                    @endphp
+                                                    @foreach ($matchGameData as $matchgame)
+                                                        <option value="{{ $matchgame['id'] }}">{{ $matchgame['id'] }} -{{ $matchgame['home_team_name'] }} - {{ $matchgame['away_team_name'] }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                             <div class="form-group">
                                                 <label for="zone_id">Zone ID</label>
-                                                <input type="text" class="form-control" id="zone_id" name="zone_id" required>
+                                                <select class="form-control" id="zone_id" name="zone_id">
+                                                </select>
                                             </div>
                                             <div class="form-group">
                                                 <label for="base_price">Base Price</label>
                                                 <input type="text" class="form-control" id="base_price" name="base_price" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="matchgame_id">MatchGame ID</label>
-                                                <input type="text" class="form-control" id="matchgame_id" name="matchgame_id" required>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
@@ -49,7 +57,9 @@
                                     </form>
                                 </div>
                             </div>
-                        </div></th>
+                        </div>
+
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,7 +94,7 @@
                                                 <div class="modal-body">
                                                     <div class="form-group">
                                                         <label for="zone_id">Zone ID</label>
-                                                        <input type="text" class="form-control" id="zone_id" name="zone_id" value="{{ $ticket->zone_id }}">
+                                                        <label type="text" class="form-control" id="zone_id">{{ $ticket->zone_id }}</label>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="base_price">Base Price</label>
@@ -92,7 +102,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="matchgame_id">MatchGame ID</label>
-                                                        <input type="text" class="form-control" id="matchgame_id" name="matchgame_id" value="{{ $ticket->matchgame_id }}">
+                                                        <label type="text" class="form-control" id="zone_id">{{ $ticket->matchgame_id }}</label>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">

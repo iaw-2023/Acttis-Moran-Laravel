@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +31,12 @@ Route::delete('/tickets/{ticket}', [App\Http\Controllers\Auth\TicketViewControll
 Route::put('/tickets/{ticket}', [App\Http\Controllers\Auth\TicketViewController::class, 'update'])->name('tickets.update');
 
 Route::post('/tickets', [App\Http\Controllers\Auth\TicketViewController::class, 'store'])->name('tickets.store');
+
+
+Route::get('show/{matchgameId}', [\App\Http\Controllers\Auth\TicketViewController::class, 'showZonesByMatchGameID']);
+
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+
