@@ -27,7 +27,7 @@ class MatchgameController extends Controller
      */
     public function example()
     {
-        $matchgames = Matchgame::inRandomOrder()->limit(5)->get();
+        $matchgames = Matchgame::inRandomOrder()->limit(10)->get();
 
         return MatchgameResource::collection($matchgames);
     }
