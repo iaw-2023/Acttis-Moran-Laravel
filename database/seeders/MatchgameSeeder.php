@@ -34,35 +34,42 @@ class MatchgameSeeder extends Seeder
         $local_team = null;
         $away_team = null;
         $played_on_stadium = null;
+        $count = 0;
 
         foreach($teams as $key => $team) {
-            if($key > $variance){
-                if($local_team == null){
-                    $local_team = $team;
-                    $played_on_stadium = Stadium::find($team->local_stadium_id);
-                }
-                else {
+            if($local_team == null){
+                $local_team = $team;
+                $played_on_stadium = Stadium::find($team->local_stadium_id);
+            }
+            else {
+                if($count >= $variance){
                     $away_team = $team;
 
                     $matchgame = Matchgame::factory()->create();
                     $team_playing_match_home_team = TeamPlayingMatch::factory()->state(['condition' => 'home'])->make();
                     $team_playing_match_away_team = TeamPlayingMatch::factory()->state(['condition' => 'away'])->make();
-
+    
                     $local_team->teamPlayingMatchs()->save($team_playing_match_home_team);
                     $away_team->teamPlayingMatchs()->save($team_playing_match_away_team);
-
+    
                     $matchgame->teamsPlayingMatch()->save($team_playing_match_home_team);
                     $matchgame->teamsPlayingMatch()->save($team_playing_match_away_team);
                     $played_on_stadium->matchgames()->save($matchgame);
-
+    
                     //Reset variables for next matchgame creation
                     $local_team = null;
                     $away_team = null;
+                    $count = 0;
+                }
+                else {
+                    $count++;
                 }
                 
             }
+                
         }
     }
+    
 }
 
 
