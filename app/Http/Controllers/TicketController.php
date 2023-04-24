@@ -1,21 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Ticket;
-use App\Http\Resources\TicketResource;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TicketController extends Controller
+class TicketControllerController extends HomeController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show all tickets from the matchgame
      * @param int $matchgameId

@@ -67,7 +67,6 @@ class MatchgameController extends Controller
 
     /**
      * Display a listing of matches that the parametrized team plays.
-     * 
      * @param collection $matchgamesToFilter
      * @param int $teamId
      */
