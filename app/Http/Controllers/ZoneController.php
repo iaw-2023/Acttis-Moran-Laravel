@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Zone;
 use App\Models\Ticket;
 use App\Http\Resources\ZoneResource;
-use App\Http\Resources\TicketResource;
 
 class ZoneController extends Controller
 {
