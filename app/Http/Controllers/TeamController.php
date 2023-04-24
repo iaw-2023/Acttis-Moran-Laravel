@@ -19,36 +19,13 @@ class TeamController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
+     * @param int $teamId
      */
-    public function show(string $id)
+    public function show(string $teamId)
     {
-        $team = Team::findOrFail($id);
+        $team = Team::findOrFail($teamId);
 
         return new TeamResource($team);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
