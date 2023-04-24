@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use Illuminate\Http\Request;
 use App\Http\Resources\TicketResource;
 
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Show all tickets from the matchgame
      * @param int $matchgameId
