@@ -48,7 +48,7 @@ class OrderController extends Controller
         foreach($ticketDetails as $ticketDetail){
             $ticket = $ticketDetail->ticket;
             $ticketZone = $ticket->zone;
-            $acummulatedCost += $ticket->base_price + $ticketZone->price_addition;
+            $acummulatedCost += ($ticket->base_price + $ticketZone->price_addition) * $ticketDetail->ticket_quantity;
         }
 
         return $acummulatedCost;
