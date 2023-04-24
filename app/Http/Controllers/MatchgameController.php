@@ -8,6 +8,7 @@ use App\Models\Team;
 use App\Models\Stadium;
 use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
+Use \Carbon\Carbon;
 
 class MatchgameController extends Controller
 {
@@ -26,73 +27,121 @@ class MatchgameController extends Controller
      */
     public function example()
     {
-        $matchgames = Matchgame::take(5)->get();
+        $matchgames = Matchgame::inRandomOrder()->limit(10)->get();
 
         return MatchgameResource::collection($matchgames);
     }
 
     /**
-     * Display a listing of matches that the team plays.
-     *
-     * @param int $id
+     * Display a listing of matches filter by team, stadium & date.
      */
-    public function matchesByTeam($id)
+    public function matchesBy()
     {
-        $teams_playing_matches = TeamPlayingMatch::where('team_id',$id)->get();
-        $matchgames = collect();
-        foreach($teams_playing_matches as $team_match){
-            $match = $team_match->matchgame;
-            $matchgames->push($match);
+        
+        $teamId = request()->query('teamId');
+        $stadiumId = request()->query('stadiumId');
+        $date = request()->query('date');
+
+        $matchgamesToFilter = collect();
+        //If there is no coincidence for one filter, the other filters doesnt apply
+        $noCoincidence = false;
+
+        if($teamId != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByTeam($matchgamesToFilter, $teamId);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        if($stadiumId != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByStadium($matchgamesToFilter, $stadiumId);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        if($date != null && !$noCoincidence){
+            $matchgamesToFilter = $this->filterByDate($matchgamesToFilter, $date);
+            if($matchgamesToFilter->isEmpty())
+                $noCoincidence = true;
+        }
+        
+        return MatchgameResource::collection($matchgamesToFilter);
+    }
+
+    /**
+     * Display a listing of matches that the parametrized team plays.
+     * @param collection $matchgamesToFilter
+     * @param int $teamId
+     */
+    protected function filterByTeam($matchgamesToFilter, $teamId)
+    {
+        $matchgamesToReturn = collect();
+
+        if($matchgamesToFilter->isEmpty()){
+            $teams_playing_matches = TeamPlayingMatch::where('team_id',$teamId)->get();
+            foreach($teams_playing_matches as $team_match){
+                $match = $team_match->matchgame;
+                $matchgamesToReturn->push($match);
+                
+            }
+        }
+        else {
+            foreach($matchgamesToFilter as $matchgame) {
+                $teamsPlaying = $matchgame->teamsPlayingMatch;
+                if(($teamsPlaying[0]->team_id == $teamId) || ($teamsPlaying[1]->team_id == $teamId))
+                    $matchgamesToReturn->push($matchgame);
+            }
         }
 
-        return MatchgameResource::collection($matchgames);
+        return $matchgamesToReturn;
     }
 
     /**
-     * Display a listing of matches that are played on the stadium.
-     *
-     * @param int $id
+     * Display a listing of matches that are played on the stadium parametrized.
+     * 
+     * @param collection $matchgamesToFilter
+     * @param int $stadiumId
      */
-    public function matchesByStadium($id)
+    protected function filterByStadium($matchgamesToFilter, $stadiumId)
     {
-        $matchgames = MatchGame::where('stadium_id',$id)->get();
-
-        return MatchgameResource::collection($matchgames);
+        $matchgamesToReturn = collect();
+        
+        if($matchgamesToFilter->isEmpty()){
+            $matchgamesToReturn = Matchgame::where('stadium_id', $stadiumId)->get();
+        }
+        else {
+            $matchgamesToReturn = $matchgamesToFilter->where('stadium_id', $stadiumId);
+        }
+        
+        return $matchgamesToReturn;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Display a listing of matches that are played on the date parametrized.
+     * 
+     * @param collection $matchgamesToFilter
+     * @param string $date
      */
-    public function store(Request $request)
+    protected function filterByDate($matchgamesToFilter, $date)
     {
-        //
+        $matchgamesToReturn = collect();
+
+        if($matchgamesToFilter->isEmpty()){
+            $matchgamesToReturn = Matchgame::where('played_on_date',$date)->get();
+        }
+        else {
+            $matchgamesToReturn = $matchgamesToFilter->where('played_on_date',$date);
+        }
+
+        return $matchgamesToReturn;
     }
 
     /**
      * Display the specified resource.
-     *
-     * @param int $id
+     * 
+     * @param int $matchgameId
      */
-    public function show($id)
+    public function show($matchgameId)
     {
-        $matchgame = Matchgame::findOrFail($id);
+        $matchgame = Matchgame::findOrFail($matchgameId);
 
         return new MatchgameResource($matchgame);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
