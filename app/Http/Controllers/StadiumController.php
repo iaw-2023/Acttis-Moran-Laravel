@@ -23,8 +23,12 @@ class StadiumController extends Controller
      * Display the specified resource.
      * @param int $stadiumId
      */
-    public function show(string $stadiumId)
+    public function show($stadiumId)
     {
+        if(!is_numeric($stadiumId) || $stadiumId < 1){
+            return response()->json(['errors' => "The stadium id specified is invalid."]);
+        }
+
         $stadium = Stadium::findOrFail($stadiumId);
 
         return new StadiumResource($stadium);

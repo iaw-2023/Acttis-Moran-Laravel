@@ -24,7 +24,12 @@ class ZoneController extends Controller
      * @param int $stadiumId
      */
     public function stadiumZones($stadiumId) {
-        $zones = Zone::where('stadium_id',$stadiumId)->get();
+
+        if(!is_numeric($stadiumId) || $stadiumId < 1){
+            return response()->json(['errors' => "The stadium id specified is invalid."]);
+        }
+
+        $zones = Zone::where('stadium_id', $stadiumId)->get();
 
         return ZoneResource::collection($zones);
     }
@@ -33,8 +38,12 @@ class ZoneController extends Controller
      * Display the specified resource.
      * @param int $zoneId
      */
-    public function show(string $zoneId)
+    public function show($zoneId)
     {
+        if(!is_numeric($zoneId) || $zoneId < 1){
+            return response()->json(['errors' => "The zone id specified is invalid."]);
+        }
+
         $zone = Zone::findOrFail($zoneId);
 
         return new ZoneResource($zone);
