@@ -10,6 +10,7 @@ use App\Models\Order;
 use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -19,9 +20,18 @@ class OrderController extends Controller
      */
     public function checkOutOrder(Request $request)
     {
+        $validator = Validator::make(request()->all(), [
+            'client_data.client_email' => "required|email",
+            'tickets_purchased.*.ticket_id' => "required|exists:tickets,id",
+            'tickets_purchased.*.quantity' => "required|integer|min:1",
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid request body. Client data or tickets purchased info are not valid.']);
+        }
+        
         $clientData = $request->client_data;
         $ticketsPurchased = $request->tickets_purchased;
-        
         $ticketDetails = collect();
         
         foreach($ticketsPurchased as $ticket){
@@ -37,7 +47,7 @@ class OrderController extends Controller
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
-
+        
         return response()->json([
             'success' => "Generated Order successfully!",
             'order_created' => new OrderResource($order),
