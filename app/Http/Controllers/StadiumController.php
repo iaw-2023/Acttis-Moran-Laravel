@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Stadium;
 use App\Http\Resources\StadiumResource;
+use Illuminate\Support\Facades\Validator;
 
 class StadiumController extends Controller
 {
@@ -25,8 +26,14 @@ class StadiumController extends Controller
      */
     public function show($stadiumId)
     {
-        if(!is_numeric($stadiumId) || $stadiumId < 1){
-            return response()->json(['errors' => "The stadium id specified is invalid."]);
+        request()->merge(['stadiumId' => request()->route('stadiumId')]);
+
+        $validator = Validator::make(request()->all(), [
+            'stadiumId' => 'required|exists:stadiums,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Stadium ID.']);
         }
 
         $stadium = Stadium::findOrFail($stadiumId);

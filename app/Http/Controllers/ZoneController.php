@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Zone;
 use App\Models\Ticket;
 use App\Http\Resources\ZoneResource;
+use Illuminate\Support\Facades\Validator;
 
 class ZoneController extends Controller
 {
@@ -25,8 +26,14 @@ class ZoneController extends Controller
      */
     public function stadiumZones($stadiumId) {
 
-        if(!is_numeric($stadiumId) || $stadiumId < 1){
-            return response()->json(['errors' => "The stadium id specified is invalid."]);
+        request()->merge(['stadiumId' => request()->route('stadiumId')]);
+
+        $validator = Validator::make(request()->all(), [
+            'stadiumId' => 'required|exists:stadiums,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Stadium ID.']);
         }
 
         $zones = Zone::where('stadium_id', $stadiumId)->get();
@@ -40,8 +47,14 @@ class ZoneController extends Controller
      */
     public function show($zoneId)
     {
-        if(!is_numeric($zoneId) || $zoneId < 1){
-            return response()->json(['errors' => "The zone id specified is invalid."]);
+        request()->merge(['zoneId' => request()->route('zoneId')]);
+
+        $validator = Validator::make(request()->all(), [
+            'zoneId' => 'required|exists:zones,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Zone ID.']);
         }
 
         $zone = Zone::findOrFail($zoneId);

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Resources\TicketResource;
+use Illuminate\Support\Facades\Validator;
 
 class TicketController extends Controller
 {
@@ -15,8 +16,14 @@ class TicketController extends Controller
      */
     public function matchTickets($matchgameId)
     {
-        if(!is_numeric($matchgameId) || $matchgameId < 1){
-            return response()->json(['errors' => "The matchgame id specified is invalid."]);
+        request()->merge(['matchgameId' => request()->route('matchgamemId')]);
+
+        $validator = Validator::make(request()->all(), [
+            'matchgameId' => 'required|exists:matchgames,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Matchgame ID.']);
         }
 
         $tickets = Ticket::where('matchgame_id',$matchgameId)->get();
@@ -31,8 +38,14 @@ class TicketController extends Controller
      */
     public function show($ticketId)
     {
-        if(!is_numeric($ticketId) || $ticketId < 1){
-            return response()->json(['errors' => "The ticket id specified is invalid."]);
+        request()->merge(['ticketId' => request()->route('ticketId')]);
+
+        $validator = Validator::make(request()->all(), [
+            'ticketId' => 'required|exists:tickets,id',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Ticket ID.']);
         }
 
         $ticket = Ticket::findOrFail($ticketId);
