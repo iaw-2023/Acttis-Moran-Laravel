@@ -22,8 +22,12 @@ class TeamController extends Controller
      * Display the specified resource.
      * @param int $teamId
      */
-    public function show(string $teamId)
+    public function show($teamId)
     {
+        if(!is_numeric($teamId) || $teamId < 1){
+            return response()->json(['errors' => "The team id specified is invalid."]);
+        }
+
         $team = Team::findOrFail($teamId);
 
         return new TeamResource($team);

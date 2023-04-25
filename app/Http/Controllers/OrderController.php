@@ -9,6 +9,7 @@ use App\Models\TicketOrder;
 use App\Models\Order;
 use App\Models\Zone;
 Use \Carbon\Carbon;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -36,6 +37,11 @@ class OrderController extends Controller
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
+
+        return response()->json([
+            'success' => "Generated Order successfully!",
+            'order_created' => new OrderResource($order),
+        ]);
         
     }
 
