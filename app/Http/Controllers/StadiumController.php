@@ -29,14 +29,17 @@ class StadiumController extends Controller
         request()->merge(['stadiumId' => request()->route('stadiumId')]);
 
         $validator = Validator::make(request()->all(), [
-            'stadiumId' => 'required|exists:stadiums,id',
+            'stadiumId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Stadium ID.']);
+            return response()->json(['error' => 'Invalid Stadium ID.'], 400);
         }
 
-        $stadium = Stadium::findOrFail($stadiumId);
+        $stadium = Stadium::find($stadiumId);
+
+        if($stadium == null)
+            return response()->json(['error' => 'Stadium not found.'], 404);
 
         return new StadiumResource($stadium);
     }

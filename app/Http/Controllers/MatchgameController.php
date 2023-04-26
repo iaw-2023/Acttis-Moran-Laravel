@@ -39,13 +39,13 @@ class MatchgameController extends Controller
     public function matchesBy(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'teamId' => 'exists:teams,id',
-            'stadiumId' => 'exists:stadiums,id',
+            'teamId' => 'integer|min:1',
+            'stadiumId' => 'integer|min:1',
             'date' => 'date',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Team ID or Stadium ID or Date.']);
+            return response()->json(['error' => $validator->errors()->first()], 400);
         }
     
         $teamId = request()->query('teamId');
@@ -153,15 +153,18 @@ class MatchgameController extends Controller
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
         $validator = Validator::make(request()->all(), [
-            'matchgameId' => 'required|exists:matchgames,id',
+            'matchgameId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Matchgame ID.']);
+            return response()->json(['error' => 'Invalid Matchgame ID.'], 400);
         }
         
-        $matchgame = Matchgame::findOrFail($matchgameId);
-
+        $matchgame = Matchgame::find($matchgameId);
+        
+        if($matchgame == null)
+            return response()->json(['error' => 'Matchgame not found.'], 404);
+        
         return new MatchgameResource($matchgame);
     }
 }

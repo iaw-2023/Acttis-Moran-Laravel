@@ -27,7 +27,7 @@ class OrderController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid request body. Client data or tickets purchased info are not valid.']);
+            return response()->json(['error' => $validator->errors()->first()], 400);
         }
         
         $clientData = $request->client_data;
@@ -35,9 +35,11 @@ class OrderController extends Controller
         $ticketDetails = collect();
         
         foreach($ticketsPurchased as $ticket){
-            $ticketDetail = TicketDetail::create(['ticket_quantity' => $ticket['quantity']]);
+            $ticketDetail = TicketDetail::make(['ticket_quantity' => $ticket['quantity']]);
+
             $actualTicket = Ticket::find($ticket['ticket_id']);
             $actualTicket->ticketDetails()->save($ticketDetail);
+            
             $ticketDetails->push($ticketDetail);
         }
         

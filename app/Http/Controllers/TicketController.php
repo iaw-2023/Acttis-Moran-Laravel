@@ -19,11 +19,11 @@ class TicketController extends Controller
         request()->merge(['matchgameId' => request()->route('matchgamemId')]);
 
         $validator = Validator::make(request()->all(), [
-            'matchgameId' => 'required|exists:matchgames,id',
+            'matchgameId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Matchgame ID.']);
+            return response()->json(['error' => 'Invalid Matchgame ID.'], 400);
         }
 
         $tickets = Ticket::where('matchgame_id',$matchgameId)->get();
@@ -41,14 +41,17 @@ class TicketController extends Controller
         request()->merge(['ticketId' => request()->route('ticketId')]);
 
         $validator = Validator::make(request()->all(), [
-            'ticketId' => 'required|exists:tickets,id',
+            'ticketId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Ticket ID.']);
+            return response()->json(['error' => 'Invalid Ticket ID.'], 400);
         }
 
-        $ticket = Ticket::findOrFail($ticketId);
+        $ticket = Ticket::find($ticketId);
+
+        if($ticket == null)
+            return response()->json(['error' => 'Ticket not found.'], 404);
 
         return new TicketResource($ticket);
     }
