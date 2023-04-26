@@ -16,7 +16,7 @@ class TicketController extends Controller
      */
     public function matchTickets($matchgameId)
     {
-        request()->merge(['matchgameId' => request()->route('matchgamemId')]);
+        request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
         $validator = Validator::make(request()->all(), [
             'matchgameId' => 'required|integer|min:1',
