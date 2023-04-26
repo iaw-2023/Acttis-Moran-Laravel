@@ -9,6 +9,7 @@ use App\Models\Stadium;
 use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
 Use \Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class MatchgameController extends Controller
 {
@@ -35,13 +36,22 @@ class MatchgameController extends Controller
     /**
      * Display a listing of matches filter by team, stadium & date.
      */
-    public function matchesBy()
+    public function matchesBy(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'teamId' => 'integer|min:1',
+            'stadiumId' => 'integer|min:1',
+            'date' => 'date',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()->first()], 400);
+        }
+    
         $teamId = request()->query('teamId');
         $stadiumId = request()->query('stadiumId');
         $date = request()->query('date');
-
+        
         $matchgamesToFilter = collect();
         //If there is no coincidence for one filter, the other filters doesnt apply
         $noCoincidence = false;
@@ -124,7 +134,7 @@ class MatchgameController extends Controller
         $matchgamesToReturn = collect();
 
         if($matchgamesToFilter->isEmpty()){
-            $matchgamesToReturn = Matchgame::where('played_on_date',$date)->get();
+            $matchgamesToReturn = Matchgame::where('played_on_date', $date)->get();
         }
         else {
             $matchgamesToReturn = $matchgamesToFilter->where('played_on_date',$date);
@@ -139,9 +149,22 @@ class MatchgameController extends Controller
      * @param int $matchgameId
      */
     public function show($matchgameId)
-    {
-        $matchgame = Matchgame::findOrFail($matchgameId);
+    {   
+        request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
+        $validator = Validator::make(request()->all(), [
+            'matchgameId' => 'required|integer|min:1',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => 'Invalid Matchgame ID.'], 400);
+        }
+        
+        $matchgame = Matchgame::find($matchgameId);
+        
+        if($matchgame == null)
+            return response()->json(['error' => 'Matchgame not found.'], 404);
+        
         return new MatchgameResource($matchgame);
     }
 }
