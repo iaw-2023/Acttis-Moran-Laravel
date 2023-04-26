@@ -29,11 +29,11 @@ class ZoneController extends Controller
         request()->merge(['stadiumId' => request()->route('stadiumId')]);
 
         $validator = Validator::make(request()->all(), [
-            'stadiumId' => 'required|exists:stadiums,id',
+            'stadiumId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Stadium ID.']);
+            return response()->json(['error' => 'Invalid Stadium ID.'], 400);
         }
 
         $zones = Zone::where('stadium_id', $stadiumId)->get();
@@ -50,14 +50,17 @@ class ZoneController extends Controller
         request()->merge(['zoneId' => request()->route('zoneId')]);
 
         $validator = Validator::make(request()->all(), [
-            'zoneId' => 'required|exists:zones,id',
+            'zoneId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Zone ID.']);
+            return response()->json(['error' => 'Invalid Zone ID.'], 400);
         }
 
-        $zone = Zone::findOrFail($zoneId);
+        $zone = Zone::find($zoneId);
+
+        if($zone == null)
+            return response()->json(['error' => 'Zone not found.'], 404);
 
         return new ZoneResource($zone);
     }

@@ -28,14 +28,17 @@ class TeamController extends Controller
         request()->merge(['teamId' => request()->route('teamId')]);
 
         $validator = Validator::make(request()->all(), [
-            'teamId' => 'required|exists:teams,id',
+            'teamId' => 'required|integer|min:1',
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => 'Invalid Team ID.']);
+            return response()->json(['error' => 'Invalid Team ID.'], 400);
         }
 
-        $team = Team::findOrFail($teamId);
+        $team = Team::find($teamId);
+
+        if($team == null)
+            return response()->json(['error' => 'Team not found.'], 404);
 
         return new TeamResource($team);
     }
