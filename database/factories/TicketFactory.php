@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
@@ -18,6 +19,7 @@ class TicketFactory extends Factory
     {
         return [
             'base_price' => rand(500,1000),
+            'category' => Str::random(10),
         ];
     }
 }
