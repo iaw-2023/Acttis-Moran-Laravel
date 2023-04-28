@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('category');
             $table->float('base_price')->unsigned();
 
             //Foreign Key´s

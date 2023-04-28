@@ -16,6 +16,7 @@ class TicketResource extends JsonResource
     {
         return [
             'ticket_id' => $this->id,
+            'category' => $this->category,
             'base_price' => $this->base_price,
             'zone' => new ZoneResource($this->zone),
         ];
