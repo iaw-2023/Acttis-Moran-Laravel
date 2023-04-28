@@ -18,6 +18,7 @@ class Ticket extends Model
      */
     protected $fillable = [
         'base_price',
+        'category',
     ];
 
     /**
