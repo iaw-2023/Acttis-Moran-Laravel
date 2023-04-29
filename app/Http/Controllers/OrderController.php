@@ -63,7 +63,7 @@ class OrderController extends Controller
         foreach($ticketsPurchased as $ticket){
             $ticketDetail = TicketDetail::make(['ticket_quantity' => $ticket['quantity']]);
 
-            $actualTicket = Ticket::find($ticket['ticket_id']);
+            $actualTicket = Ticket::find($ticket['ticketId']);
             $actualTicket->ticketDetails()->save($ticketDetail);
             
             $ticketDetails->push($ticketDetail);
