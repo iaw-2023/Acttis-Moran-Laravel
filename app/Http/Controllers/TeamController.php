@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Http\Resources\TeamResource;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\ValidateException;
 
 class TeamController extends Controller
 {
@@ -27,18 +28,14 @@ class TeamController extends Controller
     {
         request()->merge(['teamId' => request()->route('teamId')]);
 
-        $validator = Validator::make(request()->all(), [
-            'teamId' => 'required|integer|min:1',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => 'Invalid Team ID.'], 400);
+        try{
+            $this->validateTeamID(request()->all());
+        }
+        catch (ValidateException $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
         }
 
-        $team = Team::find($teamId);
-
-        if($team == null)
-            return response()->json(['error' => 'Team not found.'], 404);
+        $team = Team::findOrFail($teamId);
 
         return new TeamResource($team);
     }

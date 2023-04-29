@@ -10,6 +10,7 @@ use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
 Use \Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\ValidateException;
 
 class MatchgameController extends Controller
 {
@@ -37,21 +38,23 @@ class MatchgameController extends Controller
      * Display a listing of matches filter by team, stadium & date.
      */
     public function matchesBy(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'teamId' => 'integer|min:1',
-            'stadiumId' => 'integer|min:1',
-            'date' => 'date',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => $validator->errors()->first()], 400);
-        }
-    
+    {   
         $teamId = request()->query('teamId');
         $stadiumId = request()->query('stadiumId');
         $date = request()->query('date');
-        
+
+        try{
+            if($teamId != null)
+                $this->validateTeamID($request->all());
+            if($stadiumId != null)
+                $this->validateStadiumID($request->all());
+            if($date != null)
+                $this->validateDate($request->all());
+        }
+        catch(ValidateException $e){
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        }
+    
         $matchgamesToFilter = collect();
         //If there is no coincidence for one filter, the other filters doesnt apply
         $noCoincidence = false;
@@ -153,18 +156,14 @@ class MatchgameController extends Controller
     {   
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        $validator = Validator::make(request()->all(), [
-            'matchgameId' => 'required|integer|min:1',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => 'Invalid Matchgame ID.'], 400);
+        try{
+            $this->validateMatchgameID(request()->all());
+        }
+        catch (ValidateException $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
         }
         
-        $matchgame = Matchgame::find($matchgameId);
-        
-        if($matchgame == null)
-            return response()->json(['error' => 'Matchgame not found.'], 404);
+        $matchgame = Matchgame::findOrFail($matchgameId);
         
         return new MatchgameResource($matchgame);
     }

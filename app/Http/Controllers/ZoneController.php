@@ -7,6 +7,7 @@ use App\Models\Zone;
 use App\Models\Ticket;
 use App\Http\Resources\ZoneResource;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\ValidateException;
 
 class ZoneController extends Controller
 {
@@ -28,12 +29,11 @@ class ZoneController extends Controller
 
         request()->merge(['stadiumId' => request()->route('stadiumId')]);
 
-        $validator = Validator::make(request()->all(), [
-            'stadiumId' => 'required|integer|min:1',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => 'Invalid Stadium ID.'], 400);
+        try{
+            $this->validateStadiumID(request()->all());
+        }
+        catch (ValidateException $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
         }
 
         $zones = Zone::where('stadium_id', $stadiumId)->get();
@@ -49,18 +49,14 @@ class ZoneController extends Controller
     {
         request()->merge(['zoneId' => request()->route('zoneId')]);
 
-        $validator = Validator::make(request()->all(), [
-            'zoneId' => 'required|integer|min:1',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => 'Invalid Zone ID.'], 400);
+        try{
+            $this->validateZoneID(request()->all());
+        }
+        catch (ValidateException $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
         }
 
-        $zone = Zone::find($zoneId);
-
-        if($zone == null)
-            return response()->json(['error' => 'Zone not found.'], 404);
+        $zone = Zone::findOrFail($zoneId);
 
         return new ZoneResource($zone);
     }
