@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Stadium;
 use App\Http\Resources\StadiumResource;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\ValidateException;
 
 class StadiumController extends Controller
 {
@@ -28,18 +29,14 @@ class StadiumController extends Controller
     {
         request()->merge(['stadiumId' => request()->route('stadiumId')]);
 
-        $validator = Validator::make(request()->all(), [
-            'stadiumId' => 'required|integer|min:1',
-        ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => 'Invalid Stadium ID.'], 400);
+        try{
+            $this->validateStadiumID(request()->all());
+        }
+        catch (ValidateException $e) {
+            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
         }
 
-        $stadium = Stadium::find($stadiumId);
-
-        if($stadium == null)
-            return response()->json(['error' => 'Stadium not found.'], 404);
+        $stadium = Stadium::findOrFail($stadiumId);
 
         return new StadiumResource($stadium);
     }
