@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\MatchgameResource;
 use App\Http\Resources\ZoneResource;
 use App\Models\Matchgame;
 use App\Models\TeamPlayingMatch;
