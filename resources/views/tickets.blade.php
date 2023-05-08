@@ -9,9 +9,9 @@
                     <th scope="col">ID</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Updated At</th>
-                    <th scope="col">Zone ID</th>
+                    <th scope="col">Zone</th>
                     <th scope="col">PriceBase</th>
-                    <th scope="col">MatchGame ID</th>
+                    <th scope="col">MatchGame</th>
                     <th scope="col">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTicketDropdownModal">Create Ticket</button>
 
@@ -68,7 +68,14 @@
                         <td>{{ $ticket->id }}</td>
                         <td>{{ $ticket->created_at }}</td>
                         <td>{{ $ticket->updated_at }}</td>
-                        <td>{{ $ticket->zone_id }}</td>
+                        <td id="zone-id{{ $ticket->zone_id }}">
+                            @if(isset($zones))
+                                @php
+                                    $zone = \App\Http\Controllers\Auth\TicketViewController::getZone($zones,$ticket->zone_id);
+                                @endphp
+                            @endif
+                            {{$zone->stadium_location}}
+                        </td>
                         <td>{{ $ticket->base_price}}</td>
                         <td>{{ $ticket->matchgame_id}}</td>
                         <td><form method="POST" action="{{ route('tickets.delete', $ticket->id) }}">
@@ -77,42 +84,8 @@
                                 <button class="btn btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete this ticket?')">Delete</button>
                             </form>
                         </td>
-                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editTicketModal{{ $ticket->id }}">Edit Ticket</button>
-
-                                <div class="modal fade" id="editTicketModal{{ $ticket->id }}" tabindex="-1" role="dialog" aria-labelledby="editTicketModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <form method="POST" action="{{ route('tickets.update', $ticket->id) }}">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="zone_id">Zone ID</label>
-                                                        <label type="text" class="form-control" id="zone_id">{{ $ticket->zone_id }}</label>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="base_price">Base Price</label>
-                                                        <input type="text" class="form-control" id="base_price" name="base_price" value="{{ $ticket->base_price }}">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="matchgame_id">MatchGame ID</label>
-                                                        <label type="text" class="form-control" id="zone_id">{{ $ticket->matchgame_id }}</label>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </form>
-                                    </div>
-                                </div>
-                            </div>
+                        <td>
+                            <button type="button" class="btn btn-primary edit-ticket" data-toggle="modal" data-target="#editTicketModal" data-ticketid="{{ $ticket->id }}"onclick="editTicketModal({{ $ticket->id }}, {{ $ticket->zone_id }}, {{$ticket->base_price}},{{$ticket->matchgame_id}})">Edit Ticket</button>
                         </td>
                     </tr>
                 @endforeach
@@ -120,5 +93,41 @@
             </table>
         </div>
     </div>
+
+    <div class="modal fade" id="editTicketModal" tabindex="-1" role="dialog" aria-labelledby="editTicketModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('tickets.update',0) }}" id="editTicketForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editTicketModalLabel">Edit Ticket</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="zone_id">Zone ID</label>
+                            <input type="text" class="form-control" id="zone_id_input" name="zone_id" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="base_price">Base Price</label>
+                            <input type="text" class="form-control" id="base_price_input" name="base_price">
+                        </div>
+                        <div class="form-group">
+                            <label for="matchgame_id">MatchGame ID</label>
+                            <input type="text" class="form-control" id="matchgame_id_input" name="matchgame_id" readonly>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
+
 

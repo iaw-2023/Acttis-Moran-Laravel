@@ -105,4 +105,15 @@ class TicketViewController extends HomeController
 
         return ZoneResource::collection($zones);
     }
+
+    public function showZones()
+    {
+        $zones = Zone::all();
+        return ZoneResource::collection($zones);
+    }
+
+    public static function getZone($zones,$zoneId){
+        $zone = $zones->where('id',$zoneId)->first();
+        return $zone;
+    }
 }
