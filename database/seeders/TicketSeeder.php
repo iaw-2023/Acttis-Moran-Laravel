@@ -20,9 +20,17 @@ class TicketSeeder extends Seeder
         foreach($matchgames as $match){
             $zones = Zone::where('stadium_id', $match->stadium_id)->get();
             foreach ($zones as $zone) {
-                $ticket = Ticket::factory()->make();
-                $zone->tickets()->save($ticket);
-                $match->tickets()->save($ticket);
+                $ticketEconomic = Ticket::factory()->state(['category' => 'Economic'])->make();
+                $ticketBasic = Ticket::factory()->state(['category' => 'Basic'])->make();
+                $ticketPremium = Ticket::factory()->state(['category' => 'Premium'])->make();
+
+                $zone->tickets()->save($ticketEconomic);
+                $zone->tickets()->save($ticketBasic);
+                $zone->tickets()->save($ticketPremium);
+                
+                $match->tickets()->save($ticketEconomic);
+                $match->tickets()->save($ticketBasic);
+                $match->tickets()->save($ticketPremium);
             }
         }
     }
