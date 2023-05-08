@@ -6,8 +6,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Team;
 use App\Models\Stadium;
+use App\Models\Zone;
 
-class TeamSeeder extends Seeder
+class StadiumTeamSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -35,6 +36,21 @@ class TeamSeeder extends Seeder
                 ["stadium_name" => "Juventus Stadium", "city" => "Turín", "team_name" => "Juventus F.C.", "capacity" => 41000],
             ];
 
+        $zone_locations = [
+            ["zone_code" => "NUS", "stadium_location" => "North Upper Stand"],
+            ["zone_code" => "NS", "stadium_location" => "North Stand"],
+            ["zone_code" => "SUS", "stadium_location" => "South Upper Stand"],
+            ["zone_code" => "SS", "stadium_location" => "South Stand"],
+            ["zone_code" => "WUS", "stadium_location" => "West Upper Stand"],
+            ["zone_code" => "WS", "stadium_location" => "West Stand"],
+            ["zone_code" => "EUS", "stadium_location" => "East Upper Stand"],
+            ["zone_code" => "ES", "stadium_location" => "East Stand"],
+            ["zone_code" => "NWQ", "stadium_location" => "North West Quarter"],
+            ["zone_code" => "NEQ", "stadium_location" => "North East Quarter"],
+            ["zone_code" => "SWQ", "stadium_location" => "South West Quarter"],
+            ["zone_code" => "SEQ", "stadium_location" => "South East Quarter"],
+        ];
+
         for ($i = 0; $i < count($teams_stadiums_data); $i++) {
             $stadium_data = $teams_stadiums_data[$i];
             $team_name = $stadium_data['team_name'] ?? '';
@@ -47,6 +63,15 @@ class TeamSeeder extends Seeder
                 'located_on_city' => $city,
                 'capacity' => $capacity,
             ])->create();
+
+            foreach($zone_locations as $zone){
+                $zone_model = Zone::factory()->state([
+                    'stadium_location' => $stadium_name." ".$zone["stadium_location"],
+                    'zone_code' => $zone["zone_code"],
+                ])->make();
+
+                $stadium->zones()->save($zone_model);
+            }
 
             $team = Team::factory()->state([
                 'team_name' => $team_name
