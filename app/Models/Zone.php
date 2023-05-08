@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Zone extends Model
 {
@@ -17,7 +18,8 @@ class Zone extends Model
      */
     protected $fillable = [
         'stadium_location',
-        'price_multiplier'
+        'zone_code',
+        'price_addition',
     ];
 
     /**
@@ -26,6 +28,15 @@ class Zone extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class, 'zone_id');
+    }
+
+    /**
+     * Get the Stadium associated with the Zone.
+     */
+
+    public function stadium(): BelongsTo
+    {
+        return $this->belongsTo(Stadium::class);
     }
 
     /**

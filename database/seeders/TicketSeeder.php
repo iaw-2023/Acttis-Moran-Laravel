@@ -16,15 +16,21 @@ class TicketSeeder extends Seeder
     public function run(): void
     {
         $matchgames = Matchgame::all();
-        
-        $zones = Zone::factory()->count(4)->create();
 
         foreach($matchgames as $match){
-            $tickets = Ticket::factory()->count(10)->make();
-            foreach ($tickets as $ticket) {
-                $zone = $zones->random();
-                $zone->tickets()->save($ticket);
-                $match->tickets()->save($ticket);
+            $zones = Zone::where('stadium_id', $match->stadium_id)->get();
+            foreach ($zones as $zone) {
+                $ticketEconomic = Ticket::factory()->state(['category' => 'Economic'])->make();
+                $ticketBasic = Ticket::factory()->state(['category' => 'Basic'])->make();
+                $ticketPremium = Ticket::factory()->state(['category' => 'Premium'])->make();
+
+                $zone->tickets()->save($ticketEconomic);
+                $zone->tickets()->save($ticketBasic);
+                $zone->tickets()->save($ticketPremium);
+                
+                $match->tickets()->save($ticketEconomic);
+                $match->tickets()->save($ticketBasic);
+                $match->tickets()->save($ticketPremium);
             }
         }
     }
