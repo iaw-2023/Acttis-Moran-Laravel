@@ -16,37 +16,37 @@ use App\Exceptions\ValidateException;
 class OrderController extends Controller
 {
     /**
-     * Validates client email the quantity of each ticket and all ticket id's
-     */
-    protected function validateCheckoutBody($data){
-
-        $validator = Validator::make($data, [
-            "tickets_purchased" => "required",
-            "client_data" => "required",
-            'client_data.client_email' => "required|email",
-            'tickets_purchased.*.quantity' => "required|integer|min:1",
-            'tickets_purchased.*.ticketId' => "required",
-        ], [
-            'tickets_purchased.*.quantity.min' => "Quantity must be greater than 0.",
-            'client_data.client_email.email' => "Invalid client email.",
-        ]);
-
-        if($validator->fails()){
-            $validateException = new ValidateException(400, $validator->errors()->first());
-            throw $validateException;
-        }
-        
-        $ticketsPurchased = $data["tickets_purchased"];
-
-        foreach($ticketsPurchased as $ticket) {
-            $this->validateTicketID($ticket);
-        };
-        
-    }
-
-    /**
      * Store a newly created Order in storage.
-     */
+     * 
+     *
+     * @OA\Post(
+     *     path="/order/checkout",
+     *     tags={"order"},
+     *     summary="Inserta informacion de nueva order en la base de datos",
+     *     requestBody={
+     *        "required": true,
+     *        "content": {
+     *            "application/json": {
+     *                "schema": {
+     *                    "$ref": "#/components/schemas/BodyOrderCheckout"
+     *                }
+     *            }
+     *        }
+     *     },
+     *     @OA\Response(
+     *         response="200",
+     *         description="(OK) La informacion de la order se guardo correctamente",
+     *         @OA\JsonContent(
+     *           type="object",
+     *           @OA\Property(ref="#/components/schemas/SuccessfulOrderPost")
+     *         )
+     *     ),
+     *     @OA\Response(response="400", description="(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"),
+     *     @OA\Response(response="404", description="(NotFound) No se encontro informacion"),
+     *     @OA\Response(response="500", description="Error en servidor")
+     * )
+    */
+
     public function checkOutOrder(Request $request)
     {  
         try{
@@ -80,6 +80,35 @@ class OrderController extends Controller
             'success' => "Generated Order successfully!",
             'order_created' => new OrderResource($order),
         ]);
+        
+    }
+
+    /**
+     * Validates client email the quantity of each ticket and all ticket id's
+     */
+    protected function validateCheckoutBody($data){
+
+        $validator = Validator::make($data, [
+            "tickets_purchased" => "required",
+            "client_data" => "required",
+            'client_data.client_email' => "required|email",
+            'tickets_purchased.*.quantity' => "required|integer|min:1",
+            'tickets_purchased.*.ticketId' => "required",
+        ], [
+            'tickets_purchased.*.quantity.min' => "Quantity must be greater than 0.",
+            'client_data.client_email.email' => "Invalid client email.",
+        ]);
+
+        if($validator->fails()){
+            $validateException = new ValidateException(400, $validator->errors()->first());
+            throw $validateException;
+        }
+        
+        $ticketsPurchased = $data["tickets_purchased"];
+
+        foreach($ticketsPurchased as $ticket) {
+            $this->validateTicketID($ticket);
+        };
         
     }
 
