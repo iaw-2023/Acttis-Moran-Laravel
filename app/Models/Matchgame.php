@@ -46,6 +46,17 @@ class Matchgame extends Model
         return $this->hasMany(Ticket::class);
     }
 
+    public function delete(){
+        //Soft Delete all tickets associated to Matchgame
+        $this->tickets()->delete();
+
+        //Soft Delete all teams playing the match to delete
+        $this->teamsPlayingMatch()->delete();
+
+        //Soft Delete Matchgame
+        parent::delete();
+    }
+
     /**
      * The table associated with the model.
      *
