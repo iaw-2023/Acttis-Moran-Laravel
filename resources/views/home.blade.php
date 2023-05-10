@@ -14,7 +14,7 @@
         <button class="btn btn-primary nav__item__button" onclick="event.preventDefault(); document.getElementById('matchs-form').submit();">Matchs</button>
     </li>
     <li class="nav-item">
-        <form id="zones-form" action="{{ route('zones') }}" method="POST" style="display: none;">
+        <form id="zones-form" action="{{ route('zones.index') }}" method="GET" style="display: none;">
             @csrf
         </form>
         <button class="btn btn-primary nav__item__button" onclick="event.preventDefault(); document.getElementById('zones-form').submit();">Zones</button>
