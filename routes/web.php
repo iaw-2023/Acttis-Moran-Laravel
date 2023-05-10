@@ -22,8 +22,11 @@ Route::middleware('auth')->group(function () {
     
     Route::group(['prefix' => 'matchgames'], function ($router) {
         Route::get('index', [MatchgameViewController::class, 'index'])->name('matchgames.index');
-        Route::post('store', [MatchgameViewController::class, 'store'])->name('matchgames.store');
         Route::delete('delete/{matchgameId}', [MatchgameViewController::class, 'delete'])->name('matchgames.delete');
+        Route::get('edit/{matchgameId}', [MatchgameViewController::class, 'editPage'])->name('matchgames.edit');
+        Route::put('update/{matchgameId}', [MatchgameViewController::class, 'update'])->name('matchgames.update');
+        Route::get('create', [MatchgameViewController::class, 'createPage'])->name('matchgames.create');
+        Route::post('store', [MatchgameViewController::class, 'store'])->name('matchgames.store');
     });
 });
 

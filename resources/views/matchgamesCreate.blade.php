@@ -1,18 +1,17 @@
 @extends('home')
 @section('content')
 
-    <div id="matchgame__edit__container">
-        <div class="matchgame__edit__body">
-            <div class="matchgame__edit__content">
-                <form method="POST" action="{{ route('matchgames.update', $matchgame->id ) }}">
+    <div id="matchgame__create__container">
+        <div class="matchgame__create__body">
+            <div class="matchgame__create__content">
+                <form method="POST" action="{{ route('matchgames.store') }}">
                     @csrf
-                    @method('PUT')
-                    <div class="matchgame__edit__content__header">
-                        <h5 class="modal-title">Edit Matchgame</h5>
+                    @method('POST')
+                    <div class="matchgame__create__content__header">
+                        <h5 class="modal-title">Create Matchgame</h5>
                     </div>
-                    <div class="matchgame__edit__content__body">
-                        <!-- 
-                        <div class="matchgame__edit__content__body__form-group">
+                    <div class="matchgame__create__content__body">
+                        <div class="matchgame__create__content__body__form-group">
                             <label for="stadiumId">Stadium</label>
                             <select class="form-control" id="stadiumId" name="stadiumId">
                                 <option value="-1">Change Stadium</option>
@@ -20,12 +19,12 @@
                                 <option value="{{ $stadium->id }}">{{ $stadium->id }} - {{ $stadium->stadium_name }}</option>
                                 @endforeach
                             </select>
+        
                         </div>
-                        -->
-                        <input type="date" class="matchgame__edit__content__body__form-group" name="date">
-                        <input type="time" class="matchgame__edit__content__body__form-group" name="time">
-                        <div class="matchgame__edit__content__body__form-group">
-                            <label for="homeTeamId">Home Team</label>
+                        <input type="date" class="matchgame__create__content__body__form-group" name="date">
+                        <input type="time" class="matchgame__create__content__body__form-group" name="time">
+                        <div class="matchgame__create__content__body__form-group">
+                            <label for="teamOneId">Home Team</label>
                             <select class="form-control" name="homeTeamId">
                                 <option value="-1">Change Home Team</option>
                                 @foreach ($teams as $team)
@@ -33,8 +32,8 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="matchgame__edit__content__body__form-group">
-                            <label for="awayTeamId">Away Team</label>
+                        <div class="matchgame__create__content__body__form-group">
+                            <label for="teamTwoId">Away Team</label>
                             <select class="form-control" name="awayTeamId">
                                 <option value="-1">Change Away Team</option>
                                 @foreach ($teams as $team)
@@ -43,7 +42,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="matchgame__edit__content__footer">
+                    <div class="matchgame__create__content__footer">
                         <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
