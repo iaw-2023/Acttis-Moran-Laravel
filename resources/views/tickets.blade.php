@@ -2,6 +2,7 @@
 @section('content')
 
     <div id="test">
+        <hr />
         <div class="table-responsive">
             <table class="table">
                 <thead>

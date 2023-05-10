@@ -7,7 +7,6 @@ use App\Models\Matchgame;
 use App\Models\TeamPlayingMatch;
 use App\Models\Ticket;
 use App\Models\Zone;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;

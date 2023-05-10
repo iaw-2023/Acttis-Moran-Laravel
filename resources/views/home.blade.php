@@ -8,7 +8,7 @@
         <button class="btn btn-primary nav__item__button" onclick="event.preventDefault(); document.getElementById('tickets-form').submit();">Tickets</button>
     </li>
     <li class="nav-item">
-        <form id="matchs-form" action="{{ route('matchs') }}" method="POST" style="display: none;">
+        <form id="matchs-form" action="{{ route('matchgames.index') }}" method="GET" style="display: none;">
             @csrf
         </form>
         <button class="btn btn-primary nav__item__button" onclick="event.preventDefault(); document.getElementById('matchs-form').submit();">Matchs</button>
