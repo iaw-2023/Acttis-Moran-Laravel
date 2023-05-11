@@ -34,6 +34,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{$zones->onEachSide(1)->links()}}
         </div>
     </div>
 @endsection

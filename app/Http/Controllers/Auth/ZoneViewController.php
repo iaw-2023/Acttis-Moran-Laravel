@@ -13,12 +13,8 @@ class ZoneViewController extends HomeController
 {
     public function index()
     {
-        $zones = Zone::all();
-        return view('zones',
-                [
-                    'zones'=>$zones,
-                ]
-        );
+        $zones = Zone::orderBy('id')->paginate(20);
+        return view('zones', compact('zones'));
     }
 
     public function editPage($zoneId)
