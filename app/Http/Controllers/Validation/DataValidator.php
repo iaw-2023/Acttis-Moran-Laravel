@@ -49,7 +49,7 @@ class DataValidator
 
     public static function validateDate($data){
         $validator = Validator::make($data, [
-            'date' => 'date|date_format:d-m-Y',
+            'date' => 'date',
         ], [
             'date.date' => "The date is invalid."
         ]);

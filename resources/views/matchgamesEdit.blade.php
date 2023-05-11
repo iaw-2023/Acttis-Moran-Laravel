@@ -3,6 +3,9 @@
 
     <div id="matchgame__edit__container">
         <div class="matchgame__edit__body">
+                @if($errors->any())
+                <h4>{{$errors->first()}}</h4>
+                @endif
             <div class="matchgame__edit__content">
                 <form method="POST" action="{{ route('matchgames.update', $matchgame->id ) }}">
                     @csrf

@@ -9,7 +9,7 @@ use App\Models\TeamPlayingMatch;
 use App\Models\Stadium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Validation\DataValidator;
 
 class MatchgameViewController extends HomeController
 {
@@ -23,14 +23,17 @@ class MatchgameViewController extends HomeController
     {
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameId(request()->all());
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return redirect()->back()->withErrors(["Matchgame not found"])->withInput();
+        
         $matchgame->delete();
         
         return redirect()->back()->with('success', 'Matchgame deleted successfully.');
@@ -39,14 +42,17 @@ class MatchgameViewController extends HomeController
     public function showEditPage($matchgameId){
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameId(request()->all());
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return redirect()->back()->withErrors(["Matchgame not found"])->withInput();
+
         $teams = Team::all();
         $stadiums = Stadium::all();
         return view('matchgamesEdit',
@@ -74,17 +80,16 @@ class MatchgameViewController extends HomeController
 
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validate(request()->all(), [
-                'matchgameId' => 'required|integer|min:1|exists:matchgames,id',
-                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
-                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
-                'date' => 'date',
-                'time' => 'date_format:H:i',
-            ]);
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validate(request()->all(), [
+            'matchgameId' => 'required|exists:matchgames,id',
+            'homeTeamId' => 'required|exists:teams,id',
+            'awayTeamId' => 'required|exists:teams,id',
+            'date' => 'date',
+            'time' => 'date_format:H:i',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
@@ -108,16 +113,16 @@ class MatchgameViewController extends HomeController
 
     public function store(Request $request) {
 
-        try{
-            $this->validate(request()->all(), [
-                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
-                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
-                'date' => 'date|date_format:d-m-Y',
-                'time' => 'date_format:H:i',
-            ]);
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validate(request()->all(), [
+            'stadiumId' => 'required|exists:stadiums,id',
+            'homeTeamId' => 'required|exists:teams,id',
+            'awayTeamId' => 'required|exists:teams,id',
+            'date' => 'date',
+            'time' => 'date_format:H:i',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
         
         $matchgame = Matchgame::factory()->state(['played_on_date' => $request->date, 'played_on_time' => $request->time])->create();

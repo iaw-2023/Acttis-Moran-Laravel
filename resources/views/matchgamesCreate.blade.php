@@ -3,6 +3,9 @@
 
     <div id="matchgame__create__container">
         <div class="matchgame__create__body">
+                @if($errors->any())
+                <h4>{{$errors->first()}}</h4>
+                @endif
             <div class="matchgame__create__content">
                 <form method="POST" action="{{ route('matchgames.store') }}">
                     @csrf
