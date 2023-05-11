@@ -2,6 +2,9 @@
 @section('content')
 
     <div id="matchgame__edit__container">
+        @if($errors->any())
+        <h4>{{$errors->first()}}</h4>
+        @endif
         <div class="matchgame__edit__body">
             <div class="matchgame__edit__content">
                 <form method="POST" action="{{ route('zones.update', $zone->id ) }}">

@@ -7,7 +7,8 @@ use App\Models\Zone;
 use App\Models\Stadium;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\Validation\DataValidator;
+
 
 class ZoneViewController extends HomeController
 {
@@ -34,17 +35,17 @@ class ZoneViewController extends HomeController
 
         request()->merge(['zoneId' => request()->route('zoneId')]);
 
-        try{
-            $this->validate(request()->all(), [
-                'zoneId' => 'required|integer|min:1|exists:zones,id',
-                'priceAddition' => 'required|integer|min:0'
-            ]);
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validate(request()->all(), [
+            "zoneId" => 'required|integer|min:1|exists:zones,id',
+            'priceAddition' => 'required|integer|min:1',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $zone = Zone::find($zoneId);
+
         $zone->price_addition = $request->priceAddition;
         $zone->save();
 
@@ -53,15 +54,15 @@ class ZoneViewController extends HomeController
 
     public function getStadiumZones(Request $request) {
 
-        try{
-            $this->validateStadiumID(request()->all());
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validateStadiumID(request()->all());
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $zones = Zone::orderBy('id')->where('stadium_id', $request->stadiumId)->paginate(50);
         $stadiums = Stadium::with('zones')->get();
+        
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);
     }
 }
