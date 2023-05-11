@@ -8,9 +8,9 @@ use App\Models\Team;
 use App\Models\Stadium;
 use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
+use App\Http\Controllers\Validation\DataValidator;
 Use \Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
-use App\Exceptions\ValidateException;
+
 
 class MatchgameController extends Controller
 {
@@ -43,16 +43,14 @@ class MatchgameController extends Controller
         $stadiumId = request()->query('stadiumId');
         $date = request()->query('date');
 
-        try{
-            if($teamId != null)
-                $this->validateTeamID($request->all());
-            if($stadiumId != null)
-                $this->validateStadiumID($request->all());
-            if($date != null)
-                $this->validateDate($request->all());
-        }
-        catch(ValidateException $e){
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validate($request->all(),[
+            'teamId' => 'integer|min:1',
+            'stadiumId' => 'integer|min:1',
+            'date' => 'date|date_format:d-m-Y',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
     
         $matchgamesToFilter = collect();
@@ -156,14 +154,16 @@ class MatchgameController extends Controller
     {   
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameID(request()->all());
-        }
-        catch (ValidateException $e) {
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
         
-        $matchgame = Matchgame::findOrFail($matchgameId);
+        $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return response()->json(["error" => "Matchgame not found."], 404);
         
         return new MatchgameResource($matchgame);
     }
