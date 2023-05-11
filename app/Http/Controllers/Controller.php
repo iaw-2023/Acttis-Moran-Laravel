@@ -12,6 +12,23 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
+    protected function validate($data, $rules){
+        $validator = Validator::make($data, $rules, [
+            'teamId.min' => "The team ID is invalid.",
+            'teamId.exists' => "Not found a team with the ID specified.",
+            'stadiumId.min' => "The stadium ID is invalid.",
+            'stadiumId.exists' => "Not found a stadium with the ID specified.",
+            'date.date' => "The date is invalid.",
+            'ticketId.min' => "The ticket ID is invalid.",
+            'ticketId.exists' => "Not found a ticket with the ID specified.",
+            'zoneId.min' => "The zone ID is invalid.",
+            'zoneId.exists' => "Not found a zone with the ID specified.",
+            'matchgameId.min' => "The matchgame ID is invalid.",
+            'matchgameId.exists' => "Not found a matchgame with the ID specified.",
+            'time.time' => "The time is invalid.",
+        ]);
+    }
+
     protected function validateTeamID($data){
         $validator = Validator::make($data, [
             'teamId' => 'required|integer|min:1|exists:teams,id',
@@ -53,6 +70,19 @@ class Controller extends BaseController
             'date' => 'date',
         ], [
             'date.date' => "The date is invalid."
+        ]);
+
+        if($validator->fails()){
+            $validateException = new ValidateException(400, $validator->errors()->first());
+            throw $validateException;
+        }
+    }
+
+    protected function validateTime($data){
+        $validator = Validator::make($data, [
+            'time' => 'date_format:H:i',
+        ], [
+            'time.date_format' => "The time is invalid."
         ]);
 
         if($validator->fails()){

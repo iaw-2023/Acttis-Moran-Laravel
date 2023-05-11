@@ -15,24 +15,37 @@ class MatchgameViewController extends HomeController
 {
     public function index()
     {
-        $matchgames = MatchGame::all();
-        return view('matchgames',
-                [
-                'matchgames'=>$matchgames,
-                ]
-        );
+        $matchgames = MatchGame::orderBy('id')->paginate(20);
+        return view('matchgames',compact('matchgames'));
     }
 
     public function delete($matchgameId)
     {
+        request()->merge(['matchgameId' => request()->route('matchgameId')]);
+
+        try{
+            $this->validateMatchgameId(request()->all());
+        }
+        catch (ValidateException $e) {
+            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        }
+
         $matchgame = Matchgame::find($matchgameId);
         $matchgame->delete();
         
         return redirect()->back()->with('success', 'Matchgame deleted successfully.');
     }
 
-    public function editPage($matchgameId)
-    {
+    public function showEditPage($matchgameId){
+        request()->merge(['matchgameId' => request()->route('matchgameId')]);
+
+        try{
+            $this->validateMatchgameId(request()->all());
+        }
+        catch (ValidateException $e) {
+            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        }
+
         $matchgame = Matchgame::find($matchgameId);
         $teams = Team::all();
         $stadiums = Stadium::all();
@@ -45,7 +58,7 @@ class MatchgameViewController extends HomeController
         );
     }
 
-    public function createPage()
+    public function showCreatePage()
     {
         $teams = Team::all();
         $stadiums = Stadium::all();
@@ -58,6 +71,21 @@ class MatchgameViewController extends HomeController
     }
 
     public function update(Request $request, $matchgameId) {
+
+        request()->merge(['matchgameId' => request()->route('matchgameId')]);
+
+        try{
+            $this->validate(request()->all(), [
+                'matchgameId' => 'required|integer|min:1|exists:matchgames,id',
+                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
+                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
+                'date' => 'date',
+                'time' => 'date_format:H:i',
+            ]);
+        }
+        catch (ValidateException $e) {
+            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        }
 
         $matchgame = Matchgame::find($matchgameId);
         $homeTeamPlaying = $matchgame->teamsPlayingMatch[0];
@@ -79,6 +107,18 @@ class MatchgameViewController extends HomeController
     }
 
     public function store(Request $request) {
+
+        try{
+            $this->validate(request()->all(), [
+                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
+                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
+                'date' => 'date|date_format:d-m-Y',
+                'time' => 'date_format:H:i',
+            ]);
+        }
+        catch (ValidateException $e) {
+            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        }
         
         $matchgame = Matchgame::factory()->state(['played_on_date' => $request->date, 'played_on_time' => $request->time])->create();
 

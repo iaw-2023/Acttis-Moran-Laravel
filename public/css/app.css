@@ -34,6 +34,11 @@ nav a {
     width: 100%;
 }
 
+.matchgame__pagination{
+    width: 30%;
+    height: 5rem;
+}
+
 #matchgame__edit__container{
     width: 100%;
     height: 100%;
