@@ -5,11 +5,11 @@
         <div>ABM Matchgames</div>
         <hr />
         <div class="table-responsive">
-                            <form method="GET" action="{{ route('matchgames.create') }}">
-                                    @csrf
-                                    @method('GET')
-                                    <button class="btn btn-primary" type="submit" onclick="">Create Matchgame</button>
-                            </form>  
+            <form method="GET" action="{{ route('matchgames.create') }}">
+                    @csrf
+                    @method('GET')
+                    <button class="btn btn-primary" type="submit" onclick="">Create Matchgame</button>
+            </form>  
             <table class="table">
                 <thead>
                 <tr>
@@ -52,6 +52,7 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="matchgame__pagination">{{$matchgames->onEachSide(1)->links()}}</div>
         </div>
     </div>
 @endsection
