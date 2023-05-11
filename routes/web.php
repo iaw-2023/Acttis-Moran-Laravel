@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\TicketViewController;
 use App\Http\Controllers\Auth\MatchgameViewController;
+use App\Http\Controllers\Auth\ZoneViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -30,6 +31,13 @@ Route::middleware('auth')->group(function () {
         Route::put('update/{matchgameId}', [MatchgameViewController::class, 'update'])->name('matchgames.update');
         Route::get('create', [MatchgameViewController::class, 'showCreatePage'])->name('matchgames.create');
         Route::post('store', [MatchgameViewController::class, 'store'])->name('matchgames.store');
+    });
+
+    Route::group(['prefix' => 'zones'], function ($router) {
+        Route::get('index', [ZoneViewController::class, 'index'])->name('zones.index');
+        Route::get('stadiumZones', [ZoneViewController::class, 'getStadiumZones'])->name('zones.stadiumZones');
+        Route::get('edit/{zoneId}', [ZoneViewController::class, 'showEditPage'])->name('zones.edit');
+        Route::put('update/{zoneId}', [ZoneViewController::class, 'update'])->name('zones.update');
     });
 });
 

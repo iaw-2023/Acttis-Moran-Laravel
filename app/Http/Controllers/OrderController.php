@@ -10,50 +10,21 @@ use App\Models\Order;
 use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
-use Illuminate\Support\Facades\Validator;
-use App\Exceptions\ValidateException;
+use App\Http\Controllers\Validation\DataValidator;
 
 class OrderController extends Controller
 {
-    /**
-     * Validates client email the quantity of each ticket and all ticket id's
-     */
-    protected function validateCheckoutBody($data){
-
-        $validator = Validator::make($data, [
-            "tickets_purchased" => "required",
-            "client_data" => "required",
-            'client_data.client_email' => "required|email",
-            'tickets_purchased.*.quantity' => "required|integer|min:1",
-            'tickets_purchased.*.ticketId' => "required",
-        ], [
-            'tickets_purchased.*.quantity.min' => "Quantity must be greater than 0.",
-            'client_data.client_email.email' => "Invalid client email.",
-        ]);
-
-        if($validator->fails()){
-            $validateException = new ValidateException(400, $validator->errors()->first());
-            throw $validateException;
-        }
-        
-        $ticketsPurchased = $data["tickets_purchased"];
-
-        foreach($ticketsPurchased as $ticket) {
-            $this->validateTicketID($ticket);
-        };
-        
-    }
 
     /**
      * Store a newly created Order in storage.
      */
     public function checkOutOrder(Request $request)
     {  
-        try{
-            $this->validateCheckoutBody($request->all());
-        }
-        catch(ValidateException $e){
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        
+        $validator = DataValidator::validateCheckoutBody($request->all());
+        
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
         
         $clientData = $request->client_data;
