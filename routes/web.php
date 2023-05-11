@@ -35,7 +35,9 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['prefix' => 'zones'], function ($router) {
         Route::get('index', [ZoneViewController::class, 'index'])->name('zones.index');
-        Route::get('edit/{zoneId}', [ZoneViewController::class, 'editPage'])->name('zones.edit');
+        Route::get('stadiumZones', [ZoneViewController::class, 'getStadiumZones'])->name('zones.stadiumZones');
+        Route::get('edit/{zoneId}', [ZoneViewController::class, 'showEditPage'])->name('zones.edit');
+        Route::put('update/{zoneId}', [ZoneViewController::class, 'update'])->name('zones.update');
     });
 });
 

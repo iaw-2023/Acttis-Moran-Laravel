@@ -5,6 +5,20 @@
         <div>Zones</div>
         <hr />
         <div class="table-responsive">
+            
+            <form method="GET" action="{{ route('zones.stadiumZones') }}">
+                @if($errors->any())
+                <h4>{{$errors->first()}}</h4>
+                @endif
+                <label for="stadiumId">Stadiums Available</label>
+                <select class="form-control" name="stadiumId">
+                    <option value="-1">Select Stadium</option>
+                    @foreach ($stadiums as $stadium)
+                    <option value="{{ $stadium->id }}">{{ $stadium->id }} - {{ $stadium->stadium_name }}</option>
+                    @endforeach
+                </select>
+                <button class="btn btn-primary" type="submit" onclick="">Show Stadium Zones</button>
+            </form>
             <table class="table">
                 <thead>
                 <tr>

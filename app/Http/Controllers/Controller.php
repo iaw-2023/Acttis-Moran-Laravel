@@ -27,6 +27,11 @@ class Controller extends BaseController
             'matchgameId.exists' => "Not found a matchgame with the ID specified.",
             'time.time' => "The time is invalid.",
         ]);
+
+        if($validator->fails()){
+            $validateException = new ValidateException(400, $validator->errors()->first());
+            throw $validateException;
+        }
     }
 
     protected function validateTeamID($data){
