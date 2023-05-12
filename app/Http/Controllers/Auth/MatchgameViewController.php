@@ -15,7 +15,7 @@ class MatchgameViewController extends HomeController
 {
     public function index()
     {
-        $matchgames = MatchGame::orderBy('id')->paginate(20);
+        $matchgames = MatchGame::orderBy('id')->withTrashed()->paginate(20);
         return view('matchgames',compact('matchgames'));
     }
 

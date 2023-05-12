@@ -15,7 +15,7 @@ class ZoneViewController extends HomeController
     public function index()
     {
         $zones = Zone::orderBy('id')->paginate(50);
-        $stadiums = Stadium::with('zones')->get();
+        $stadiums = Stadium::all();
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);
     }
 
@@ -61,7 +61,7 @@ class ZoneViewController extends HomeController
         }
 
         $zones = Zone::orderBy('id')->where('stadium_id', $request->stadiumId)->paginate(50);
-        $stadiums = Stadium::with('zones')->get();
+        $stadiums = Stadium::all();
         
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);
     }
