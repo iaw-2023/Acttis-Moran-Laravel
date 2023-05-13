@@ -1,44 +1,46 @@
 @extends('home')
 @section('content')
 
-    <div id="matchgame__create__container">
-        <div class="matchgame__create__body">
+    <div class="create-view__container">
+        <div class="create-view__body">
                 @if($errors->any())
                 <h4>{{$errors->first()}}</h4>
                 @endif
-            <div class="matchgame__create__content">
-                <form method="POST" action="{{ route('matchgames.store') }}">
+            
+                <form class="create-view__content" method="POST" action="{{ route('matchgames.store') }}">
                     @csrf
                     @method('POST')
-                    <div class="matchgame__create__content__header">
-                        <h5 class="modal-title">Create Matchgame</h5>
-                    </div>
-                    <div class="matchgame__create__content__body">
-                        <div class="matchgame__create__content__body__form-group">
-                            <label for="stadiumId">Stadium</label>
-                            <select class="form-control" id="stadiumId" name="stadiumId">
-                                <option value="-1">Change Stadium</option>
+                    <span class="view__container__title">
+                        Create Matchgame
+                    </span>
+                    <div class="create-view__content__body">
+                        <div class="create-view__content__body__form-item">
+                            <label class="view-label" for="stadiumId">Stadium where matchgame is played</label>
+                            <select class="create-view__select" id="stadiumId" name="stadiumId">
+                                <option value="-1">Select Stadium</option>
                                 @foreach ($stadiums as $stadium)
                                 <option value="{{ $stadium->id }}">{{ $stadium->id }} - {{ $stadium->stadium_name }}</option>
                                 @endforeach
                             </select>
         
                         </div>
-                        <input type="date" class="matchgame__create__content__body__form-group" name="date">
-                        <input type="time" class="matchgame__create__content__body__form-group" name="time">
-                        <div class="matchgame__create__content__body__form-group">
-                            <label for="teamOneId">Home Team</label>
-                            <select class="form-control" name="homeTeamId">
-                                <option value="-1">Change Home Team</option>
+                        <label class="view-label" for="date">Date when matchgame is played</label>
+                        <input type="date" class="create-view__content__body__form-item__date" name="date">
+                        <label class="view-label" for="time">Time when matchgame is played</label>
+                        <input type="time" class="create-view__content__body__form-item__time" name="time">
+                        <div class="create-view__content__body__form-item">
+                            <label class="view-label" for="homeTeamId">Home Team of matchgame</label>
+                            <select class="create-view__select" name="homeTeamId">
+                                <option value="-1">Select Home Team</option>
                                 @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">{{ $team->id }} - {{ $team->team_name }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="matchgame__create__content__body__form-group">
-                            <label for="teamTwoId">Away Team</label>
-                            <select class="form-control" name="awayTeamId">
-                                <option value="-1">Change Away Team</option>
+                        <div class="create-view__content__body__form-item">
+                            <label class="view-label" for="awayTeamId">Away Team of matchgame</label>
+                            <select class="create-view__select" name="awayTeamId">
+                                <option value="-1">Select Away Team</option>
                                 @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">{{ $team->id }} - {{ $team->team_name }}</option>
                                 @endforeach
@@ -46,10 +48,10 @@
                         </div>
                     </div>
                     <div class="matchgame__create__content__footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="function-button">Save changes</button>
                     </div>
                 </form>
-            </div>
+            
         </div>
     </div>
 @endsection

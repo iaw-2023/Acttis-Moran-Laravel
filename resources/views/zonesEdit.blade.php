@@ -1,26 +1,27 @@
 @extends('home')
 @section('content')
 
-    <div id="matchgame__edit__container">
+    <div class="create-view__container">
         @if($errors->any())
         <h4>{{$errors->first()}}</h4>
         @endif
-        <div class="matchgame__edit__body">
-            <div class="matchgame__edit__content">
-                <form method="POST" action="{{ route('zones.update', $zone->id ) }}">
+        <div class="create-view__body">
+            
+                <form class="create-view__content" method="POST" action="{{ route('zones.update', $zone->id ) }}">
                     @csrf
                     @method('PUT')
-                    <div class="matchgame__edit__content__header">
-                        <h5 class="modal-title">Edit Zone</h5>
-                    </div>
-                    <div class="matchgame__edit__content__body">
-                        <input type="text" class="matchgame__edit__content__body__form-group" name="priceAddition">
+                    <span class="view__container__title">
+                        Edit Zone
+                    </span>
+                    <div class="create-view__content__body">
+                        <label class="view-label" for="priceAddition">Zone price addition to ticket price</label>
+                        <input type="text" class="create-view__content__body__form-item" name="priceAddition">
                     </div>
                     <div class="matchgame__edit__content__footer">
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="submit" class="function-button">Save changes</button>
                     </div>
                 </form>
-            </div>
+            
         </div>
     </div>
 @endsection
