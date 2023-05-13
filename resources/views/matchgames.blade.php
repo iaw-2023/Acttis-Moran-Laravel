@@ -9,7 +9,7 @@
                     @csrf
                     @method('GET')
                     <button class="btn btn-primary" type="submit" onclick="">Create Matchgame</button>
-            </form>  
+            </form>
             <table class="table">
                 <thead>
                 <tr>
@@ -35,19 +35,32 @@
                         <td>{{ $matchgame->played_on_date }}</td>
                         <td>{{ $matchgame->played_on_time }}</td>
                         <td>
+                            @if($matchgame->deleted_at)
+                                <label class="text-danger">Deleted</label>
+                            @else
+                                <label class="text-success">Active</label>
+                            @endif
+                        </td>
+
+                        <td>
+                            @if(!$matchgame->deleted_at)
                             <form method="POST" action="{{ route('matchgames.delete', $matchgame->id) }}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete this Matchgame?')">Delete</button>
-                            </form>    
+                            </form>
+                            @endif
                         </td>
                         <td>
+                            @if(!$matchgame->deleted_at)
                             <form method="GET" action="{{ route('matchgames.edit', $matchgame->id) }}">
                                     @csrf
                                     @method('GET')
                                     <button class="btn btn-primary" type="submit" onclick="">Edit</button>
-                            </form>    
+                            </form>
+                            @endif
                         </td>
+
                     </tr>
                 @endforeach
                 </tbody>
