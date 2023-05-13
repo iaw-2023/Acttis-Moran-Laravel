@@ -47,12 +47,12 @@
 <div id="app__container">
     <section class="navbar__container">
         <nav class="navbar w-100">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="navbar-brand" href="#">App</a>
-                </li>
+            <div class="navbar-nav">
+                <div class="nav-item">
+                    <img class="navbar-brand" src="/logo-youticket.png" href="#" />
+                </div>
                 @yield('nav')
-            </ul>
+            </div>
         </nav>
     </section>
     
