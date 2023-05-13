@@ -1,13 +1,53 @@
+:root{
+    --bg-color:rgb(255, 255, 255);
+    --bg-color-transparent:rgba(255, 255, 255,0.7);
+    --nav-color:rgb(20, 20, 43);
+    --nav-color-light:rgb(52, 52, 119);
+    --nav-enterprise-color:#d6c7b5;
+    --nav-enterprise-color-light:#b6a593;
+    --nav-enterprise-color-dark:#dbc09e;
+    --notification-color:rgba(216, 57, 57,0.7);
+    --notification-light-color:rgba(235, 168, 168, 0.7);
+    --nav-color-transparent:rgba(20, 20, 43,0.6);
+    --price-color:rgb(71, 165, 71);
+    --text-color:white;
+    --button-color:#a2a2cc;
+    --stadium-color:rgb(20, 20, 43);
+    --hover-color:#f8f1b0;
+    --info-section-color:#2b2b41;
+  }
+
+#app__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar__container{
+    width: 100%;
+    height: 5rem;
+}
+
+.navbar{
+    display: flex;
+    position: fixed;
+    background-color: var(--nav-color) !important;
+}
+
 nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
 }
-.navbar{
-    display: flex;
-    background-color: #eaeaea4f;
+
+.page__body__container{
+    width: 100vw;
 }
+
 
 .navbar-nav {
     width:100%;
@@ -21,22 +61,160 @@ nav ul {
 
 nav li {
     margin-right: 1em;
-    width:10%
+    width:7rem;
 }
 
 nav a {
     text-decoration: none;
-    color: #333;
+    color: var(--nav-enterprise-color) !important;
 }
 
 .nav__item__button,
 .nav__item-logout__button {
     width: 100%;
+    height: 3rem;
+    border: solid 1px var(--nav-color);
+    border-radius: 5px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: border 0.3s ease-in, background 0.3s ease-in;
+}
+
+.nav__item__button:hover {
+    border-color:var(--nav-enterprise-color);
+}
+
+.nav__item-logout__button:hover{
+    background-color:var(--notification-color);
+}
+
+
+.table-button{
+    border-style: none;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: color 0.3s ease-in, background 0.3s ease-in;
+}
+
+.table-button:hover {
+    color: var(--nav-color);
+    background-color: var(--hover-color);
+}
+
+.function-button{
+    border-style: none;
+    width: 10rem;
+    height: 4rem;
+    border-radius: 5px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: color 0.3s ease-in, background 0.3s ease-in;
+}
+
+.function-button:hover {
+    color: var(--nav-color);
+    background-color: var(--hover-color);
+}
+
+.select-button{
+    width: 40%;
+    height: 30%;
+    margin-bottom: 1rem;
+}
+
+
+
+.view__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.view__container__title{
+    font-size: 2rem;
+    text-shadow: black 0 0 2px;
+}
+
+.view__container__table-container__form-select{
+    width: 40%;
+    height: 8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    color: var(--nav-color);
+    background-color: var(--nav-enterprise-color-light);
+}
+
+.view__container__table-container__form-select__select{
+    width: 90%;
+    height: 50%;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    color: var(--nav-enterprise-color);
+    background-color: var(--nav-color);
+}
+
+.view__container__table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+    background-color: var(--nav-enterprise-color);
+    color: var(--nav-color);
+    border-radius: 5px;
+    box-shadow: black 0 0 10px;
+    padding: 5px;
+}
+
+.view__container__table-container__table{
+    width: 100%;
+    height: 100%;
+}
+
+td {
+    background-color: var(--nav-enterprise-color);
+    border-radius: 5px;
+    width: 10rem;
+    padding: 0.5rem;
+}
+
+td:nth-child(even){
+    background-color: var(--nav-enterprise-color-light);
+}
+
+tr {
+    border-bottom: 1px solid grey;
+    text-align: center;
+}
+
+.view__container__table-container__table__head{
+
+}
+
+.view__container__table-container__table__body{
+    height: 100%;
+}
+
+.view__container__table-container__table__item{
+    height: 5rem;
 }
 
 .matchgame__pagination{
     width: 30%;
-    height: 5rem;
+    
 }
 
 #matchgame__edit__container{
