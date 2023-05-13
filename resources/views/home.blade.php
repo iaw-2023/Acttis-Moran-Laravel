@@ -3,7 +3,7 @@
 @section('nav')
     
     <div class="nav-item">
-        <form class="float-left" id="tickets-form" action="{{ route('tickets') }}" method="GET" style="display: none;">
+        <form class="float-left" id="tickets-form" action="{{ route('tickets.index') }}" method="GET" style="display: none;">
             @csrf
         </form>
         <button class="nav__item__button" onclick="event.preventDefault(); document.getElementById('tickets-form').submit();">Tickets</button>

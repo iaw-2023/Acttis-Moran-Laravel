@@ -44,7 +44,7 @@ class Ticket extends Model
      */
     public function matchgame() : BelongsTo
     {
-        return $this->belongsTo(Matchgame::class);
+        return $this->belongsTo(Matchgame::class)->withTrashed();
     }
 
     /**

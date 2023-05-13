@@ -14,26 +14,26 @@
                 <thead class="view__container__table-container__table__head">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Created At</th>
-                    <th scope="col">Updated At</th>
                     <th scope="col">Home Team</th>
                     <th scope="col">Away Team</th>
                     <th scope="col">Stadium</th>
                     <th scope="col">Played on Date</th>
                     <th scope="col">Played on Time</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Updated At</th>
                 </tr>
                 </thead>
                 <tbody class="view__container__table-container__table__body">
                 @foreach ($matchgames as $matchgame)
                     <tr class="view__container__table-container__table__item">
                         <td>{{ $matchgame->id }}</td>
-                        <td>{{ $matchgame->created_at }}</td>
-                        <td>{{ $matchgame->updated_at }}</td>
                         <td>{{ $matchgame->teamsPlayingMatch[0]->team->team_name }}</td>
                         <td>{{ $matchgame->teamsPlayingMatch[1]->team->team_name }}</td>
                         <td>{{ $matchgame->stadium->stadium_name }}</td>
                         <td>{{ $matchgame->played_on_date }}</td>
                         <td>{{ $matchgame->played_on_time }}</td>
+                        <td>{{ $matchgame->created_at }}</td>
+                        <td>{{ $matchgame->updated_at }}</td>
                         <td>
                             @if($matchgame->deleted_at)
                                 <label class="text-danger">Deleted</label>

@@ -2,14 +2,19 @@
 @section('content')
 
     <div class="view__container">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position:fixed; top:5rem">
+                <strong>{{$errors->first()}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <span class="view__container__title">Edit Zones</span>
         <hr />
         <div class="view__container__table-container">
             
             <form method="GET" class="view__container__table-container__form-select" action="{{ route('zones.stadiumZones') }}">
-                @if($errors->any())
-                <h4>{{$errors->first()}}</h4>
-                @endif
                 <label for="stadiumId">Stadiums Available</label>
                 <select class="view__container__table-container__form-select__select" name="stadiumId">
                     <option value="-1">Select Stadium</option>
@@ -33,7 +38,7 @@
                 @foreach ($zones as $zone)
                     <tr class="view__container__table-container__table__item">
                         <td>{{ $zone->id }}</td>
-                        <td>{{ $zone->price_addition }}</td>
+                        <td>$ {{ $zone->price_addition }}</td>
                         <td>{{ $zone->stadium_location }}</td>
                         <td>{{ $zone->created_at }}</td>
                         <td>{{ $zone->updated_at }}</td>

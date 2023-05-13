@@ -17,10 +17,15 @@ Route::post('/login', [LoginController::class, 'login'])->name('login');
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
-    Route::get('/tickets', [TicketViewController::class, 'index'])->name('tickets');
-    Route::post('/tickets', [TicketViewController::class, 'store'])->name('tickets.store');
-    Route::delete('/tickets/{ticket}', [TicketViewController::class, 'delete'])->name('tickets.delete');
-    Route::put('/tickets/update/{ticket}', [TicketViewController::class, 'update'])->name('tickets.update');
+    Route::group(['prefix' => 'tickets'], function ($router) {
+        Route::get('index', [TicketViewController::class, 'index'])->name('tickets.index');
+        Route::post('store', [TicketViewController::class, 'store'])->name('tickets.store');
+        Route::delete('delete/{ticketId}', [TicketViewController::class, 'delete'])->name('tickets.delete');
+        Route::put('update/{ticketId}', [TicketViewController::class, 'update'])->name('tickets.update');
+        Route::get('edit/{ticketId}', [TicketViewController::class, 'showEditPage'])->name('tickets.edit');
+        Route::get('create', [TicketViewController::class, 'showCreatePage'])->name('tickets.create');
+        Route::get('matchgametickets', [TicketViewController::class, 'matchgameTickets'])->name('tickets.matchgameTickets');
+    });
     Route::get('/show/{matchgameId}', [TicketViewController::class, 'showZonesByMatchGameID']);
     Route::get('/zone/all', [TicketViewController::class, 'showZones']);
     

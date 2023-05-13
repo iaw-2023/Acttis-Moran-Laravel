@@ -2,11 +2,15 @@
 @section('content')
 
     <div class="create-view__container">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position:fixed; top:5rem">
+                <strong>{{$errors->first()}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <div class="create-view__body">
-                @if($errors->any())
-                <h4>{{$errors->first()}}</h4>
-                @endif
-            
                 <form class="create-view__content" method="POST" action="{{ route('matchgames.update', $matchgame->id ) }}">
                     @csrf
                     @method('PUT')
