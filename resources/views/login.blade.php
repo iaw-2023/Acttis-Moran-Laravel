@@ -6,14 +6,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.min.js"></script>
     @endsection
         @section('content')
-        <div class="container">
-            <div class="row justify-content-center">
+        <div id="login-view-container">
+            <div class="row justify-content-center login-view-container__content">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card login-view-container__body">
                         <div class="card-header">{{ __('Iniciar sesión') }}</div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('login') }}">
+                            <form method="POST" action="{{ route('login') }}" style="display:flex; flex-direction:column; justify-content: space-evenly; height: 100%;">
                                 @csrf
 
                                 <div class="form-group row">
@@ -58,7 +58,7 @@
 
                                 <div class="form-group row mb-0">
                                     <div class="col-md-8 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="function-button">
                                             {{ __('Iniciar sesión') }}
                                         </button>
 

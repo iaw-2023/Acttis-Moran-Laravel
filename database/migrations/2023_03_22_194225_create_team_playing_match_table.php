@@ -16,6 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('condition');
 
+            $table->softDeletes();
+
             //Foreign Key´s
             $table->foreignId('team_id')->default()->constrained('teams');
             $table->foreignId('matchgame_id')->default()->constrained('matchgames');

@@ -1,10 +1,13 @@
 @extends('home')
 @section('content')
 
-    <div id="test">
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
+    <div class="view__container">
+        <span class="view__container__title">ABM Tickets</span>
+        <hr />
+        <div class="view__container__table-container">
+        <button type="button" class="function-button" data-toggle="modal" data-target="#createTicketDropdownModal">Create Ticket</button>
+            <table class="view__container__table-container__table">
+                <thead class="view__container__table-container__table__head">
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Created At</th>
@@ -13,8 +16,6 @@
                     <th scope="col">PriceBase</th>
                     <th scope="col">MatchGame</th>
                     <th scope="col">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createTicketDropdownModal">Create Ticket</button>
-
                         <!-- Modal para crear un nuevo ticket con dropdowns -->
                         <div class="modal fade" id="createTicketDropdownModal" tabindex="-1" role="dialog" aria-labelledby="createTicketDropdownModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -51,8 +52,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" class="btn btn-primary">Create</button>
+                                            <button type="button" class="table-button" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="table-button">Create</button>
                                         </div>
                                     </form>
                                 </div>
@@ -62,9 +63,9 @@
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="view__container__table-container__table__body">
                 @foreach ($tickets as $ticket)
-                    <tr>
+                    <tr class="view__container__table-container__table__item">
                         <td>{{ $ticket->id }}</td>
                         <td>{{ $ticket->created_at }}</td>
                         <td>{{ $ticket->updated_at }}</td>
@@ -81,11 +82,11 @@
                         <td><form method="POST" action="{{ route('tickets.delete', $ticket->id) }}">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-primary" type="submit" onclick="return confirm('Are you sure you want to delete this ticket?')">Delete</button>
+                                <button class="table-button" type="submit" onclick="return confirm('Are you sure you want to delete this ticket?')">Delete</button>
                             </form>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary edit-ticket" data-toggle="modal" data-target="#editTicketModal" data-ticketid="{{ $ticket->id }}"onclick="editTicketModal({{ $ticket->id }}, {{ $ticket->zone_id }}, {{$ticket->base_price}},{{$ticket->matchgame_id}})">Edit Ticket</button>
+                            <button type="button" class="table-button edit-ticket" data-toggle="modal" data-target="#editTicketModal" data-ticketid="{{ $ticket->id }}"onclick="editTicketModal({{ $ticket->id }}, {{ $ticket->zone_id }}, {{$ticket->base_price}},{{$ticket->matchgame_id}})">Edit</button>
                         </td>
                     </tr>
                 @endforeach

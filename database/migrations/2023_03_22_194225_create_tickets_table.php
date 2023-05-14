@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('category');
             $table->float('base_price')->unsigned();
 
+            $table->softDeletes();
+
             //Foreign Key´s
             $table->foreignId('zone_id')->default()->constrained('zones');
             $table->foreignId('matchgame_id')->default()->constrained('matchgames');
