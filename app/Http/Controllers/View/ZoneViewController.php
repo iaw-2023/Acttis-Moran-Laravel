@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\View;
 
-use App\Http\Resources\ZoneResource;
-use App\Models\Zone;
-use App\Models\Stadium;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Validation\DataValidator;
+use App\Models\Stadium;
+use App\Models\Zone;
+use Illuminate\Http\Request;
 
 
 class ZoneViewController extends HomeController
@@ -62,7 +60,7 @@ class ZoneViewController extends HomeController
 
         $zones = Zone::orderBy('id')->where('stadium_id', $request->stadiumId)->paginate(20);
         $stadiums = Stadium::all();
-        
+
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);
     }
 }

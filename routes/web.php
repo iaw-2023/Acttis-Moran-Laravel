@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\Auth\HomeController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\Auth\TicketViewController;
-use App\Http\Controllers\Auth\MatchgameViewController;
-use App\Http\Controllers\Auth\ZoneViewController;
+use App\Http\Controllers\View\HomeController;
+use App\Http\Controllers\View\MatchgameViewController;
+use App\Http\Controllers\View\ResetPasswordController;
+use App\Http\Controllers\View\TicketViewController;
+use App\Http\Controllers\View\ZoneViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/login');
@@ -28,7 +28,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/show/{matchgameId}', [TicketViewController::class, 'showZonesByMatchGameID']);
     Route::get('/zone/all', [TicketViewController::class, 'showZones']);
-    
+
     Route::group(['prefix' => 'matchgames'], function ($router) {
         Route::get('index', [MatchgameViewController::class, 'index'])->name('matchgames.index');
         Route::delete('delete/{matchgameId}', [MatchgameViewController::class, 'delete'])->name('matchgames.delete');

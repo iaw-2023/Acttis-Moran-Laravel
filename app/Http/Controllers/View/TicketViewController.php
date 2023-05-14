@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\View;
 
+use App\Http\Controllers\Validation\DataValidator;
 use App\Http\Resources\ZoneResource;
 use App\Models\Matchgame;
-use App\Models\TeamPlayingMatch;
 use App\Models\Ticket;
 use App\Models\Zone;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use App\Http\Controllers\Validation\DataValidator;
 
 class TicketViewController extends HomeController
 {
@@ -37,9 +34,9 @@ class TicketViewController extends HomeController
 
         if(!$ticket)
             return redirect()->back()->withErrors(["Ticket not found"])->withInput();
-        
+
         $ticket->delete();
-        
+
         return redirect()->back()->with('success', 'Ticket deleted successfully.');
     }
 
@@ -81,7 +78,7 @@ class TicketViewController extends HomeController
         if($validator->fails()){
             return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
-        
+
         $ticket = Ticket::factory()->state(['category' => $request->category , 'base_price' => $request->price])->create();
         $ticket->zone_id = $request->zoneId;
 
@@ -182,11 +179,11 @@ class TicketViewController extends HomeController
         if($validator->fails()){
             return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
-        
+
         $tickets = Ticket::orderBy('id')->where('matchgame_id', $request->matchgameId)->withTrashed()->paginate(20);
-        
+
         $matchgames = Matchgame::withTrashed()->get();
-        
+
         return view('ticketsIndex', compact('tickets'), compact('matchgames'));
     }
 }

@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\View;
 
-use App\Http\Resources\ZoneResource;
+use App\Http\Controllers\Validation\DataValidator;
 use App\Models\Matchgame;
+use App\Models\Stadium;
 use App\Models\Team;
 use App\Models\TeamPlayingMatch;
-use App\Models\Stadium;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Validation\DataValidator;
 
 class MatchgameViewController extends HomeController
 {
@@ -33,9 +31,9 @@ class MatchgameViewController extends HomeController
 
         if(!$matchgame)
             return redirect()->back()->withErrors(["Matchgame not found"])->withInput();
-        
+
         $matchgame->delete();
-        
+
         return redirect()->back()->with('success', 'Matchgame deleted successfully.');
     }
 
@@ -95,7 +93,7 @@ class MatchgameViewController extends HomeController
         $matchgame = Matchgame::find($matchgameId);
         $homeTeamPlaying = $matchgame->teamsPlayingMatch[0];
         $awayTeamPlaying = $matchgame->teamsPlayingMatch[1];
-        
+
         $matchgame->played_on_date = $request->date;
         $matchgame->played_on_time = $request->time;
 
@@ -103,7 +101,7 @@ class MatchgameViewController extends HomeController
         $homeTeamPlaying->condition = "home";
         $awayTeamPlaying->team_id = $request->awayTeamId;
         $awayTeamPlaying->condition = "away";
-        
+
         $homeTeamPlaying->save();
         $awayTeamPlaying->save();
         $matchgame->save();
@@ -124,7 +122,7 @@ class MatchgameViewController extends HomeController
         if($validator->fails()){
             return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
-        
+
         $matchgame = Matchgame::factory()->state(['played_on_date' => $request->date, 'played_on_time' => $request->time])->create();
 
         $matchgame->stadium_id = $request->stadiumId;
@@ -144,7 +142,7 @@ class MatchgameViewController extends HomeController
         $awayTeamPlaying->save();
 
         $matchgame->save();
-        
+
         return redirect("/matchgames/index")->with('success', 'Matchgame created successfully.');
     }
 }
