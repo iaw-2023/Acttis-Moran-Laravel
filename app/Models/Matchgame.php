@@ -27,7 +27,7 @@ class Matchgame extends Model
      */
     public function teamsPlayingMatch(): HasMany
     {
-        return $this->hasMany(TeamPlayingMatch::class, 'matchgame_id');
+        return $this->hasMany(TeamPlayingMatch::class, 'matchgame_id')->withTrashed();
     }
 
     /**
@@ -43,7 +43,7 @@ class Matchgame extends Model
      */
     public function tickets() : HasMany
     {
-        return $this->hasMany(Ticket::class);
+        return $this->hasMany(Ticket::class)->withTrashed();
     }
 
     public function delete(){

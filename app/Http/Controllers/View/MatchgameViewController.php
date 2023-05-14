@@ -1,21 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\View;
 
-use App\Http\Resources\ZoneResource;
+use App\Http\Controllers\Validation\DataValidator;
 use App\Models\Matchgame;
+use App\Models\Stadium;
 use App\Models\Team;
 use App\Models\TeamPlayingMatch;
-use App\Models\Stadium;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
 
 class MatchgameViewController extends HomeController
 {
     public function index()
     {
-        $matchgames = MatchGame::orderBy('id')->paginate(20);
+        $matchgames = MatchGame::orderBy('id')->withTrashed()->paginate(20);
         return view('matchgames',compact('matchgames'));
     }
 
@@ -23,30 +21,36 @@ class MatchgameViewController extends HomeController
     {
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameId(request()->all());
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return redirect()->back()->withErrors(["Matchgame not found"])->withInput();
+
         $matchgame->delete();
-        
+
         return redirect()->back()->with('success', 'Matchgame deleted successfully.');
     }
 
     public function showEditPage($matchgameId){
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameId(request()->all());
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return redirect()->back()->withErrors(["Matchgame not found"])->withInput();
+
         $teams = Team::all();
         $stadiums = Stadium::all();
         return view('matchgamesEdit',
@@ -74,23 +78,22 @@ class MatchgameViewController extends HomeController
 
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validate(request()->all(), [
-                'matchgameId' => 'required|integer|min:1|exists:matchgames,id',
-                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
-                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
-                'date' => 'date',
-                'time' => 'date_format:H:i',
-            ]);
-        }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
+        $validator = DataValidator::validate(request()->all(), [
+            'matchgameId' => 'required|exists:matchgames,id',
+            'homeTeamId' => 'required|exists:teams,id',
+            'awayTeamId' => 'required|exists:teams,id',
+            'date' => 'date',
+            'time' => 'date_format:H:i',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
         $matchgame = Matchgame::find($matchgameId);
         $homeTeamPlaying = $matchgame->teamsPlayingMatch[0];
         $awayTeamPlaying = $matchgame->teamsPlayingMatch[1];
-        
+
         $matchgame->played_on_date = $request->date;
         $matchgame->played_on_time = $request->time;
 
@@ -98,7 +101,7 @@ class MatchgameViewController extends HomeController
         $homeTeamPlaying->condition = "home";
         $awayTeamPlaying->team_id = $request->awayTeamId;
         $awayTeamPlaying->condition = "away";
-        
+
         $homeTeamPlaying->save();
         $awayTeamPlaying->save();
         $matchgame->save();
@@ -108,18 +111,18 @@ class MatchgameViewController extends HomeController
 
     public function store(Request $request) {
 
-        try{
-            $this->validate(request()->all(), [
-                'homeTeamId' => 'required|integer|min:1|exists:teams,id',
-                'awayTeamId' => 'required|integer|min:1|exists:teams,id',
-                'date' => 'date|date_format:d-m-Y',
-                'time' => 'date_format:H:i',
-            ]);
+        $validator = DataValidator::validate(request()->all(), [
+            'stadiumId' => 'required|exists:stadiums,id',
+            'homeTeamId' => 'required|exists:teams,id',
+            'awayTeamId' => 'required|exists:teams,id',
+            'date' => 'date',
+            'time' => 'date_format:H:i',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
-        catch (ValidateException $e) {
-            return redirect()->back()->withErrors([$e->getMessage()])->withInput();
-        }
-        
+
         $matchgame = Matchgame::factory()->state(['played_on_date' => $request->date, 'played_on_time' => $request->time])->create();
 
         $matchgame->stadium_id = $request->stadiumId;
@@ -139,7 +142,7 @@ class MatchgameViewController extends HomeController
         $awayTeamPlaying->save();
 
         $matchgame->save();
-        
+
         return redirect("/matchgames/index")->with('success', 'Matchgame created successfully.');
     }
 }
