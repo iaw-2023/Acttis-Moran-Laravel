@@ -16,7 +16,7 @@ class TicketViewController extends HomeController
 {
     public function index()
     {
-        $tickets = Ticket::orderBy('id')->withTrashed()->paginate(20);
+        $tickets = Ticket::orderBy('id')->paginate(20);
         $matchgames = MatchGame::withTrashed()->get();
         return view('ticketsIndex', compact('tickets'),
                 compact('matchgames')
@@ -49,7 +49,7 @@ class TicketViewController extends HomeController
 
         $validator = DataValidator::validate(request()->all(), [
             'ticketId' => 'required|exists:tickets,id',
-            'price' => 'required|integer|min:1',
+            'price' => 'required|integer|min:1|max:10000',
             'zoneId' => 'required|exists:zones,id',
             'category' => 'string',
         ]);
@@ -74,7 +74,7 @@ class TicketViewController extends HomeController
         $validator = DataValidator::validate(request()->all(), [
             'matchgameId' => 'required|exists:matchgames,id',
             'zoneId' => 'required|exists:zones,id',
-            'price' => 'required|integer|min:1',
+            'price' => 'required|integer|min:1|max:10000',
             'category' => 'string',
         ]);
 
@@ -176,13 +176,15 @@ class TicketViewController extends HomeController
     }
 
     public function matchgameTickets(Request $request){
-        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        $validator = DataValidator::validateMatchgameID($request->all());
 
         if($validator->fails()){
             return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
-
+        
         $tickets = Ticket::orderBy('id')->where('matchgame_id', $request->matchgameId)->withTrashed()->paginate(20);
+        
         $matchgames = Matchgame::withTrashed()->get();
         
         return view('ticketsIndex', compact('tickets'), compact('matchgames'));

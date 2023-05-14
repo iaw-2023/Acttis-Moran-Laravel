@@ -14,7 +14,7 @@ class ZoneViewController extends HomeController
 {
     public function index()
     {
-        $zones = Zone::orderBy('id')->paginate(50);
+        $zones = Zone::orderBy('id')->paginate(20);
         $stadiums = Stadium::all();
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);
     }
@@ -37,7 +37,7 @@ class ZoneViewController extends HomeController
 
         $validator = DataValidator::validate(request()->all(), [
             "zoneId" => 'required|integer|min:1|exists:zones,id',
-            'priceAddition' => 'required|integer|min:1',
+            'priceAddition' => 'required|integer|min:1|max:10000',
         ]);
 
         if($validator->fails()){
@@ -60,7 +60,7 @@ class ZoneViewController extends HomeController
             return redirect()->back()->withErrors([$validator->errors()->first()])->withInput();
         }
 
-        $zones = Zone::orderBy('id')->where('stadium_id', $request->stadiumId)->paginate(50);
+        $zones = Zone::orderBy('id')->where('stadium_id', $request->stadiumId)->paginate(20);
         $stadiums = Stadium::all();
         
         return view('zones', ['zones' => $zones, 'stadiums' => $stadiums]);

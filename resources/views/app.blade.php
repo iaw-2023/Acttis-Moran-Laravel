@@ -48,7 +48,7 @@
     <section class="navbar__container">
         <nav class="navbar w-100">
             <div class="navbar-nav">
-                <div class="nav-item">
+                <div class="nav-item nav-item-brand">
                     <img class="navbar-brand" src="/logo-youticket.png" href="#" />
                 </div>
                 @yield('nav')

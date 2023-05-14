@@ -18,7 +18,7 @@
         <form id="zones-form" action="{{ route('zones.index') }}" method="GET" style="display: none;">
             @csrf
         </form>
-        <button class="nav__item__button" onclick="event.preventDefault(); document.getElementById('zones-form').submit();">Zones</button>
+        <button class="nav__item__button nav__item__button__zones" onclick="event.preventDefault(); document.getElementById('zones-form').submit();">Zones</button>
     </div>
     <div class="nav-item-logout">
         <form class="ml-auto" id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

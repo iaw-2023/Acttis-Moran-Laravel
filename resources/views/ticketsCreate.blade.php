@@ -10,15 +10,15 @@
                 </button>
             </div>
         @endif
+        <span class="view__container__title">
+                    Create Ticket
+        </span>
         <div class="create-view__body">
             <form class="create-view__content" method="POST" action="{{ route('tickets.store') }}">
                 @csrf
                 @method('POST')
-                <span class="view__container__title">
-                    Create Ticket
-                </span>
                 <div class="create-view__content__body">
-                    <div class="create-view__content__body__form-item">
+                    <div class="create-view__content__body__form-group">
                         <label class="view-label" for="matchgameId">Matchgame related to Ticket</label>
                         <select class="create-view__select" id="matchgameId" name="matchgameId" onchange="seleccionarMatchGame(this.value)">
                             <option value="-1">Select Matchgame</option>
@@ -29,17 +29,19 @@
     
                     </div>
                      
-                    <div class="matchgame__edit__content__body__form-group">
+                    <div class="create-view__content__body__form-group">
                         <label for="zoneId">Stadium Zones</label>
                         <select class="create-view__select" id="zoneId" name="zoneId">
                             <option value="-1">Change Stadium Zone</option>
                         </select>
                     </div>
                    
-                    <label class="view-label" for="date">Ticket base price</label>
-                    <input type="number" class="create-view__content__body__form-item__date" name="price">
+                    <div class="create-view__content__body__form-group">
+                        <label class="view-label" for="price">Ticket base price</label>
+                        <input type="number" class="create-view__content__body__form-item__text" name="price">
+                    </div>
                 
-                    <div class="create-view__content__body__form-item">
+                    <div class="create-view__content__body__form-group">
                         <label class="view-label" for="category">Ticket category</label>
                         <select class="create-view__select" id="category" name="category">
                             <option value="-1">Select Category</option>
@@ -50,8 +52,8 @@
     
                     </div>
                 </div>
-                <div class="matchgame__create__content__footer">
-                    <button type="submit" class="function-button">Save changes</button>
+                <div class="create-view__content__footer">
+                    <button type="submit" class="function-button">Create Ticket</button>
                 </div>
             </form>
             

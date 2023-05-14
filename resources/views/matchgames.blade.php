@@ -65,7 +65,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="matchgame__pagination">{{$matchgames->onEachSide(1)->links()}}</div>
+            <div class="view__pagination">{{$matchgames->onEachSide(1)->links()}}</div>
         </div>
     </div>
 @endsection

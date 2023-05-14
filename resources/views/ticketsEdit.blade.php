@@ -10,17 +10,25 @@
                 </button>
             </div>
         @endif
+        <span class="view__container__title">
+            Edit Ticket
+        </span>
         <div class="create-view__body">
                 <form class="create-view__content" method="POST" action="{{ route('tickets.update', $ticket->id ) }}">
                     @csrf
                     @method('PUT')
-                    <span class="view__container__title">
-                        Edit Ticket
-                    </span>
+                    <div class="edit-view__info">
+                        <span>Ticket information</span>
+                        <span>ID - {{$ticket->id}}</span>
+                        <span>Matchgame - {{$ticket->matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $ticket->matchgame->teamsPlayingMatch[1]->team->team_name}}</span>
+                        <span>Actual category - {{$ticket->category}}</span>
+                        <span>Actual Base Price - {{$ticket->base_price}}</span>
+                        <span>Actual Stadium Zone - {{$ticket->zone->stadium_location}}</span>
+                    </div>
                     <div class="create-view__content__body">
                        
-                        <div class="matchgame__edit__content__body__form-group">
-                            <label for="zoneId">Stadium Zones</label>
+                        <div class="create-view__content__body__form-group">
+                            <label class="view-label" for="zoneId">Stadium Zones</label>
                             <select class="create-view__select" id="zoneId" name="zoneId">
                                 <option value="-1">Change Stadium Zone</option>
                                 @foreach ($stadiumZones as $zone)
@@ -28,10 +36,11 @@
                                 @endforeach
                             </select>
                         </div>
-                        
-                        <label class="view-label" for="price">Ticket base price</label>
-                        <input type="number" class="create-view__content__body__form-item__date" name="price">
-                        <div class="create-view__content__body__form-item">
+                        <div class="create-view__content__body__form-group">
+                            <label class="view-label" for="price">Ticket base price</label>
+                            <input type="number" class="create-view__content__body__form-item__text" name="price">
+                        </div>
+                        <div class="create-view__content__body__form-group">
                             <label class="view-label" for="category">Ticket category</label>
                             <select class="create-view__select" id="category" name="category">
                                 <option value="-1">Select Category</option>
@@ -43,7 +52,7 @@
                         </div>
 
                     </div>
-                    <div class="matchgame__edit__content__footer">
+                    <div class="create-view__content__footer">
                         <button type="submit" class="function-button">Save changes</button>
                     </div>
                 </form>

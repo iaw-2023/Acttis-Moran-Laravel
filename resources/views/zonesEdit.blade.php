@@ -10,19 +10,26 @@
                 </button>
             </div>
         @endif
+        <span class="view__container__title">
+            Edit Zone
+        </span>
         <div class="create-view__body">
-            
                 <form class="create-view__content" method="POST" action="{{ route('zones.update', $zone->id ) }}">
                     @csrf
                     @method('PUT')
-                    <span class="view__container__title">
-                        Edit Zone
-                    </span>
-                    <div class="create-view__content__body">
-                        <label class="view-label" for="priceAddition">Zone price addition to ticket price</label>
-                        <input type="number" class="create-view__content__body__form-item" name="priceAddition">
+                    <div class="edit-view__info">
+                        <span>Zone information</span>
+                        <span>ID - {{$zone->id}}</span>
+                        <span>Actual Price Adittion - {{$zone->price_addition}}</span>
+                        <span>Stadium Location - {{$zone->stadium_location}}</span>
                     </div>
-                    <div class="matchgame__edit__content__footer">
+                    <div class="create-view__content__body create-view__content__body-zones">
+                        <div class="create-view__content__body__form-group">
+                            <label class="view-label" for="priceAddition">Zone price addition to ticket price</label>
+                            <input type="number" class="create-view__content__body__form-item__text" name="priceAddition">
+                        </div>
+                    </div>
+                    <div class="create-view__content__footer">
                         <button type="submit" class="function-button">Save changes</button>
                     </div>
                 </form>

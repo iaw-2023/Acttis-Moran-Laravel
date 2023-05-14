@@ -10,15 +10,15 @@
                 </button>
             </div>
         @endif
+        <span class="view__container__title">
+            Create Matchgame
+        </span>
         <div class="create-view__body">         
                 <form class="create-view__content" method="POST" action="{{ route('matchgames.store') }}">
                     @csrf
                     @method('POST')
-                    <span class="view__container__title">
-                        Create Matchgame
-                    </span>
                     <div class="create-view__content__body">
-                        <div class="create-view__content__body__form-item">
+                        <div class="create-view__content__body__form-group">
                             <label class="view-label" for="stadiumId">Stadium where matchgame is played</label>
                             <select class="create-view__select" id="stadiumId" name="stadiumId">
                                 <option value="-1">Select Stadium</option>
@@ -28,11 +28,18 @@
                             </select>
         
                         </div>
-                        <label class="view-label" for="date">Date when matchgame is played</label>
-                        <input type="date" class="create-view__content__body__form-item__date" name="date">
-                        <label class="view-label" for="time">Time when matchgame is played</label>
-                        <input type="time" class="create-view__content__body__form-item__time" name="time">
-                        <div class="create-view__content__body__form-item">
+
+                        <div class="create-view__content__body__form-group">
+                            <label class="view-label" for="date">Date when matchgame is played</label>
+                            <input type="date" class="create-view__content__body__form-item__date" name="date">
+                        </div>
+                        
+                        <div class="create-view__content__body__form-group">
+                            <label class="view-label" for="time">Time when matchgame is played</label>
+                            <input type="time" class="create-view__content__body__form-item__time" name="time">
+                        </div>
+                        
+                        <div class="create-view__content__body__form-group">
                             <label class="view-label" for="homeTeamId">Home Team of matchgame</label>
                             <select class="create-view__select" name="homeTeamId">
                                 <option value="-1">Select Home Team</option>
@@ -41,7 +48,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="create-view__content__body__form-item">
+                        <div class="create-view__content__body__form-group">
                             <label class="view-label" for="awayTeamId">Away Team of matchgame</label>
                             <select class="create-view__select" name="awayTeamId">
                                 <option value="-1">Select Away Team</option>
@@ -51,8 +58,8 @@
                             </select>
                         </div>
                     </div>
-                    <div class="matchgame__create__content__footer">
-                        <button type="submit" class="function-button">Save changes</button>
+                    <div class="create-view__content__footer">
+                        <button type="submit" class="function-button">Create Matchgame</button>
                     </div>
                 </form>
             

@@ -22,7 +22,7 @@
                     <option value="{{ $stadium->id }}">{{ $stadium->id }} - {{ $stadium->stadium_name }}</option>
                     @endforeach
                 </select>
-                <button class="table-button select-button" type="submit" onclick="">Show Stadium Zones</button>
+                <button class="select-button" type="submit" onclick="">Show Stadium Zones</button>
             </form>
             <table class="view__container__table-container__table">
                 <thead class="view__container__table-container__table__head">
@@ -38,7 +38,7 @@
                 @foreach ($zones as $zone)
                     <tr class="view__container__table-container__table__item">
                         <td>{{ $zone->id }}</td>
-                        <td>$ {{ $zone->price_addition }}</td>
+                        <td style="color: var(--price-color);">$ {{ $zone->price_addition }}</td>
                         <td>{{ $zone->stadium_location }}</td>
                         <td>{{ $zone->created_at }}</td>
                         <td>{{ $zone->updated_at }}</td>
@@ -53,7 +53,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="matchgame__pagination">{{$zones->onEachSide(1)->links()}}</div>
+            <div class="view__pagination">{{$zones->appends(['stadiumId' => request('stadiumId')])->onEachSide(1)->links()}}</div>
         </div>
     </div>
 @endsection

@@ -18,10 +18,14 @@
                 <select class="view__container__table-container__form-select__select" name="matchgameId">
                     <option value="-1">Select Matchgame</option>
                     @foreach ($matchgames as $matchgame)
-                    <option value="{{ $matchgame->id }}">{{ $matchgame->id }} - {{ $matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $matchgame->teamsPlayingMatch[1]->team->team_name }} | {{ $matchgame->played_on_date }}</option>
+                    @if($matchgame->deleted_at)
+                        <option style="color: var(--notification-light-color);" value="{{ $matchgame->id }}">{{ $matchgame->id }} - {{ $matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $matchgame->teamsPlayingMatch[1]->team->team_name }} | {{ $matchgame->played_on_date }}</option>    
+                        @else
+                        <option style="color: var(--price-color);" value="{{ $matchgame->id }}">{{ $matchgame->id }} - {{ $matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $matchgame->teamsPlayingMatch[1]->team->team_name }} | {{ $matchgame->played_on_date }}</option>
+                        @endif
                     @endforeach
                 </select>
-                <button class="table-button select-button" type="submit" onclick="">Show Tickets from Matchgame</button>
+                <button class="select-button" type="submit" onclick="">Show Tickets from Matchgame</button>
             </form>
             <form method="GET" action="{{ route('tickets.create') }}">
                     @csrf
@@ -47,7 +51,7 @@
                         <td>{{ $ticket->matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $ticket->matchgame->teamsPlayingMatch[1]->team->team_name }}</td>
                         <td>{{ $ticket->zone->stadium_location }}</td>
                         <td>{{ $ticket->category }}</td>
-                        <td>$ {{ $ticket->base_price }}</td>
+                        <td style="color: var(--price-color);">$ {{ $ticket->base_price }}</td>
                         <td>{{ $ticket->created_at }}</td>
                         <td>{{ $ticket->updated_at }}</td>
                         <td>
@@ -81,7 +85,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="matchgame__pagination">{{$tickets->onEachSide(1)->links()}}</div>
+            <div class="view__pagination">{{$tickets->appends(['matchgameId' => request('matchgameId')])->onEachSide(1)->links()}}</div>
         </div>
     </div>
 @endsection
