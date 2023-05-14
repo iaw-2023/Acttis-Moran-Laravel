@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Resources\TicketResource;
-use Illuminate\Support\Facades\Validator;
-use App\Exceptions\ValidateException;
+use App\Http\Controllers\Validation\DataValidator;
 
 class TicketController extends Controller
 {
@@ -42,14 +41,16 @@ class TicketController extends Controller
     {
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameID(request()->all());
-        }
-        catch (ValidateException $e) {
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
 
         $tickets = Ticket::where('matchgame_id',$matchgameId)->get();
+
+        if($tickets->isEmpty())
+            return response()->json(["error" => "Tickets not found."], 404);
 
         return TicketResource::collection($tickets);
     }
@@ -85,14 +86,16 @@ class TicketController extends Controller
     {
         request()->merge(['ticketId' => request()->route('ticketId')]);
 
-        try{
-            $this->validateTicketID(request()->all());
-        }
-        catch (ValidateException $e) {
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validateTicketID(request()->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
 
-        $ticket = Ticket::findOrFail($ticketId);
+        $ticket = Ticket::find($ticketId);
+
+        if(!$ticket)
+            return response()->json(["error" => "Ticket not found."], 404);
 
         return new TicketResource($ticket);
     }

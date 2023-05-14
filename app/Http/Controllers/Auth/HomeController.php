@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,6 +40,8 @@ class HomeController extends Controller
         auth()->logout();
         return redirect('/login');
     }
+
+
 
 
 

@@ -1,0 +1,69 @@
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+.navbar{
+    display: flex;
+    background-color: #eaeaea4f;
+}
+
+.navbar-nav {
+    width:100%;
+    flex-direction: row;
+}
+
+.nav-item-logout {
+    margin-left: auto;
+
+}
+
+nav li {
+    margin-right: 1em;
+    width:10%
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+
+.nav__item__button,
+.nav__item-logout__button {
+    width: 100%;
+}
+
+.matchgame__pagination{
+    width: 30%;
+    height: 5rem;
+}
+
+#matchgame__edit__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+}
+
+.matchgame__edit__body{
+    width: 80%;
+    height: 80%;
+    align-self: center;
+    margin-top: 5rem;
+}
+
+.matchgame__edit__content__body__form-group{
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+    }
+    .navbar {
+        width: 100%;
+    }
+}

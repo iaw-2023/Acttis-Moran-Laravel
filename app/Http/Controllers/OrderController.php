@@ -10,11 +10,11 @@ use App\Models\Order;
 use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
-use Illuminate\Support\Facades\Validator;
-use App\Exceptions\ValidateException;
+use App\Http\Controllers\Validation\DataValidator;
 
 class OrderController extends Controller
 {
+
     /**
      * Store a newly created Order in storage.
      * 
@@ -49,11 +49,11 @@ class OrderController extends Controller
 
     public function checkOutOrder(Request $request)
     {  
-        try{
-            $this->validateCheckoutBody($request->all());
-        }
-        catch(ValidateException $e){
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        
+        $validator = DataValidator::validateCheckoutBody($request->all());
+        
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
         
         $clientData = $request->client_data;

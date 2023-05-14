@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Matchgame extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -43,6 +44,17 @@ class Matchgame extends Model
     public function tickets() : HasMany
     {
         return $this->hasMany(Ticket::class);
+    }
+
+    public function delete(){
+        //Soft Delete all tickets associated to Matchgame
+        $this->tickets()->delete();
+
+        //Soft Delete all teams playing the match to delete
+        $this->teamsPlayingMatch()->delete();
+
+        //Soft Delete Matchgame
+        parent::delete();
     }
 
     /**

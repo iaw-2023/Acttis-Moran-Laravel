@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('ticket_quantity')->unsigned();
 
             //Foreign Key´s
-            $table->foreignId('ticket_id')->default()->constrained('tickets');
-            $table->foreignId('order_id')->default()->constrained('orders');
+            $table->foreignId('ticket_id')->default()->constrained('tickets')->onDelete('cascade');;
+            $table->foreignId('order_id')->default()->constrained('orders')->onDelete('cascade');;
         });
     }
 
