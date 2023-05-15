@@ -13,7 +13,7 @@ use Illuminate\Routing\Controller as BaseController;
  * )
  *
  * @OA\Server(
- *     url="http://vercel.com/acttis-moran/acttis-moran-laravel/restapi"
+ *     url="https://acttis-moran-laravel-pdib.vercel.app/restapi"
  * )
  *
  * @OA\Tag(
