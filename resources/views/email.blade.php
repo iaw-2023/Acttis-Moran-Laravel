@@ -1,4 +1,18 @@
-<form method="POST" action="{{ route('password.email') }}">
+@extends('app')
+    <div class="create-view__container">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position:fixed; top:5rem">
+                <strong>{{$errors->first()}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        <span class="view__container__title">
+            Password Recovery
+        </span>
+        <div class="create-view__body">
+        <form method="POST" action="{{ route('password.email') }}">
     @csrf
 
     <div class="form-group row">
@@ -23,3 +37,7 @@
         </div>
     </div>
 </form>
+            
+        </div>
+    </div>
+

@@ -13,7 +13,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/ticket.js') }}"></script>
-    <script src="{{ asset('js/matchgameView.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
