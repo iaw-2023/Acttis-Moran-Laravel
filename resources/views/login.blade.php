@@ -62,8 +62,8 @@
                                             {{ __('Iniciar sesión') }}
                                         </button>
 
-                                        @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ secure_url('password.request') }}">
+                                        @if (Route::has('request'))
+                                            <a class="btn btn-link" href="{{ route('request') }}">
                                                 {{ __('¿Olvidaste tu contraseña?') }}
                                             </a>
                                         @endif
