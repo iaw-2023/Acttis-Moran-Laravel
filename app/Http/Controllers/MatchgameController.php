@@ -8,14 +8,15 @@ use App\Models\Team;
 use App\Models\Stadium;
 use App\Models\TeamPlayingMatch;
 use App\Http\Resources\MatchgameResource;
+use App\Http\Controllers\Validation\DataValidator;
 Use \Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
-use App\Exceptions\ValidateException;
+
 
 class MatchgameController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * 
      */
     public function index()
     {
@@ -26,6 +27,16 @@ class MatchgameController extends Controller
 
     /**
      * Display a random reduced list of matchgames.
+     * 
+     * @OA\Get(
+     *     path="/matchgame/example",
+     *     tags={"matchgame"},
+     *     summary="Devuelve un conjunto de diez Matchgame's aleatorios existentes.",
+     *     @OA\Response(response="200", description="(OK) Se devolvio correctamente el/los matchgames deseados."),
+     *     @OA\Response(response="400", description="(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"),
+     *     @OA\Response(response="404", description="(NotFound) No se encontro informacion"),
+     *     @OA\Response(response="500", description="Error en servidor")
+     * )
      */
     public function example()
     {
@@ -36,23 +47,52 @@ class MatchgameController extends Controller
 
     /**
      * Display a listing of matches filter by team, stadium & date.
-     */
+     *
+     * @OA\Get(
+     *     path="/matchgame/matchesby",
+     *     tags={"matchgame"},
+     *     summary="Devuelve la información de los matchgame's que depende de los parametros especificados.",
+     *     @OA\Parameter(
+     *         name="teamId",
+     *         in="query",
+     *         description="Identificador del Equipo que participa en/los Matchgame a obtener.",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="stadiumId",
+     *         in="query",
+     *         description="Identificador del Stadium donde se juega el/los Matchgame.",
+     *         required=false,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Parameter(
+     *         name="date",
+     *         in="query",
+     *         description="Fecha en la que se realiza el/los Matchgame.",
+     *         required=false,
+     *         @OA\Schema(type="string", format="date")
+     *     ),
+     *     @OA\Response(response="200", description="(OK) Se obtuvo correctamente el/los matchgames deseados."),
+     *     @OA\Response(response="400", description="(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"),
+     *     @OA\Response(response="404", description="(NotFound) No se encontro informacion"),
+     *     @OA\Response(response="500", description="Error en servidor")
+     * )
+ */
     public function matchesBy(Request $request)
     {   
         $teamId = request()->query('teamId');
         $stadiumId = request()->query('stadiumId');
         $date = request()->query('date');
 
-        try{
-            if($teamId != null)
-                $this->validateTeamID($request->all());
-            if($stadiumId != null)
-                $this->validateStadiumID($request->all());
-            if($date != null)
-                $this->validateDate($request->all());
-        }
-        catch(ValidateException $e){
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validate($request->all(),[
+            'teamId' => 'integer|min:1',
+            'stadiumId' => 'integer|min:1',
+            'date' => 'date|date_format:d-m-Y',
+        ]);
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
     
         $matchgamesToFilter = collect();
@@ -150,19 +190,38 @@ class MatchgameController extends Controller
      * Display the specified resource.
      * 
      * @param int $matchgameId
-     */
+     * 
+     * @OA\Get(
+     *     path="/matchgame/show/{matchgameId}",
+     *     tags={"matchgame"},
+     *     summary="Devuelve la información del matchgame que posee el ID proporcionado.",
+     *     @OA\Parameter(
+     *         name="matchgameId",
+     *         in="path",
+     *         description="Identificador del Matchgame a obtener.",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="(OK) Se obtuvo correctamente el matchgame deseado."),
+     *     @OA\Response(response="400", description="(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"),
+     *     @OA\Response(response="404", description="(NotFound) No se encontro informacion"),
+     *     @OA\Response(response="500", description="Error en servidor")
+     * )
+    */
     public function show($matchgameId)
     {   
         request()->merge(['matchgameId' => request()->route('matchgameId')]);
 
-        try{
-            $this->validateMatchgameID(request()->all());
-        }
-        catch (ValidateException $e) {
-            return response()->json(["error" => $e->getMessage()], $e->getStatusCode());
+        $validator = DataValidator::validateMatchgameID(request()->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
         }
         
-        $matchgame = Matchgame::findOrFail($matchgameId);
+        $matchgame = Matchgame::find($matchgameId);
+
+        if(!$matchgame)
+            return response()->json(["error" => "Matchgame not found."], 404);
         
         return new MatchgameResource($matchgame);
     }

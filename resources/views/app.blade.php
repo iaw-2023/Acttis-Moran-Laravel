@@ -12,11 +12,17 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/ticket.js') }}"></script>
+    <script src="{{ asset('js/matchgameView.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&family=Secular+One&display=swap"
+      rel="stylesheet"
+    />
+    
     <!-- Styles -->
     <!-- CSS de Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -24,6 +30,7 @@
 
 
     <!-- Agrega la referencia a jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
             crossorigin="anonymous"></script>
@@ -38,20 +45,22 @@
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-<div id="app">
-    <nav class="navbar w-100">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="navbar-brand" href="#">App</a>
-            </li>
-            @yield('nav')
-        </ul>
+<div id="app__container">
+    <section class="navbar__container">
+        <nav class="navbar w-100">
+            <div class="navbar-nav">
+                <div class="nav-item nav-item-brand">
+                    <img class="navbar-brand" src="/logo-youticket.png" href="#" />
+                </div>
+                @yield('nav')
+            </div>
+        </nav>
+    </section>
+    
 
-    </nav>
-
-    <main class="py-4">
+    <div class="page__body__container">
         @yield('content')
-    </main>
+    </div>
 </div>
 </body>
 </html>

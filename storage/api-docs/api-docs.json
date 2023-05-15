@@ -1,0 +1,520 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "You Ticket API",
+        "version": "1.0.11"
+    },
+    "servers": [
+        {
+            "url": "http://vercel.com/acttis-moran/acttis-moran-laravel/restapi"
+        }
+    ],
+    "paths": {
+        "/matchgame/example": {
+            "get": {
+                "tags": [
+                    "matchgame"
+                ],
+                "summary": "Devuelve un conjunto de diez Matchgame's aleatorios existentes.",
+                "description": "Display a random reduced list of matchgames.",
+                "operationId": "edaedc2290b10667220bc316b883daf6",
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se devolvio correctamente el/los matchgames deseados."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/matchgame/matchesby": {
+            "get": {
+                "tags": [
+                    "matchgame"
+                ],
+                "summary": "Devuelve la información de los matchgame's que depende de los parametros especificados.",
+                "description": "Display a listing of matches filter by team, stadium & date.",
+                "operationId": "4e1e7ef6ddb6d1cd930381f01f3b41af",
+                "parameters": [
+                    {
+                        "name": "teamId",
+                        "in": "query",
+                        "description": "Identificador del Equipo que participa en/los Matchgame a obtener.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "stadiumId",
+                        "in": "query",
+                        "description": "Identificador del Stadium donde se juega el/los Matchgame.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "date",
+                        "in": "query",
+                        "description": "Fecha en la que se realiza el/los Matchgame.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el/los matchgames deseados."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/matchgame/show/{matchgameId}": {
+            "get": {
+                "tags": [
+                    "matchgame"
+                ],
+                "summary": "Devuelve la información del matchgame que posee el ID proporcionado.",
+                "description": "Display the specified resource.",
+                "operationId": "ab36719cd14aabb47b891b6ac5d9d52d",
+                "parameters": [
+                    {
+                        "name": "matchgameId",
+                        "in": "path",
+                        "description": "Identificador del Matchgame a obtener.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el matchgame deseado."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/order/checkout": {
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Inserta informacion de nueva order en la base de datos",
+                "description": "Store a newly created Order in storage.",
+                "operationId": "24a979516b53c1d8d3b3105219878365",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BodyOrderCheckout"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "(OK) La informacion de la order se guardo correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "": {
+                                            "$ref": "#/components/schemas/SuccessfulOrderPost"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/stadium/index": {
+            "get": {
+                "tags": [
+                    "stadium"
+                ],
+                "summary": "Devuelve la informacion de todos los Stadium's existentes.",
+                "description": "Display a listing of the resource.",
+                "operationId": "35895ea056b132b9bc07e214929f68aa",
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el/los stadiums deseados."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/stadium/show/{stadiumId}": {
+            "get": {
+                "tags": [
+                    "stadium"
+                ],
+                "summary": "Devuelve la informacion del stadium que posee el ID proporcionado.",
+                "description": "Display the specified resource.",
+                "operationId": "14b4ce5e9f016a438d96cff53fc9fd7e",
+                "parameters": [
+                    {
+                        "name": "stadiumId",
+                        "in": "path",
+                        "description": "Identificador del Stadium a obtener.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el stadium deseado."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/team/index": {
+            "get": {
+                "tags": [
+                    "team"
+                ],
+                "summary": "Devuelve la informacion de todos los Team's existentes.",
+                "description": "Display a listing of the resource.",
+                "operationId": "c77a074476964e25214e6d8d42a2d2ab",
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el/los team deseados."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/team/show/{teamId}": {
+            "get": {
+                "tags": [
+                    "team"
+                ],
+                "summary": "Devuelve la informacion del Team que posee el ID proporcionado.",
+                "description": "Display the specified resource.",
+                "operationId": "0313f557e890143d379cc4f6b0b184de",
+                "parameters": [
+                    {
+                        "name": "teamId",
+                        "in": "path",
+                        "description": "Identificador del Team a obtener.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el team deseado."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/ticket/matchtickets/{matchgameId}": {
+            "get": {
+                "tags": [
+                    "ticket"
+                ],
+                "summary": "Devuelve la informacion de todos los Ticket's asociados al Matchgame especificado.",
+                "description": "Show all tickets from the matchgame",
+                "operationId": "c3e75341d4f420afe28d6185865ebbcb",
+                "parameters": [
+                    {
+                        "name": "matchgameId",
+                        "in": "path",
+                        "description": "Identificador del Matchgame del cual se quieren obtener los tickets asociados.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el/los tickets deseados."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/ticket/show/{ticketId}": {
+            "get": {
+                "tags": [
+                    "ticket"
+                ],
+                "summary": "Devuelve la informacion del Ticket que posee el ID proporcionado.",
+                "description": "Display the specified resource.",
+                "operationId": "b845d33681461c59e48ea328a1d78611",
+                "parameters": [
+                    {
+                        "name": "ticketId",
+                        "in": "path",
+                        "description": "Identificador del Ticket a obtener.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el ticket deseado."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/zone/stadiumzones/{stadiumId}": {
+            "get": {
+                "tags": [
+                    "zone"
+                ],
+                "summary": "Devuelve la informacion de todas las Zone's asociadas al Stadium especificado.",
+                "description": "Returns a listing of the zones asociated with stadium",
+                "operationId": "84161da88680b2a97e59830569eb5c36",
+                "parameters": [
+                    {
+                        "name": "stadiumId",
+                        "in": "path",
+                        "description": "Identificador del Stadium del cual se quieren obtener las Zonas asociadas.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente el/las Zone's deseadas."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        },
+        "/zone/show/{zoneId}": {
+            "get": {
+                "tags": [
+                    "zone"
+                ],
+                "summary": "Devuelve la informacion del Zone que posee el ID proporcionado.",
+                "description": "Display the specified resource.",
+                "operationId": "3ecc93faa378db7d76489525ea821fc8",
+                "parameters": [
+                    {
+                        "name": "zoneId",
+                        "in": "path",
+                        "description": "Identificador del Zone a obtener.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "(OK) Se obtuvo correctamente la zona deseada."
+                    },
+                    "400": {
+                        "description": "(Bad Request) Los datos enviados son incorrectos o hay datos obligatorios no enviados"
+                    },
+                    "404": {
+                        "description": "(NotFound) No se encontro informacion"
+                    },
+                    "500": {
+                        "description": "Error en servidor"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "BodyOrderCheckout": {
+                "properties": {
+                    "client_data": {
+                        "properties": {
+                            "client_email": {
+                                "description": "Client's Email.",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "tickets_purchased": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TicketOrder"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "TicketOrder": {
+                "properties": {
+                    "ticketId": {
+                        "description": "Ticket to buy ID.",
+                        "type": "integer"
+                    },
+                    "quantity": {
+                        "description": "Quantity of ticket's to buy.",
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "SuccessfulOrderPost": {
+                "properties": {
+                    "success": {
+                        "description": "Success Message.",
+                        "type": "string"
+                    },
+                    "order_created": {
+                        "properties": {
+                            "total_price": {
+                                "description": "Purchase total price.",
+                                "type": "integer"
+                            },
+                            "checkout_date": {
+                                "description": "Date",
+                                "type": "string"
+                            },
+                            "client_email": {
+                                "description": "Client's email.",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "matchgame",
+            "description": "Este endpoint maneja toda la informacion relacionada a los matchgame's. En este end-point se devolveran recursos Matchgame."
+        },
+        {
+            "name": "team",
+            "description": "Este endpoint maneja toda la informacion relacionada a los team's. En este end-point se devolveran recursos Team."
+        },
+        {
+            "name": "stadium",
+            "description": "Este endpoint maneja toda la informacion relacionada a los stadium's. En este end-point se devolveran recursos Stadium."
+        },
+        {
+            "name": "ticket",
+            "description": "Este endpoint maneja toda la informacion relacionada a los ticket's. En este end-point se devolveran recursos Ticket."
+        },
+        {
+            "name": "zone",
+            "description": "Este endpoint maneja toda la informacion relacionada a las zone's. En este end-point se devolveran recursos Zone."
+        },
+        {
+            "name": "order",
+            "description": "Este endpoint maneja toda la informacion relacionada a las order's. En este end-point se realiza la creacion de Order's."
+        }
+    ]
+}
