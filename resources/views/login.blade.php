@@ -13,7 +13,7 @@
                         <div class="card-header">{{ __('Iniciar sesión') }}</div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('login') }}" style="display:flex; flex-direction:column; justify-content: space-evenly; height: 100%;">
+                            <form method="POST" action="{{ secure_url('login') }}" style="display:flex; flex-direction:column; justify-content: space-evenly; height: 100%;">
                                 @csrf
 
                                 <div class="form-group row">
@@ -63,7 +63,7 @@
                                         </button>
 
                                         @if (Route::has('password.request'))
-                                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                                            <a class="btn btn-link" href="{{ secure_url('password.request') }}">
                                                 {{ __('¿Olvidaste tu contraseña?') }}
                                             </a>
                                         @endif
