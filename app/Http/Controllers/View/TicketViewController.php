@@ -87,36 +87,6 @@ class TicketViewController extends HomeController
         return redirect("/tickets/index")->with('success', 'Ticket created successfully.');
     }
 
-    public static function getMatchGameData() {
-        $matchgames = \App\Models\MatchGame::all();
-
-        $data = [];
-
-        foreach ($matchgames as $matchgame) {
-            $teams_playing_match = \App\Models\TeamPlayingMatch::where('matchgame_id', $matchgame->id)->get();
-            $home_team = null;
-            $away_team = null;
-
-            foreach ($teams_playing_match as $team_playing_match) {
-                if ($team_playing_match->condition == 'home') {
-                    $home_team_id = $team_playing_match->team_id;
-                    $home_team = \App\Models\Team::where('id', $home_team_id)->first();
-                } else {
-                    $away_team_id = $team_playing_match->team_id;
-                    $away_team = \App\Models\Team::where('id', $away_team_id)->first();
-                }
-            }
-
-            $data[] = [
-                'id' => $matchgame->id,
-                'home_team_name' => $home_team->team_name,
-                'away_team_name' => $away_team->team_name
-            ];
-        }
-
-        return $data;
-    }
-
     /**
      * Display the specified resource.
      *
