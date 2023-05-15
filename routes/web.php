@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\View\HomeController;
 use App\Http\Controllers\View\MatchgameViewController;
-use App\Http\Controllers\View\ResetPasswordController;
 use App\Http\Controllers\View\TicketViewController;
 use App\Http\Controllers\View\ZoneViewController;
 use Illuminate\Support\Facades\Route;
