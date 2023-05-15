@@ -12,8 +12,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ secure_asset('js/ticket.js') }}"></script>
-    <script src="{{ secure_asset('js/matchgameView.js') }}"></script>
+    <script src="{{ asset('js/ticket.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

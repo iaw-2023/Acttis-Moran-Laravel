@@ -22,7 +22,6 @@ Route::group([
     'middleware' => ['api'],
     'prefix' => 'matchgame'
 ], function ($router) {
-    //Route::get('index', [App\Http\Controllers\MatchgameController::class, 'index']);
     Route::get('example', [App\Http\Controllers\MatchgameController::class, 'example']);
     Route::get('show/{matchgameId}', [App\Http\Controllers\MatchgameController::class, 'show']);
     Route::get('matchesby',[App\Http\Controllers\MatchgameController::class, 'matchesBy']);
@@ -48,7 +47,6 @@ Route::group([
     'middleware' => ['api'],
     'prefix' => 'ticket'
 ], function ($router) {
-    //Route::get('index', [App\Http\Controllers\TicketController::class, 'index']);
     Route::get('show/{ticketId}', [App\Http\Controllers\TicketController::class, 'show']);
     Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
 });
@@ -57,7 +55,6 @@ Route::group([
     'middleware' => ['api'],
     'prefix' => 'zone'
 ], function ($router) {
-    //Route::get('index', [App\Http\Controllers\ZoneController::class, 'index']);
     Route::get('show/{zoneId}', [App\Http\Controllers\ZoneController::class, 'show']);
     Route::get('stadiumzones/{stadiumId}', [App\Http\Controllers\ZoneController::class, 'stadiumZones']);
 });
