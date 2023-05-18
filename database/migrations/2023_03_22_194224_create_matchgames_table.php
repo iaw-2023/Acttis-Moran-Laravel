@@ -17,8 +17,10 @@ return new class extends Migration
             $table->date('played_on_date');
             $table->time('played_on_time');
 
-             //Foreign Key´s
-             $table->foreignId('stadium_id')->default()->constrained('stadiums');
+            $table->softDeletes();
+
+            //Foreign Key´s
+            $table->foreignId('stadium_id')->default()->constrained('stadiums');
         });
     }
 

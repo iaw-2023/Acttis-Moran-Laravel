@@ -16,7 +16,6 @@ class TicketDetail extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'total_price',
         'ticket_quantity',
     ];
 

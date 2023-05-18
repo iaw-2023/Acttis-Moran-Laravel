@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ticket extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,7 @@ class Ticket extends Model
      */
     protected $fillable = [
         'base_price',
+        'category',
     ];
 
     /**
@@ -42,7 +44,7 @@ class Ticket extends Model
      */
     public function matchgame() : BelongsTo
     {
-        return $this->belongsTo(Matchgame::class);
+        return $this->belongsTo(Matchgame::class)->withTrashed();
     }
 
     /**
