@@ -26,7 +26,7 @@
                             <option value="{{ $matchgame->id }}">{{ $matchgame->id }} - {{ $matchgame->teamsPlayingMatch[0]->team->team_name }} vs {{ $matchgame->teamsPlayingMatch[1]->team->team_name }} | {{ $matchgame->played_on_date }}</option>
                             @endforeach
                         </select>
-    
+
                     </div>
                      
                     <div class="create-view__content__body__form-group">
