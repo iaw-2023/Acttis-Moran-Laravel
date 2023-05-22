@@ -17,8 +17,8 @@ class MatchgameFactory extends Factory
     public function definition(): array
     {
         return [
-            'played_on_date' => fake()->dateTimeThisMonth(),
-            'played_on_time' => fake()->time('H:i'),
+            'played_on_date' => "2023-05-21",
+            'played_on_time' => "17:42",
         ];
     }
 }

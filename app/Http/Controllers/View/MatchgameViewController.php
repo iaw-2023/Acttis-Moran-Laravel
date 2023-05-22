@@ -124,7 +124,7 @@ class MatchgameViewController extends HomeController
         }
 
         $matchgame = Matchgame::factory()->state(['played_on_date' => $request->date, 'played_on_time' => $request->time])->create();
-
+    
         $matchgame->stadium_id = $request->stadiumId;
 
         $homeTeamPlaying = new TeamPlayingMatch();
