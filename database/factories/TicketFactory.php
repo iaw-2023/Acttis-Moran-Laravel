@@ -18,8 +18,8 @@ class TicketFactory extends Factory
     public function definition(): array
     {
         return [
-            'base_price' => 500,
-            'category' => "Basic",
+            'base_price' => rand(500,1000),
+            'category' => Str::random(10),
         ];
     }
 }
