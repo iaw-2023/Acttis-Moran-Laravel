@@ -80,6 +80,7 @@ class TicketViewController extends HomeController
         }
 
         $ticket = Ticket::factory()->state(['category' => $request->category , 'base_price' => $request->price])->create();
+        $ticket->matchgame_id = $request->matchgameId;
         $ticket->zone_id = $request->zoneId;
 
         $ticket->save();
