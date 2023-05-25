@@ -39,6 +39,14 @@ class Stadium extends Model
     }
 
     /**
+     * Get the Stadium associated with the Team.
+     */
+    public function zones() : HasMany
+    {
+        return $this->hasMany(Zone::class, 'stadium_id');
+    }
+
+    /**
      * The table associated with the model.
      *
      * @var string

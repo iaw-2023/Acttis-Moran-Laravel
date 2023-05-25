@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('stadium_location');
-            $table->float('price_multiplier')->unsigned();
+            $table->float('price_addition')->unsigned();
+            $table->string('zone_code',5);
+
+            //Foreign Key's
+            $table->foreignId('stadium_id')->default()->constrained('stadiums');
         });
     }
 

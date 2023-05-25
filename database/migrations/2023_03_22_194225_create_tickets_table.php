@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('category');
             $table->float('base_price')->unsigned();
+
+            $table->softDeletes();
 
             //Foreign Key´s
             $table->foreignId('zone_id')->default()->constrained('zones');
