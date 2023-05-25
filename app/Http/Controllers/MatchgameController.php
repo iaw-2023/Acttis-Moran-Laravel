@@ -88,7 +88,7 @@ class MatchgameController extends Controller
         $validator = DataValidator::validate($request->all(),[
             'teamId' => 'integer|min:1',
             'stadiumId' => 'integer|min:1',
-            'date' => 'date|date_format:d-m-Y',
+            'date' => 'date',
         ]);
 
         if($validator->fails()){
