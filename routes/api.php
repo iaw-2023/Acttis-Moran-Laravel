@@ -48,7 +48,8 @@ Route::group([
     'prefix' => 'ticket'
 ], function ($router) {
     Route::get('show/{ticketId}', [App\Http\Controllers\TicketController::class, 'show']);
-    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
+    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']); 
+    Route::post('carttickets', [App\Http\Controllers\TicketController::class, 'getCartTickets']);   
 });
 
 Route::group([
