@@ -112,4 +112,15 @@ class DataValidator
 
         return $validator;
     }
+
+    public static function validateCartTicketsBody($data){
+        $validator = DataValidator::validate($data, [
+            "cart_tickets" => "required",
+            'cart_tickets.*.ticketId' => "required|exists:tickets,id,deleted_at,NULL",
+        ], [
+            'cart_tickets.*.ticketId.exists' => "Invalid Ticket.",
+        ]);
+
+        return $validator;
+    }
 }
