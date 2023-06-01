@@ -23,7 +23,7 @@ class CheckoutConfirmationEmail extends Mailable
 
     public function build()
     {
-        return $this->view('checkoutConfirmation.blade.php')
+        return $this->view('checkoutConfirmation')
             ->subject('Checkout Confirmation');
     }
 }
