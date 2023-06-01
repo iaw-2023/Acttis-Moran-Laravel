@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CheckoutConfirmationEmail;
 use Illuminate\Http\Request;
 use App\Models\TicketDetail;
 use App\Models\Ticket;
@@ -11,13 +12,14 @@ use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Validation\DataValidator;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
 
     /**
      * Store a newly created Order in storage.
-     * 
+     *
      *
      * @OA\Post(
      *     path="/order/checkout",
@@ -48,39 +50,42 @@ class OrderController extends Controller
     */
 
     public function checkOutOrder(Request $request)
-    {  
-        
+    {
+
         $validator = DataValidator::validateCheckoutBody($request->all());
-        
+
         if($validator->fails()){
             return response()->json(["error" => $validator->errors()->first()], 400);
         }
-        
+
         $clientData = $request->client_data;
         $ticketsPurchased = $request->tickets_purchased;
         $ticketDetails = collect();
-        
+
         foreach($ticketsPurchased as $ticket){
             $ticketDetail = TicketDetail::make(['ticket_quantity' => $ticket['quantity']]);
 
             $actualTicket = Ticket::find($ticket['ticketId']);
             $actualTicket->ticketDetails()->save($ticketDetail);
-            
+
             $ticketDetails->push($ticketDetail);
         }
-        
+
         $totalPrice = $this->getTotalPrice($ticketDetails);
         $dateTime = Carbon::now();
         $order = Order::create(['total_price' => $totalPrice, 'client_email' => $clientData['client_email'], 'checkout_date'=> $dateTime]);
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
-        
+
+        Mail::to($clientData['client_email'])->send(new CheckoutConfirmationEmail($order, $ticketDetails, $totalPrice));
+
         return response()->json([
             'success' => "Generated Order successfully!",
             'order_created' => new OrderResource($order),
         ]);
-        
+
+
     }
 
     /**
@@ -103,13 +108,13 @@ class OrderController extends Controller
             $validateException = new ValidateException(400, $validator->errors()->first());
             throw $validateException;
         }
-        
+
         $ticketsPurchased = $data["tickets_purchased"];
 
         foreach($ticketsPurchased as $ticket) {
             $this->validateTicketID($ticket);
         };
-        
+
     }
 
     /**
@@ -126,5 +131,5 @@ class OrderController extends Controller
 
         return $acummulatedCost;
     }
-    
+
 }
