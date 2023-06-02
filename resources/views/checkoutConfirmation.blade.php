@@ -11,6 +11,7 @@
     <h3>Tickets Purchased:</h3>
     
         @foreach ($ticketsDetails as $ticketDetail)
+            <h5>Ticket: </h5>
             <ul>
                 @php
                 $ticket = $ticketDetail->ticket;
@@ -21,7 +22,6 @@
                 $stadium_zone = $ticket->zone;
                 $stadium = $ticket->matchgame->stadium->stadium_name;
                 @endphp
-                <p>Ticket : </p>
                 <li>
                      {{$home_team}} vs {{$away_team}}
                 </li>
@@ -39,8 +39,7 @@
                 </li>
             </ul>
         @endforeach
-    
 
-    <p>Order Total Price: {{ $totalPrice }}</p>
+    <h3>Order Total Price: ${{ $totalPrice }}</h3>
 </body>
 </html>
