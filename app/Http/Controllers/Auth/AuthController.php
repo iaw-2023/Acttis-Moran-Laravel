@@ -114,6 +114,9 @@ class AuthController extends Controller
 
         $userOrders = Order::where('client_email', $currentUser->email)->get();
 
+        if($userOrders->isEmpty())
+            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
+
         return OrderResource::collection($userOrders);
     }
 }

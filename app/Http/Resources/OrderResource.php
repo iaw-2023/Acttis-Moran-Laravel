@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
             'total_price' => $this->total_price,
             'checkout_date' => $this->checkout_date,
             'client_email' => $this->client_email,
-            //'tickets_details' => TicketDetailResource::collection($this->ticketDetails),
+            'tickets_details' => TicketDetailResource::collection($this->ticketDetails),
         ];
     }
 }

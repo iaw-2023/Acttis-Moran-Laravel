@@ -16,6 +16,7 @@ class JWTMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $request->headers->set("Accept", "application/json");
         try{
             JWTAuth::parseToken()->authenticate();
         }
