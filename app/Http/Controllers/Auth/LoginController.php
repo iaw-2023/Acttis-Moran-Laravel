@@ -37,16 +37,7 @@ $this->middleware('guest')->except('logout');
             return redirect('/home');
         }
         else{
-            return $this->sendFailedLoginResponse();
+            return redirect()->back()->withErrors(["error" => "Invalid email or password"]);
         }
     }
-
-    protected function sendFailedLoginResponse()
-    {
-        throw ValidationException::withMessages([
-            $this->username() => [trans('auth.failed')],
-        ]);
-    }
-
-
 }

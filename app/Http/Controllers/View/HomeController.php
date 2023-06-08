@@ -21,7 +21,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth:web');
     }
 
     /**
@@ -34,7 +34,7 @@ class HomeController extends Controller
     }
 
     public function logout(){
-        auth()->logout();
+        auth('web')->logout();
         return redirect('/login');
     }
 
