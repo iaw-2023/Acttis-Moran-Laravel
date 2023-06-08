@@ -43,6 +43,8 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "database",
         "SSR_TEMP_PATH": "/tmp/ssr",
-        "NODE_PATH": "node"
+        "NODE_PATH": "node",
+
+        "JWT_SECRET": "mtL6uIZAurKYHeFoaRxEe6SVehCTfOo0uQaPbMJGgAXtdu4FUAjmq5b7MHMjJS69"
     }
 }
