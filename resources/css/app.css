@@ -1,34 +1,400 @@
+:root{
+    --bg-color:rgb(255, 255, 255);
+    --bg-color-transparent:rgba(255, 255, 255,0.7);
+    --nav-color:rgb(20, 20, 43);
+    --nav-color-light:rgb(45, 45, 70);
+    --nav-enterprise-color:#d6c7b5;
+    --nav-enterprise-color-light:#b6a593;
+    --nav-enterprise-color-dark:#dbc09e;
+    --notification-color:rgba(216, 57, 57,0.7);
+    --notification-light-color:rgba(235, 168, 168, 0.7);
+    --nav-color-transparent:rgba(20, 20, 43,0.6);
+    --price-color:rgb(71, 165, 71);
+    --text-color:white;
+    --button-color:#a2a2cc;
+    --stadium-color:rgb(20, 20, 43);
+    --hover-color:#f8f1b0;
+    --info-section-color:#2b2b41;
+  }
+
+#app__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#enterprise-logo-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--nav-color-light);
+    display: flex;
+    justify-content: center;
+    
+
+}
+
+#enterprise-logo-img{
+    width: 40rem;
+    height: 8rem;
+    margin-top: 15rem;
+}
+
+.navbar__container{
+    width: 100%;
+    height: 5rem;
+}
+
+.navbar{
+    display: flex;
+    position: fixed;
+    height: 5rem;
+    background-color: var(--nav-color) !important;
+}
+
+.navbar-brand{
+    width: 10rem;
+    height: 100%;
+    margin-top: auto;
+}
+
 nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
 }
-.navbar{
-    display: flex;
-    background-color: #eaeaea4f;
+
+.page__body__container{
+    width: 100vw;
 }
+
 
 .navbar-nav {
     width:100%;
+    display: flex;
     flex-direction: row;
+    justify-content: space-around;
 }
+
 
 .nav-item-logout {
     margin-left: auto;
-
+    margin-right: 1rem;
 }
 
-nav li {
-    margin-right: 1em;
-    width:10%
+.nav-item-brand{
+    margin-left: 1rem;
 }
 
+.nav-item {
+    margin-top: auto;
+    margin-bottom: auto;
+    width:10rem;
+    height: 100%;
+}
 
-.nav__item__button,
-.nav__item-logout__button {
+.nav__item__button {
     width: 100%;
+    height: 3rem;
+    border-style: none;
+    border-right: solid 0.5px var(--nav-enterprise-color);
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: text-shadow 0.3s ease-in-out;
 }
+
+.nav__item__button__zones{
+    border-style: none;
+}
+
+.nav__item__button:hover {
+    text-shadow: var(--nav-enterprise-color) 0 0 20px;
+}
+
+.nav__item-logout__button{
+    width: 100%;
+    height: 3rem;
+    border-style: none;
+    border-radius: 15px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: background 0.3s ease-in-out;
+}
+
+.nav__item-logout__button:hover{
+    background-color: var(--notification-light-color);
+}
+
+#login-view-container{
+    width: 100%;
+    height: 50vh;
+    margin-top: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.login-view-container__content{
+    height: 80% !important;
+}
+
+.login-view-container__body{
+    color: var(--text-color);
+    height: 100%;
+    background-color: var(--info-section-color);
+}
+
+.table-button{
+    border-style: none;
+    width: 5rem;
+    height: 2rem;
+    border-radius: 5px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: color 0.3s ease-in, background 0.3s ease-in;
+}
+
+.table-button:hover {
+    color: var(--nav-color);
+    background-color: var(--hover-color);
+}
+
+.function-button{
+    border-style: none;
+    width: 15rem;
+    height: 3rem;
+    border-radius: 10px;
+    background-color: var(--nav-color);
+    color: var(--nav-enterprise-color);
+    transition: color 0.3s ease-in, background 0.3s ease-in;
+}
+
+.function-button:hover {
+    color: var(--nav-color);
+    background-color: var(--hover-color);
+}
+
+.select-button{
+    width: 40%;
+    height: 30%;
+    border-radius: 10px;
+    border: solid var(--nav-enterprise-color) 1px;
+    color: var(--nav-enterprise-color);
+    background-color: var(--nav-color);
+    margin-bottom: 1rem;
+    transition: background 0.3s ease-in, color 0.3s ease-in;
+}
+
+.select-button:hover{
+    background-color: var(--hover-color);
+    color: var(--nav-color);
+}
+
+.view-label{
+    font-family: 'Poppins', sans-serif;
+}
+
+.view__container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    font-family: 'Poppins', sans-serif;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 2rem;
+    align-items: center;
+}
+
+.view__container__title{
+    font-size: 2rem;
+    text-shadow: black 0 0 2px;
+}
+
+.view__container__table-container__form-select{
+    width: 40%;
+    height: 13rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+    color: var(--nav-enterprise-color);
+    background-color: var(--info-section-color);
+}
+
+.view__container__table-container__form-select__select{
+    width: 90%;
+    height: 20%;
+    text-align: center;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    color: var(--nav-enterprise-color);
+    background-color: var(--nav-color);
+}
+
+.view__container__table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 100%;
+    background-color: var(--nav-enterprise-color);
+    color: var(--nav-color);
+    border-radius: 5px;
+    box-shadow: black 0 0 10px;
+    padding: 5px;
+}
+
+.view__container__table-container__table{
+    width: 100%;
+    height: 100%;
+    margin-top: 2rem;
+}
+
+td {
+    background-color: var(--nav-enterprise-color);
+    border-radius: 5px;
+    width: 10rem;
+    padding: 0.5rem;
+}
+
+td:nth-child(even){
+    background-color: var(--nav-enterprise-color-light);
+}
+
+tr {
+    border-bottom: 1px solid grey;
+    text-align: center;
+}
+
+.view__container__table-container__table__head{
+
+}
+
+.view__container__table-container__table__body{
+    height: 100%;
+}
+
+.view__container__table-container__table__item{
+    height: 5rem;
+}
+
+.view__pagination{
+    width: 50%;
+    height: 4rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.create-view__container{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.create-view__body{
+    width: 80%;
+    height: 100%;
+}
+
+.create-view__content{
+    width: 80%;
+    height: 100%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: black 0 0 5px;
+    color: var(--text-color);
+    background-color: var(--info-section-color);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.edit-view__info{
+    display: flex;
+    width: 70%;
+    height: 20%;
+    flex-direction: column;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    align-items: center;
+    background-color: var(--nav-color);
+    text-align: center;
+    border-radius: 10px;
+    border: solid 1px var(--nav-color);
+    justify-content: space-evenly;
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+.create-view__content__body{
+    display: flex;
+    height: 60%;
+    width: 80%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.create-view__content__body-zones{
+    height: 30%;
+}
+
+.create-view__content__body__form-group{
+    display: flex;
+    width: 60%;
+    flex-direction: column;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    align-items: center;
+}
+
+.create-view__content__body__form-item__date,
+.create-view__content__body__form-item__time,
+.create-view__content__body__form-item__text{
+    width: 40%;
+    height: 3rem;
+    border-radius: 10px;
+    text-align: center;
+    border: solid var(--nav-color) 1px;
+    background-color: var(--text-color);
+    color: var(--nav-color);
+    
+}
+
+
+.create-view__select{
+    width: 100%;
+    height: 3rem;
+    border-radius: 5px;
+    align-items: center;
+    text-align: center;
+    background-color: var(--nav-color);
+    color: var(--text-color);
+}
+
+.create-view__content__footer{
+    width: 100%;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+
 
 @media (max-width: 768px) {
     .navbar {
