@@ -66,3 +66,12 @@ Route::group([
 ], function ($router) {
     Route::post('checkout', [App\Http\Controllers\OrderController::class, 'checkOutOrder']);
 });
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
+    Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
+    Route::get('userorders', [App\Http\Controllers\Auth\AuthController::class, 'userOrders']);
+});
