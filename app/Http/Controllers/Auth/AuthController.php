@@ -112,8 +112,8 @@ class AuthController extends Controller
         if(!$currentUser)
             return response()->json(['status' => 'Invalid Token.'], 401);
 
-        $userOrders = Order::where('client_email', $currentUser->email)->get();
-
+        //$userOrders = Order::where('client_email', $currentUser->email)->get();
+        $userOrders = $currentUser->orders;
         if($userOrders->isEmpty())
             return response()->json(['status' => 'Not found orders associated with the user.'], 404);
 

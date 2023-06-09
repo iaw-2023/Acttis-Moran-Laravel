@@ -17,7 +17,6 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'client_email' => fake()->unique()->safeEmail(),
             'total_price' => rand(1500,3000),
             'checkout_date' => fake()->dateTimeBetween('-4 week', '-1 week'),
         ];

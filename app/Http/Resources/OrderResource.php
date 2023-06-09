@@ -17,7 +17,7 @@ class OrderResource extends JsonResource
         return [
             'total_price' => $this->total_price,
             'checkout_date' => $this->checkout_date,
-            'client_email' => $this->client_email,
+            //'user_client' => $this->user,
             'tickets_details' => TicketDetailResource::collection($this->ticketDetails),
         ];
     }

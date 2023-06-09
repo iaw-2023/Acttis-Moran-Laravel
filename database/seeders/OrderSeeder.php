@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Ticket;
 use App\Models\Order;
 use App\Models\TicketDetail;
+use App\Models\User;
 
 class OrderSeeder extends Seeder
 {
@@ -25,6 +26,8 @@ class OrderSeeder extends Seeder
 
         //Make TicketDetails and associate with the orders created
         foreach($orders as $order){
+            $user = User::factory()->create();
+            $user->orders()->save($order);
             for($i = 0 ; $i < 5; $i++){
                 $ticket_detail = TicketDetail::factory()->make();
                 $ticket = $tickets->random();
