@@ -13,9 +13,20 @@ Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Validation\DataValidator;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
+    /**
+     * Create a new OrderController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
 
     /**
      * Store a newly created Order in storage.
@@ -52,13 +63,14 @@ class OrderController extends Controller
     public function checkOutOrder(Request $request)
     {
 
+        $currentUser = auth()->guard('api')->user();
+
         $validator = DataValidator::validateCheckoutBody($request->all());
 
         if($validator->fails()){
             return response()->json(["error" => $validator->errors()->first()], 400);
         }
 
-        $clientData = $request->client_data;
         $ticketsPurchased = $request->tickets_purchased;
         $ticketDetails = collect();
 
@@ -73,19 +85,17 @@ class OrderController extends Controller
 
         $totalPrice = $this->getTotalPrice($ticketDetails);
         $dateTime = Carbon::now();
-        $order = Order::create(['total_price' => $totalPrice, 'client_email' => $clientData['client_email'], 'checkout_date'=> $dateTime]);
+        $order = Order::create(['total_price' => $totalPrice, 'user_email' => $currentUser->email, 'checkout_date'=> $dateTime]);
+        $currentUser->orders()->save($order);
+
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
-
-        Mail::to($clientData['client_email'])->send(new CheckoutConfirmationEmail($order, $ticketDetails, $totalPrice));
 
         return response()->json([
             'success' => "Generated Order successfully!",
             'order_created' => new OrderResource($order),
         ]);
-
-
     }
 
     /**

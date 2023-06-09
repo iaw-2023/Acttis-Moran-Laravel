@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('client_email');
             $table->float('total_price')->unsigned();
             $table->date('checkout_date');
             $table->string('state')->default('unconfirmed');
+
+            //Foreign Key´s
+            $table->foreignId('user_id')->nullable()->constrained('users');
         });
     }
 

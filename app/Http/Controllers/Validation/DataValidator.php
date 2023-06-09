@@ -100,14 +100,11 @@ class DataValidator
     public static function validateCheckoutBody($data){
         $validator = DataValidator::validate($data, [
             "tickets_purchased" => "required",
-            "client_data" => "required",
-            'client_data.client_email' => "required|email",
             'tickets_purchased.*.quantity' => "required|integer|min:1",
             'tickets_purchased.*.ticketId' => "required|exists:tickets,id,deleted_at,NULL",
         ], [
             'tickets_purchased.*.ticketId.exists' => "Invalid Ticket.",
             'tickets_purchased.*.quantity.min' => "Quantity must be greater than 0.",
-            'client_data.client_email.email' => "Invalid client email.",
         ]);
 
         return $validator;
