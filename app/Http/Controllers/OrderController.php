@@ -85,12 +85,13 @@ class OrderController extends Controller
 
         $totalPrice = $this->getTotalPrice($ticketDetails);
         $dateTime = Carbon::now();
-        $order = Order::create(['total_price' => $totalPrice, 'user_email' => $currentUser->email, 'checkout_date'=> $dateTime]);
-        $currentUser->orders()->save($order);
+        $order = Order::create(['total_price' => $totalPrice, 'checkout_date'=> $dateTime]);
 
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
+
+        $currentUser->orders()->save($order);
 
         return response()->json([
             'success' => "Generated Order successfully!",
