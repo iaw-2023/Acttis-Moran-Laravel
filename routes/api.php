@@ -73,5 +73,6 @@ Route::group([
 ], function ($router) {
     Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
     Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
+    Route::post('logout', [App\Http\Controllers\Auth\AuthController::class, 'logout']);
     Route::get('userorders', [App\Http\Controllers\Auth\AuthController::class, 'userOrders']);
 });
