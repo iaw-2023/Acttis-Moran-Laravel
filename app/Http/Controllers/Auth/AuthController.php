@@ -100,23 +100,4 @@ class AuthController extends Controller
             'expires_in' => auth()->guard('api')->factory()->getTTL() * 60
         ]);
     }
-
-    /**
-     * Get the orders associated to the logged user using token
-     * 
-     */
-    public function userOrders(Request $request)
-    {
-        $currentUser = auth()->guard('api')->user();
-
-        if(!$currentUser)
-            return response()->json(['status' => 'Invalid Token.'], 401);
-
-        //$userOrders = Order::where('client_email', $currentUser->email)->get();
-        $userOrders = $currentUser->orders;
-        if($userOrders->isEmpty())
-            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
-
-        return OrderResource::collection($userOrders);
-    }
 }
