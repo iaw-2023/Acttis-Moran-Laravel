@@ -15,6 +15,7 @@ class TicketDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'ticket_detail_id' => $this->id,
             'ticket_quantity' => $this->ticket_quantity,
             'ticket_associated' => new TicketResource($this->ticket),
         ];
