@@ -185,6 +185,7 @@ class OrderController extends Controller
         }
 
         $order->state = "confirmed";
+        $order->save();
 
         return response()->json(["success" => "Order succesfuly confirmed!"], 200);
     }
