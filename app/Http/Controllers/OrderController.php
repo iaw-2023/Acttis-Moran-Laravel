@@ -155,12 +155,47 @@ class OrderController extends Controller
         if(!$currentUser)
             return response()->json(['status' => 'Invalid Token.'], 401);
 
-        //$userOrders = Order::where('client_email', $currentUser->email)->get();
         $userOrders = $currentUser->orders;
         if($userOrders->isEmpty())
             return response()->json(['status' => 'Not found orders associated with the user.'], 404);
 
         return OrderResource::collection($userOrders);
+    }
+
+    /**
+     * Confirm an existing order when paid
+     */
+    public function confirmOrder(Request $request)
+    {
+        $validator = DataValidator::validateOrderID($request->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
+        }
+
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        $userOrders = $currentUser->orders;
+        if($userOrders->isEmpty())
+            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
+
+        $order = $userOrders->find($request->orderId);
+
+        if(!$order){
+            return response()->json(["error" => "Not found order."], 404);
+        }
+
+        if($order->state == "confirmed"){
+            return response()->json(["error" => "Order is already paid."], 400);
+        }
+
+        $order->state = "confirmed";
+        $order->save();
+
+        return response()->json(["success" => "Order succesfuly confirmed!"], 200);
     }
 
 }
