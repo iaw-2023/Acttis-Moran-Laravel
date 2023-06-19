@@ -163,4 +163,30 @@ class OrderController extends Controller
         return OrderResource::collection($userOrders);
     }
 
+    /**
+     * Confirm an existing order when paid
+     */
+    public function confirmOrder(Request $request)
+    {
+        $validator = DataValidator::validateOrderID($request->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
+        }
+
+        $order = Order::find($request->orderId);
+
+        if(!$order){
+            return response()->json(["error" => "Not found order."], 404);
+        }
+
+        if($order->state == "confirmed"){
+            return response()->json(["error" => "Order is already paid."], 400);
+        }
+
+        $order->state = "confirmed";
+
+        return response()->json(["success" => "Order succesfuly confirmed!"], 200);
+    }
+
 }

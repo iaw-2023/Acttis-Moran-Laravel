@@ -120,4 +120,15 @@ class DataValidator
 
         return $validator;
     }
+
+    public static function validateOrderID($data){
+
+        $validator = Validator::make($data, [
+            'orderId' => 'required|integer|min:1',
+        ], [
+            'orderId.min' => "The Order ID is invalid.",
+        ]);
+
+        return $validator;
+    }
 }
