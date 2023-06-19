@@ -155,7 +155,6 @@ class OrderController extends Controller
         if(!$currentUser)
             return response()->json(['status' => 'Invalid Token.'], 401);
 
-        //$userOrders = Order::where('client_email', $currentUser->email)->get();
         $userOrders = $currentUser->orders;
         if($userOrders->isEmpty())
             return response()->json(['status' => 'Not found orders associated with the user.'], 404);
@@ -174,7 +173,16 @@ class OrderController extends Controller
             return response()->json(["error" => $validator->errors()->first()], 400);
         }
 
-        $order = Order::find($request->orderId);
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        $userOrders = $currentUser->orders;
+        if($userOrders->isEmpty())
+            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
+
+        $order = $userOrders->find($request->orderId);
 
         if(!$order){
             return response()->json(["error" => "Not found order."], 404);
