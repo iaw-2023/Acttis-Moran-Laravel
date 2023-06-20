@@ -156,8 +156,6 @@ class OrderController extends Controller
             return response()->json(['status' => 'Invalid Token.'], 401);
 
         $userOrders = $currentUser->orders;
-        if($userOrders->isEmpty())
-            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
 
         return OrderResource::collection($userOrders);
     }
