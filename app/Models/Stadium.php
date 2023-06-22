@@ -31,7 +31,7 @@ class Stadium extends Model
     }
 
     /**
-     * Get the Stadium associated with the Team.
+     * Get the Matchgames associated with the Stadium.
      */
     public function matchgames() : HasMany
     {
@@ -39,7 +39,7 @@ class Stadium extends Model
     }
 
     /**
-     * Get the Stadium associated with the Team.
+     * Get the Zones associated with the Stadium.
      */
     public function zones() : HasMany
     {
