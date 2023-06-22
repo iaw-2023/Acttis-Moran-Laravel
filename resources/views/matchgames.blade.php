@@ -2,6 +2,14 @@
 @section('content')
 
     <div class="view__container">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="position:fixed; top:5rem">
+                <strong>{{$errors->first()}}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <span class="view__container__title">ABM Matchgames</span>
         <hr />
         <div class="view__container__table-container">

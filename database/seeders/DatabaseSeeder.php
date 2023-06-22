@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             MatchgameSeeder::class,
             TicketSeeder::class,
             OrderSeeder::class,
+            RoleSeeder::class,
         ]);
     }
 }
