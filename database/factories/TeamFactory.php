@@ -18,6 +18,7 @@ class TeamFactory extends Factory
     {
         return [
             'team_name' => "FC ".fake()->city(),
+            'team_image_url' => fake()->imageUrl(),
         ];
     }
 }

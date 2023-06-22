@@ -19,6 +19,7 @@ class StadiumResource extends JsonResource
             'stadium_name' => $this->stadium_name,
             'capacity' => $this->capacity,
             'located_on_city' => $this->located_on_city,
+            'stadium_image_url' => $this->stadium_image_url
         ];
     }
 }
