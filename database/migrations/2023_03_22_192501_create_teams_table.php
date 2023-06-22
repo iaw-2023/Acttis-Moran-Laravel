@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('team_name');
+            $table->string('team_image_url');
 
             //Foreign Key´s
             $table->foreignId('local_stadium_id')->default()->constrained('stadiums');

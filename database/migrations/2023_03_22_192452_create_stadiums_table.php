@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('located_on_city');
             $table->string('stadium_name');
             $table->integer('capacity')->unsigned();
+            $table->string('stadium_image_url');
         });
     }
 
