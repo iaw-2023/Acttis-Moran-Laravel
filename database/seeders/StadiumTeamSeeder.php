@@ -15,10 +15,10 @@ class StadiumTeamSeeder extends Seeder
      */
     public function run(): void
     {
-        $teams_stadiums_data = 
+        $teams_stadiums_data =
             [   ["stadium_name" => "Wembley Stadium", "city" => "Londres", "team_name" => "Tottenham Hotspur F.C.", "capacity" => 90000],
                 ["stadium_name" => "Camp Nou", "city" => "Barcelona", "team_name" => "F.C. Barcelona", "capacity" => 99000],
-                ["stadium_name" => "Allianz Arena", "city" => "Múnich", "team_name" => "Bayern Múnich", "capacity" => 70000],
+                ["stadium_name" => "Allianz Arena", "city" => "Múnich", "team_name" => "Bayern Munich", "capacity" => 70000],
                 ["stadium_name" => "Old Trafford", "city" => "Manchester", "team_name" => "Manchester United F.C.", "capacity" => 74000],
                 ["stadium_name" => "San Siro", "city" => "Milán", "team_name" => "A.C. Milan", "capacity" => 80000],
                 ["stadium_name" => "Estadio da Luz", "city" => "Lisboa", "team_name" => "S.L. Benfica", "capacity" => 65000],
@@ -27,7 +27,7 @@ class StadiumTeamSeeder extends Seeder
                 ["stadium_name" => "Estadio Santiago Bernabeu", "city" => "Madrid", "team_name" => "Real Madrid C.F.", "capacity" => 81000],
                 ["stadium_name" => "Stadio Olimpico", "city" => "Roma", "team_name" => "A.S. Roma", "capacity" => 72000],
                 ["stadium_name" => "Emirates Stadium", "city" => "Londres", "team_name" => "Arsenal F.C.", "capacity" => 60000],
-                ["stadium_name" => "Wanda Metropolitano", "city" => "Madrid", "team_name" => "Atlético de Madrid", "capacity" => 55000],
+                ["stadium_name" => "Wanda Metropolitano", "city" => "Madrid", "team_name" => "Atletico de Madrid", "capacity" => 55000],
                 ["stadium_name" => "Johan Cruijff Arena", "city" => "Amsterdam", "team_name" => "Ajax", "capacity" => 55500],
                 ["stadium_name" => "Etihad Stadium", "city" => "Manchester", "team_name" => "Manchester City", "capacity" => 55000],
                 ["stadium_name" => "Anfield", "city" => "Liverpool", "team_name" => "Liverpool F.C.", "capacity" => 54000],
@@ -50,18 +50,21 @@ class StadiumTeamSeeder extends Seeder
             ["zone_code" => "SWQ", "stadium_location" => "South West Quarter"],
             ["zone_code" => "SEQ", "stadium_location" => "South East Quarter"],
         ];
-
+        $url_generic = "https://uifcknmepduhxxnszwuw.supabase.co/storage/v1/object/public/Stadiums%20Image/";
         for ($i = 0; $i < count($teams_stadiums_data); $i++) {
             $stadium_data = $teams_stadiums_data[$i];
             $team_name = $stadium_data['team_name'] ?? '';
             $stadium_name = $stadium_data['stadium_name'] ?? '';
             $city = $stadium_data['city'] ?? '';
             $capacity = $stadium_data['capacity'] ?? 0;
+            $stadium_image_url = $url_generic."Stadiums/".$stadium_name .".jpg";
+            $team_image_url = $url_generic."Teams/".$team_name .".png";
 
             $stadium = Stadium::factory()->state([
                 'stadium_name' => $stadium_name,
                 'located_on_city' => $city,
                 'capacity' => $capacity,
+                'stadium_image_url' => $stadium_image_url
             ])->create();
 
             foreach($zone_locations as $zone){
@@ -74,7 +77,8 @@ class StadiumTeamSeeder extends Seeder
             }
 
             $team = Team::factory()->state([
-                'team_name' => $team_name
+                'team_name' => $team_name,
+                'team_image_url'=>$team_image_url,
             ])->make();
 
             $stadium->team()->save($team);
