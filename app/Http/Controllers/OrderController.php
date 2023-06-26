@@ -12,8 +12,11 @@ use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Validation\DataValidator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+
+
 
 class OrderController extends Controller
 {
@@ -146,7 +149,7 @@ class OrderController extends Controller
 
     /**
      * Get the orders associated to the logged user using token
-     * 
+     *
      */
     public function userOrders(Request $request)
     {
@@ -194,6 +197,48 @@ class OrderController extends Controller
         $order->save();
 
         return response()->json(["success" => "Order succesfuly confirmed!"], 200);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function authorizePayment(Request $request){
+
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        //TODO: Move Token to .env
+        \MercadoPago\SDK::setAccessToken("TEST-6547489193657252-060715-2bebb0ea79df8be63fb4819bbfd5c700-170722328");
+
+
+        $contents = $request;
+        Log::Info("Contenido ".$contents);
+        $payment = new \MercadoPago\Payment();
+        $payment->transaction_amount = $contents['transaction_amount'];
+        $payment->token = $contents['token'];
+        $payment->installments = $contents['installments'];
+        $payment->payment_method_id = $contents['payment_method_id'];
+        $payment->issuer_id = $contents['issuer_id'];
+        $payer = new \MercadoPago\Payer();
+        $payer->email = $contents['payer']['email'];
+        $payer->identification = array(
+            "type" => $contents['payer']['identification']['type'],
+            "number" => $contents['payer']['identification']['number']
+        );
+        $payment->payer = $payer;
+        $payment->save();
+        Log::Info("Payment status".$payment->status);
+        $response = array(
+            'status' => $payment->status,
+            'status_detail' => $payment->status_detail,
+            'id' => $payment->id
+        );
+        Log::Info("Payment ".response()->json($response));
+
+        return response()->json($response);
+
     }
 
 }

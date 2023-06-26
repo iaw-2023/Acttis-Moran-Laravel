@@ -48,8 +48,8 @@ Route::group([
     'prefix' => 'ticket'
 ], function ($router) {
     Route::get('show/{ticketId}', [App\Http\Controllers\TicketController::class, 'show']);
-    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']); 
-    Route::post('carttickets', [App\Http\Controllers\TicketController::class, 'getCartTickets']);   
+    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);
+    Route::post('carttickets', [App\Http\Controllers\TicketController::class, 'getCartTickets']);
 });
 
 Route::group([
@@ -67,6 +67,7 @@ Route::group([
     Route::post('checkout', [App\Http\Controllers\OrderController::class, 'checkOutOrder']);
     Route::post('confirmorder', [App\Http\Controllers\OrderController::class, 'confirmOrder']);
     Route::get('userorders', [App\Http\Controllers\OrderController::class, 'userOrders']);
+    Route::post('authorizepayment', [App\Http\Controllers\OrderController::class, 'authorizePayment']);
 });
 
 Route::group([
