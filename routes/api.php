@@ -65,7 +65,6 @@ Route::group([
     'prefix' => 'order'
 ], function ($router) {
     Route::post('checkout', [App\Http\Controllers\OrderController::class, 'checkOutOrder']);
-    Route::post('confirmorder', [App\Http\Controllers\OrderController::class, 'confirmOrder']);
     Route::get('userorders', [App\Http\Controllers\OrderController::class, 'userOrders']);
     Route::post('authorizepayment', [App\Http\Controllers\OrderController::class, 'authorizePayment']);
 });
