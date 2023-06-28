@@ -19,6 +19,7 @@ class TicketResource extends JsonResource
             'category' => $this->category,
             'base_price' => $this->base_price,
             'zone' => new ZoneResource($this->zone),
+            'matchgame' => new MatchgameResource($this->matchgame),
         ];
     }
 }

@@ -99,4 +99,27 @@ class TicketController extends Controller
 
         return new TicketResource($ticket);
     }
+
+    public function getCartTickets(Request $request){
+
+        $validator = DataValidator::validateCartTicketsBody($request->all());
+        
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
+        }
+
+        $cartTicketsIds = $request->cart_tickets;
+
+        $cartTickets = collect();
+
+        foreach($cartTicketsIds as $cartTicket){
+            $ticket = Ticket::find($cartTicket["ticketId"]);
+            if(!$ticket)
+                return response()->json(["error" => "Ticket not found."], 404);
+            
+            $cartTickets->push($ticket);
+        }
+
+        return TicketResource::collection($cartTickets);
+    }
 }

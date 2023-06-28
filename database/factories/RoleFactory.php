@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Order>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Role>
  */
-class OrderFactory extends Factory
+class RoleFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'total_price' => rand(1500,3000),
-            'checkout_date' => fake()->dateTimeBetween('-4 week', '-1 week'),
+            "role" => "basicAdmin",
         ];
     }
 }

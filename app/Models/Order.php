@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
@@ -16,7 +17,6 @@ class Order extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'client_email',
         'checkout_date',
         'total_price',
     ];
@@ -27,6 +27,11 @@ class Order extends Model
     public function ticketDetails(): HasMany
     {
         return $this->hasMany(TicketDetail::class);
+    }
+
+    public function user() : BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

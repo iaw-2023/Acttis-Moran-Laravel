@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('nav')
-    
+
     <div class="nav-item">
         <form class="float-left" id="tickets-form" action="{{ route('tickets.index') }}" method="GET" style="display: none;">
             @csrf
@@ -31,7 +31,7 @@
 
 @section('content')
     <div id="enterprise-logo-container">
-        <img id="enterprise-logo-img" src="/logo-youticket.png" />
+        <img id="enterprise-logo-img" src="/logo/logo-youticket.png" />
     </div>
 @endsection
 

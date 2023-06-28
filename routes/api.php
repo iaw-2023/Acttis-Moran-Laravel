@@ -48,7 +48,8 @@ Route::group([
     'prefix' => 'ticket'
 ], function ($router) {
     Route::get('show/{ticketId}', [App\Http\Controllers\TicketController::class, 'show']);
-    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);  
+    Route::get('matchtickets/{matchgameId}', [App\Http\Controllers\TicketController::class, 'matchTickets']);
+    Route::post('carttickets', [App\Http\Controllers\TicketController::class, 'getCartTickets']);
 });
 
 Route::group([
@@ -64,4 +65,15 @@ Route::group([
     'prefix' => 'order'
 ], function ($router) {
     Route::post('checkout', [App\Http\Controllers\OrderController::class, 'checkOutOrder']);
+    Route::get('userorders', [App\Http\Controllers\OrderController::class, 'userOrders']);
+    Route::post('authorizepayment', [App\Http\Controllers\OrderController::class, 'authorizePayment']);
+});
+
+Route::group([
+    'middleware' => ['api'],
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login', [App\Http\Controllers\Auth\AuthController::class, 'login']);
+    Route::post('register', [App\Http\Controllers\Auth\AuthController::class, 'register']);
+    Route::post('logout', [App\Http\Controllers\Auth\AuthController::class, 'logout']);
 });

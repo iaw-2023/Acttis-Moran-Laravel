@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CheckoutConfirmationEmail;
 use Illuminate\Http\Request;
 use App\Models\TicketDetail;
 use App\Models\Ticket;
@@ -11,13 +12,28 @@ use App\Models\Zone;
 Use \Carbon\Carbon;
 use App\Http\Resources\OrderResource;
 use App\Http\Controllers\Validation\DataValidator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class OrderController extends Controller
 {
 
     /**
+     * Create a new OrderController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    /**
      * Store a newly created Order in storage.
-     * 
+     *
      *
      * @OA\Post(
      *     path="/order/checkout",
@@ -48,39 +64,42 @@ class OrderController extends Controller
     */
 
     public function checkOutOrder(Request $request)
-    {  
-        
+    {
+
+        $currentUser = auth()->guard('api')->user();
+
         $validator = DataValidator::validateCheckoutBody($request->all());
-        
+
         if($validator->fails()){
             return response()->json(["error" => $validator->errors()->first()], 400);
         }
-        
-        $clientData = $request->client_data;
+
         $ticketsPurchased = $request->tickets_purchased;
         $ticketDetails = collect();
-        
+
         foreach($ticketsPurchased as $ticket){
             $ticketDetail = TicketDetail::make(['ticket_quantity' => $ticket['quantity']]);
 
             $actualTicket = Ticket::find($ticket['ticketId']);
             $actualTicket->ticketDetails()->save($ticketDetail);
-            
+
             $ticketDetails->push($ticketDetail);
         }
-        
+
         $totalPrice = $this->getTotalPrice($ticketDetails);
         $dateTime = Carbon::now();
-        $order = Order::create(['total_price' => $totalPrice, 'client_email' => $clientData['client_email'], 'checkout_date'=> $dateTime]);
+        $order = Order::create(['total_price' => $totalPrice, 'checkout_date'=> $dateTime]);
+
         foreach ($ticketDetails as $ticketDetail) {
             $order->ticketDetails()->save($ticketDetail);
         }
-        
+
+        $currentUser->orders()->save($order);
+
         return response()->json([
             'success' => "Generated Order successfully!",
             'order_created' => new OrderResource($order),
         ]);
-        
     }
 
     /**
@@ -103,13 +122,13 @@ class OrderController extends Controller
             $validateException = new ValidateException(400, $validator->errors()->first());
             throw $validateException;
         }
-        
+
         $ticketsPurchased = $data["tickets_purchased"];
 
         foreach($ticketsPurchased as $ticket) {
             $this->validateTicketID($ticket);
         };
-        
+
     }
 
     /**
@@ -126,5 +145,102 @@ class OrderController extends Controller
 
         return $acummulatedCost;
     }
-    
+
+
+    /**
+     * Get the orders associated to the logged user using token
+     *
+     */
+    public function userOrders(Request $request)
+    {
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        $userOrders = $currentUser->orders;
+
+        return OrderResource::collection($userOrders);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function authorizePayment(Request $request){
+
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        //TODO: Move Token to .env
+        \MercadoPago\SDK::setAccessToken("TEST-6547489193657252-060715-2bebb0ea79df8be63fb4819bbfd5c700-170722328");
+
+        $contents = $request;
+        Log::Info("Contenido ".$contents);
+        $payment = new \MercadoPago\Payment();
+        $payment->transaction_amount = $contents['transaction_amount'];
+        $payment->token = $contents['token'];
+        $payment->installments = $contents['installments'];
+        $payment->payment_method_id = $contents['payment_method_id'];
+        $payment->issuer_id = $contents['issuer_id'];
+        $payer = new \MercadoPago\Payer();
+        $payer->email = $contents['payer']['email'];
+        $payer->identification = array(
+            "type" => $contents['payer']['identification']['type'],
+            "number" => $contents['payer']['identification']['number']
+        );
+        $payment->payer = $payer;
+        $payment->save();
+        Log::Info("Payment status".$payment->status);
+        $response = array(
+            'status' => $payment->status,
+            'status_detail' => $payment->status_detail,
+            'id' => $payment->id
+        );
+        Log::Info("Payment ".response()->json($response));
+        
+        if($response['status'] == "approved"){
+            $this->confirmOrder($request);
+        }
+        
+        return response()->json($response);
+    }
+
+    /**
+     * Confirm an existing order when paid
+     */
+    private function confirmOrder($request)
+    {
+        $validator = DataValidator::validateOrderID($request->all());
+
+        if($validator->fails()){
+            return response()->json(["error" => $validator->errors()->first()], 400);
+        }
+
+        $currentUser = auth()->guard('api')->user();
+
+        if(!$currentUser)
+            return response()->json(['status' => 'Invalid Token.'], 401);
+
+        $userOrders = $currentUser->orders;
+        if($userOrders->isEmpty())
+            return response()->json(['status' => 'Not found orders associated with the user.'], 404);
+
+        $order = $userOrders->find($request->orderId);
+
+        if(!$order){
+            return response()->json(["error" => "Not found order."], 404);
+        }
+
+        if($order->state == "confirmed"){
+            return response()->json(["error" => "Order is already paid."], 400);
+        }
+
+        $order->state = "confirmed";
+        $order->save();
+
+        return response()->json(["success" => "Order succesfuly confirmed!"], 200);
+    }
+
 }

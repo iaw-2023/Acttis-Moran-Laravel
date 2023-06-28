@@ -21,6 +21,7 @@ class StadiumFactory extends Factory
             'stadium_name' => $city." Stadium",
             'located_on_city' => $city,
             'capacity' => random_int(30000,80000),
+            'stadium_image_url' => fake()->imageUrl(),
         ];
     }
 }

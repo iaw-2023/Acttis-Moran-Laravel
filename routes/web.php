@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'tickets'], function ($router) {
         Route::get('index', [TicketViewController::class, 'index'])->name('tickets.index');
         Route::post('store', [TicketViewController::class, 'store'])->name('tickets.store');
-        Route::delete('delete/{ticketId}', [TicketViewController::class, 'delete'])->name('tickets.delete');
+        Route::delete('delete/{ticketId}', [TicketViewController::class, 'delete'])->name('tickets.delete')->middleware('super.admin.auth');
         Route::put('update/{ticketId}', [TicketViewController::class, 'update'])->name('tickets.update');
         Route::get('edit/{ticketId}', [TicketViewController::class, 'showEditPage'])->name('tickets.edit');
         Route::get('create', [TicketViewController::class, 'showCreatePage'])->name('tickets.create');
@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['prefix' => 'matchgames'], function ($router) {
         Route::get('index', [MatchgameViewController::class, 'index'])->name('matchgames.index');
-        Route::delete('delete/{matchgameId}', [MatchgameViewController::class, 'delete'])->name('matchgames.delete');
+        Route::delete('delete/{matchgameId}', [MatchgameViewController::class, 'delete'])->name('matchgames.delete')->middleware('super.admin.auth');
         Route::get('edit/{matchgameId}', [MatchgameViewController::class, 'showEditPage'])->name('matchgames.edit');
         Route::put('update/{matchgameId}', [MatchgameViewController::class, 'update'])->name('matchgames.update');
         Route::get('create', [MatchgameViewController::class, 'showCreatePage'])->name('matchgames.create');
@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 Route::get('reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
