@@ -69,6 +69,7 @@ Route::group([
     Route::post('authorizepayment', [App\Http\Controllers\OrderController::class, 'authorizePayment']);
 });
 
+
 Route::group([
     'middleware' => ['api'],
     'prefix' => 'auth'
